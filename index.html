@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HEKION | Official Portal</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap" rel="stylesheet">
     <style>
         :root { --navy: #0f172a; --gold: #d4af37; }
         html { scroll-behavior: smooth; }
@@ -17,20 +18,24 @@
         .gold-text { color: var(--gold); }
         .gold-bg { background-color: var(--gold); }
         .btn-outline {
-            border: 1px solid var(--gold);
+            border: 1px solid rgba(212, 175, 55, 0.3);
             color: var(--gold);
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
         }
-        .btn-outline:hover:not(.opacity-50) { background-color: var(--gold); color: var(--navy); }
+        .btn-outline:hover { border-color: var(--gold); background-color: var(--gold); color: var(--navy); }
         
         /* サイドバーアニメーション */
         #sidebar { transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); transform: translateX(100%); }
         #sidebar.open { transform: translateX(0); }
         #overlay { transition: opacity 0.4s ease; pointer-events: none; }
         #overlay.show { opacity: 1; pointer-events: auto; }
+
+        .project-card {
+            background: linear-gradient(145deg, rgba(30, 41, 59, 0.4), rgba(15, 23, 42, 0.9));
+        }
     </style>
 </head>
 <body>
@@ -41,13 +46,13 @@
                 <img src="hekionlogo.png" alt="HEKION" class="h-10 w-auto object-contain">
             </a>
             
-            <div class="hidden lg:block text-sm tracking-[0.2em] text-gray-400 font-light pl-4 border-l border-slate-700">
+            <div class="hidden lg:block text-sm tracking-[0.2em] text-gray-500 font-light pl-4 border-l border-slate-700 font-sans">
                 発見・楽しさ・繋がりを届ける
             </div>
 
             <button id="menu-btn" class="group p-2 flex flex-col gap-1.5 justify-center items-end z-[60] relative">
                 <span class="w-8 h-0.5 gold-bg transition-all"></span>
-                <span class="w-8 h-0.5 gold-bg transition-all"></span>
+                <span class="w-5 h-0.5 gold-bg transition-all"></span>
                 <span class="w-8 h-0.5 gold-bg transition-all"></span>
             </button>
         </div>
@@ -57,65 +62,88 @@
 
     <nav id="sidebar" class="fixed top-0 right-0 h-full w-80 bg-[#0a101f] z-[58] shadow-2xl border-l border-slate-800">
         <div class="flex flex-col h-full pt-32 px-10">
-            <ul class="space-y-8 text-xl tracking-[0.2em] font-light">
+            <ul class="space-y-8 text-xl tracking-[0.2em] font-light font-oswald italic">
                 <li><a href="#" class="hover:gold-text transition-colors block menu-link uppercase">Home</a></li>
                 <li><a href="#projects" class="hover:gold-text transition-colors block menu-link uppercase">Projects</a></li>
                 <li><a href="#about" class="hover:gold-text transition-colors block menu-link uppercase">About</a></li>
                 <li><a href="#news" class="hover:gold-text transition-colors block menu-link uppercase">News</a></li>
             </ul>
             <div class="mt-auto pb-10 border-t border-slate-800 pt-6">
-                <p class="text-[10px] text-gray-600 tracking-widest uppercase">&copy; HEKION GROUP</p>
+                <p class="text-[10px] text-gray-600 tracking-widest uppercase font-mono">&copy; HEKION GROUP</p>
             </div>
         </div>
     </nav>
 
     <main>
-        <section id="about" class="pt-40 pb-24 px-6 border-b border-slate-800">
+        <section id="about" class="pt-48 pb-32 px-6 border-b border-slate-800/50">
             <div class="max-w-4xl mx-auto text-center">
-                <h2 class="text-6xl md:text-8xl font-bold tracking-tighter mb-6 gold-text">HEKION</h2>
-                <p class="text-xl md:text-2xl font-light tracking-[0.3em] mb-10 uppercase">発見・楽しさ・繋がりを届ける</p>
-                <div class="h-1 w-20 gold-bg mx-auto mb-10"></div>
-                <p class="text-gray-400 leading-loose text-base md:text-lg mx-auto max-w-2xl">
+                <h2 class="text-6xl md:text-8xl font-bold tracking-tighter mb-6 gold-text font-oswald italic">HEKION</h2>
+                <p class="text-sm md:text-lg font-bold tracking-[0.4em] mb-12 uppercase text-slate-400">発見・楽しさ・繋がりを届ける</p>
+                <div class="h-px w-24 bg-gradient-to-r from-transparent via-gold to-transparent mx-auto mb-12"></div>
+                <p class="text-gray-400 leading-loose text-base md:text-lg mx-auto max-w-2xl font-light">
                     HEKIONは、スポーツ、旅行、エンターテインメントなど多様なプロジェクトを統括し、それぞれの分野で価値を創造することで、地域や文化、コミュニティの活性化に貢献します。
                 </p>
             </div>
         </section>
 
-        <section id="projects" class="py-24 px-6">
+        <section id="projects" class="py-32 px-6">
             <div class="max-w-7xl mx-auto">
-                <h2 class="text-3xl font-bold mb-16 text-center tracking-widest uppercase">Projects</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                <div class="mb-20 text-center">
+                    <h2 class="text-4xl font-bold tracking-widest uppercase font-oswald italic inline-block border-b-2 border-gold pb-2">Projects</h2>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     
-                    <div class="bg-slate-900/50 p-8 border border-slate-800 rounded-lg flex flex-col h-full hover:border-slate-500 transition-all group">
-                        <h3 class="text-2xl font-bold mb-2 group-hover:gold-text transition-colors">GANAR</h3>
-                        <p class="text-xs text-purple-400 mb-6 uppercase font-bold tracking-widest">eSports Team</p>
-                        <p class="text-gray-400 text-sm mb-8 flex-grow leading-relaxed">ストリーマーとプレイヤーが所属するeSportsチーム。競技シーンとエンタメの両立を目指します。</p>
-                        <div class="space-y-3">
-                            <div class="py-2 text-center text-[10px] border border-white/5 text-gray-600 uppercase font-bold tracking-tighter">Site Preparing</div>
-                            <a href="https://x.com/GANAR_games" target="_blank" class="w-full py-2 text-xs btn-outline uppercase font-black tracking-widest">Official X</a>
+                    <div class="project-card p-10 border border-slate-800 rounded-3xl flex flex-col h-full hover:border-gold/50 transition-all duration-500 group relative overflow-hidden">
+                        <div class="mb-8 h-16 flex items-center">
+                            <img src="ganarlogo.png" alt="GANAR" class="h-full w-auto object-contain">
+                        </div>
+                        <h3 class="text-2xl font-bold mb-2 group-hover:gold-text transition-colors font-oswald italic uppercase tracking-tighter">GANAR</h3>
+                        <p class="text-[10px] text-cyan-400 mb-6 uppercase font-black tracking-[0.2em]">eSports Team</p>
+                        <p class="text-gray-400 text-sm mb-10 flex-grow leading-relaxed font-light">ストリーマーとプレイヤーが所属するeSportsチーム。競技シーンとエンタメの両立を目指します。</p>
+                        
+                        <div class="flex items-center justify-between gap-4 mt-auto">
+                            <a href="https://hekion.github.io/ganar/index.html" class="flex-grow py-3 text-[10px] btn-outline uppercase font-black tracking-widest rounded-full">Visit Website</a>
+                            <a href="https://x.com/GANAR_games" target="_blank" class="w-11 h-11 rounded-full border border-slate-700 flex items-center justify-center hover:bg-white hover:border-white transition-all group/icon">
+                                <svg class="w-5 h-5 fill-gold group-hover/icon:fill-black" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                            </a>
                         </div>
                     </div>
 
-                    <div class="bg-slate-900/50 p-8 border border-slate-800 rounded-lg flex flex-col h-full hover:border-slate-500 transition-all group">
-                        <h3 class="text-2xl font-bold mb-2 group-hover:gold-text transition-colors">Goalink</h3>
-                        <p class="text-xs text-blue-400 mb-6 uppercase font-bold tracking-widest">J-League Media</p>
-                        <p class="text-gray-400 text-sm mb-8 flex-grow leading-relaxed">Jリーグ専門メディア。スタッツ、日程、順位表など、日本サッカーの熱狂を可視化します。</p>
-                        <div class="grid grid-cols-1 gap-3">
-                            <a href="https://hekion.github.io/goalinkjp/" class="w-full py-2 text-xs btn-outline uppercase font-black tracking-widest">Visit Site</a>
-                            <div class="grid grid-cols-2 gap-3">
-                                <a href="https://x.com/Goalink_JP" target="_blank" class="py-2 text-[10px] btn-outline uppercase font-black tracking-widest">X</a>
-                                <a href="https://note.com/goalink_jp" target="_blank" class="py-2 text-[10px] btn-outline uppercase font-black tracking-widest">note</a>
+                    <div class="project-card p-10 border border-slate-800 rounded-3xl flex flex-col h-full hover:border-gold/50 transition-all duration-500 group relative overflow-hidden">
+                        <div class="mb-8 h-16 flex items-center">
+                            <img src="goalink-logo.png" alt="Goalink" class="h-full w-auto object-contain">
+                        </div>
+                        <h3 class="text-2xl font-bold mb-2 group-hover:gold-text transition-colors font-oswald italic uppercase tracking-tighter">Goalink</h3>
+                        <p class="text-[10px] text-blue-400 mb-6 uppercase font-black tracking-[0.2em]">J-League Media</p>
+                        <p class="text-gray-400 text-sm mb-10 flex-grow leading-relaxed font-light">Jリーグ専門メディア。スタッツ、日程、順位表など、日本サッカーの熱狂を可視化します。</p>
+                        
+                        <div class="flex items-center justify-between gap-3 mt-auto">
+                            <a href="https://hekion.github.io/goalinkjp/" class="flex-grow py-3 text-[10px] btn-outline uppercase font-black tracking-widest rounded-full">Visit Website</a>
+                            <div class="flex gap-2">
+                                <a href="https://x.com/Goalink_JP" target="_blank" class="w-11 h-11 rounded-full border border-slate-700 flex items-center justify-center hover:bg-white hover:border-white transition-all group/icon">
+                                    <svg class="w-5 h-5 fill-gold group-hover/icon:fill-black" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                                </a>
+                                <a href="https://note.com/goalink_jp" target="_blank" class="w-11 h-11 rounded-full border border-slate-700 flex items-center justify-center hover:bg-[#24b21a] hover:border-[#24b21a] transition-all group/icon">
+                                    <img src="https://note.com/favicon.ico" class="w-5 h-5 grayscale group-hover/icon:grayscale-0" alt="note">
+                                </a>
                             </div>
                         </div>
                     </div>
 
-                    <div class="bg-slate-900/50 p-8 border border-slate-800 rounded-lg flex flex-col h-full hover:border-slate-500 transition-all group">
-                        <h3 class="text-2xl font-bold mb-2 group-hover:gold-text transition-colors">TRAVID</h3>
-                        <p class="text-xs text-green-400 mb-6 uppercase font-bold tracking-widest">Travel Media</p>
-                        <p class="text-gray-400 text-sm mb-8 flex-grow leading-relaxed">「旅」の新しい形を提案するメディア。地域の魅力と旅人の記憶を繋ぎます。</p>
-                        <div class="space-y-3">
-                            <div class="py-2 text-center text-[10px] border border-white/5 text-gray-600 uppercase font-bold tracking-tighter">Site Preparing</div>
-                            <a href="https://note.com/travid" target="_blank" class="w-full py-2 text-xs btn-outline uppercase font-black tracking-widest">Official note</a>
+                    <div class="project-card p-10 border border-slate-800 rounded-3xl flex flex-col h-full hover:border-gold/50 transition-all duration-500 group relative overflow-hidden">
+                        <div class="mb-8 h-16 flex items-center">
+                            <img src="travid-logo.png" alt="TRAVID" class="h-full w-auto object-contain">
+                        </div>
+                        <h3 class="text-2xl font-bold mb-2 group-hover:gold-text transition-colors font-oswald italic uppercase tracking-tighter">TRAVID</h3>
+                        <p class="text-[10px] text-green-400 mb-6 uppercase font-black tracking-[0.2em]">Travel Media</p>
+                        <p class="text-gray-400 text-sm mb-10 flex-grow leading-relaxed font-light">「旅」の新しい形を提案するメディア。地域の魅力と旅人の記憶を繋ぎます。</p>
+                        
+                        <div class="flex items-center justify-between gap-4 mt-auto">
+                            <div class="flex-grow py-3 text-[10px] border border-white/5 text-slate-600 text-center uppercase font-black tracking-widest rounded-full cursor-default">Site Preparing</div>
+                            <a href="https://note.com/travid" target="_blank" class="w-11 h-11 rounded-full border border-slate-700 flex items-center justify-center hover:bg-[#24b21a] hover:border-[#24b21a] transition-all group/icon">
+                                <img src="https://note.com/favicon.ico" class="w-5 h-5 grayscale group-hover/icon:grayscale-0" alt="note">
+                            </a>
                         </div>
                     </div>
 
@@ -123,22 +151,23 @@
             </div>
         </section>
 
-        <section id="news" class="py-24 px-6 bg-black/20">
+        <section id="news" class="py-32 px-6 bg-black/20">
             <div class="max-w-4xl mx-auto">
-                <h2 class="text-3xl font-bold mb-12 tracking-widest uppercase text-center">News</h2>
-                <div class="space-y-6">
-                    <div class="flex flex-col md:flex-row md:items-center gap-4 border-b border-slate-800 pb-6">
-                        <span class="text-gray-500 font-mono text-sm">2026.01.01</span>
-                        <span class="text-[10px] px-2 py-1 bg-blue-900/30 text-blue-400 font-bold rounded uppercase">Goalink</span>
-                        <a href="https://hekion.github.io/goalinkjp/" class="hover:gold-text transition-colors text-sm md:text-base">Goalink メディアサイトを公開しました</a>
+                <h2 class="text-3xl font-bold mb-16 tracking-widest uppercase text-center font-oswald italic">News</h2>
+                <div class="space-y-4">
+                    <div class="flex flex-col md:flex-row md:items-center gap-6 p-6 rounded-2xl border border-slate-800/50 hover:bg-slate-800/30 transition-all">
+                        <span class="text-gray-500 font-mono text-xs tracking-tighter">2026.01.01</span>
+                        <span class="text-[9px] px-3 py-1 bg-blue-900/30 text-blue-400 font-bold rounded-full uppercase tracking-widest">Goalink</span>
+                        <a href="https://hekion.github.io/goalinkjp/" class="hover:gold-text transition-colors text-sm md:text-base font-bold">Goalink メディアサイトを公開しました</a>
                     </div>
                 </div>
             </div>
         </section>
     </main>
 
-    <footer class="py-16 border-t border-slate-800 text-center">
-        <p class="text-gray-600 text-[10px] tracking-[0.4em]">&copy; 2026 HEKION GROUP</p>
+    <footer class="py-20 border-t border-slate-800/50 text-center">
+        <img src="hekionlogo.png" alt="HEKION" class="h-8 w-auto mx-auto mb-10 opacity-30">
+        <p class="text-gray-600 text-[10px] tracking-[0.4em] font-mono">&copy; 2026 HEKION GROUP reserved</p>
     </footer>
 
     <script>
@@ -150,6 +179,13 @@
         function toggle() {
             sidebar.classList.toggle('open');
             overlay.classList.toggle('show');
+            // ボタンアニメーション（簡易）
+            const spans = menuBtn.querySelectorAll('span');
+            spans[0].classList.toggle('translate-y-2');
+            spans[0].classList.toggle('rotate-45');
+            spans[1].classList.toggle('opacity-0');
+            spans[2].classList.toggle('-translate-y-2');
+            spans[2].classList.toggle('-rotate-45');
         }
 
         menuBtn.addEventListener('click', toggle);

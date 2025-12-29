@@ -11,7 +11,7 @@
         body {
             background-color: var(--navy);
             color: #f8fafc;
-            font-family: 'Helvetica Neue', Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
             overflow-x: hidden;
         }
         .gold-text { color: var(--gold); }
@@ -23,31 +23,28 @@
         }
         .btn-outline:hover:not(.opacity-50) { background-color: var(--gold); color: var(--navy); }
         
-        /* サイドバーのアニメーション */
         #sidebar { transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); transform: translateX(100%); }
         #sidebar.open { transform: translateX(0); }
         #overlay { transition: opacity 0.4s ease; pointer-events: none; }
         #overlay.show { opacity: 1; pointer-events: auto; }
-        .news-tag { font-size: 0.7rem; padding: 2px 8px; border-radius: 4px; font-weight: bold; }
     </style>
 </head>
 <body>
 
     <header class="fixed w-full top-0 z-50 bg-[#0f172a]/90 backdrop-blur-md border-b border-slate-800">
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-            <div class="flex items-center gap-4">
-                <a href="#" class="flex items-center gap-3">
-                    <img src="hekionlogo.png" alt="HEKION" class="h-10 w-auto object-contain">
-                    <span class="text-2xl font-serif font-bold tracking-tighter gold-text hidden md:block">HEKION</span>
-                </a>
-            </div>
+            <a href="#" class="flex items-center gap-3">
+                <img src="hekionlogo.png" alt="HEKION" class="h-10 w-auto object-contain">
+            </a>
+            
             <div class="hidden lg:block text-sm tracking-[0.2em] text-gray-400 font-light pl-4 border-l border-slate-700">
                 発見・楽しさ・繋がりを届ける
             </div>
-            <button id="menu-btn" class="group p-2 flex flex-col gap-1.5 justify-center items-end z-[60]">
-                <span class="w-8 h-0.5 gold-bg transition-all group-hover:w-6"></span>
+
+            <button id="menu-btn" class="group p-2 flex flex-col gap-1.5 justify-center items-end z-[60] relative">
                 <span class="w-8 h-0.5 gold-bg transition-all"></span>
-                <span class="w-5 h-0.5 gold-bg transition-all group-hover:w-8"></span>
+                <span class="w-8 h-0.5 gold-bg transition-all"></span>
+                <span class="w-8 h-0.5 gold-bg transition-all"></span>
             </button>
         </div>
     </header>
@@ -57,11 +54,10 @@
     <nav id="sidebar" class="fixed top-0 right-0 h-full w-80 bg-[#0a101f] z-[58] shadow-2xl border-l border-slate-800">
         <div class="flex flex-col h-full pt-32 px-10">
             <ul class="space-y-8 text-xl tracking-[0.2em] font-light">
-                <li><a href="#" class="hover:gold-text transition-colors block">HOME</a></li>
-                <li><a href="#projects" class="hover:gold-text transition-colors block">PROJECTS</a></li>
-                <li><a href="#about" class="hover:gold-text transition-colors block">ABOUT</a></li>
-                <li><a href="#news" class="hover:gold-text transition-colors block">NEWS</a></li>
-                <li><span class="text-gray-600 cursor-not-allowed">CONTACT (Soon)</span></li>
+                <li><a href="#" class="hover:gold-text transition-colors block menu-link">HOME</a></li>
+                <li><a href="#projects" class="hover:gold-text transition-colors block menu-link">PROJECTS</a></li>
+                <li><a href="#about" class="hover:gold-text transition-colors block menu-link">ABOUT</a></li>
+                <li><a href="#news" class="hover:gold-text transition-colors block menu-link">NEWS</a></li>
             </ul>
             <div class="mt-auto pb-10 border-t border-slate-800 pt-6">
                 <p class="text-[10px] text-gray-600 tracking-widest uppercase">&copy; HEKION GROUP</p>
@@ -69,22 +65,89 @@
         </div>
     </nav>
 
-    <main class="pt-20">
-        <section id="about" class="relative py-24 md:py-32 px-6 border-b border-slate-800">
+    <main>
+        <section id="about" class="pt-40 pb-24 px-6 border-b border-slate-800">
             <div class="max-w-4xl mx-auto text-center">
-                <h2 class="text-5xl md:text-7xl font-serif font-bold tracking-tighter mb-6 gold-text">HEKION</h2>
+                <h2 class="text-6xl md:text-8xl font-bold tracking-tighter mb-6 gold-text">HEKION</h2>
                 <p class="text-xl md:text-2xl font-light tracking-[0.3em] mb-10">発見・楽しさ・繋がりを届ける</p>
                 <div class="h-1 w-20 gold-bg mx-auto mb-10"></div>
                 <p class="text-gray-400 leading-loose text-base md:text-lg mx-auto max-w-2xl">
-                    HEKIONは、スポーツ、旅行、エンターテインメントなど多様なプロジェクトを統括し、それぞれの分野で価値を創造することで、地域や文化、コミュニティの活性化に貢献します。自由な発想と挑戦を大切にし、常に新しい可能性を追求します。
+                    HEKIONは、スポーツ、旅行、エンターテインメントなど多様なプロジェクトを統括し、それぞれの分野で価値を創造することで、地域や文化、コミュニティの活性化に貢献します。
                 </p>
             </div>
         </section>
 
-        <section id="projects" class="py-24 px-6 max-w-7xl mx-auto">
-            <h2 class="text-3xl font-bold mb-16 text-center tracking-widest uppercase">Projects</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
-                <div class="bg-slate-900/50 p-8 border border-slate-800 rounded-lg flex flex-col justify-between hover:border-slate-600 transition-colors">
-                    <div>
+        <section id="projects" class="py-24 px-6">
+            <div class="max-w-7xl mx-auto">
+                <h2 class="text-3xl font-bold mb-16 text-center tracking-widest uppercase">Projects</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                    
+                    <div class="bg-slate-900/50 p-8 border border-slate-800 rounded-lg flex flex-col h-full hover:border-slate-500 transition-all">
                         <h3 class="text-2xl font-bold mb-2">GANAR</h3>
-                        <p class="text-sm text-purple-4
+                        <p class="text-xs text-purple-400 mb-6 uppercase">eSports Team</p>
+                        <p class="text-gray-400 text-sm mb-8 flex-grow">ストリーマーとプレイヤーが所属するeSportsチーム。競技シーンとエンタメの両立を目指します。</p>
+                        <div class="space-y-3">
+                            <div class="py-2 text-center text-[10px] border border-white/5 text-gray-600 uppercase font-bold">Site Preparing</div>
+                            <a href="#" class="block py-2 text-center text-xs btn-outline uppercase font-bold">Official X</a>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-900/50 p-8 border border-slate-800 rounded-lg flex flex-col h-full hover:border-slate-500 transition-all">
+                        <h3 class="text-2xl font-bold mb-2">Goalink</h3>
+                        <p class="text-xs text-blue-400 mb-6 uppercase">J-League Media</p>
+                        <p class="text-gray-400 text-sm mb-8 flex-grow">Jリーグ専門メディア。スタッツ、日程、順位表など、日本サッカーの熱狂を可視化します。</p>
+                        <div class="space-y-3">
+                            <a href="index.html" class="block py-2 text-center text-xs btn-outline uppercase font-bold">Visit Site</a>
+                            <a href="#" class="block py-2 text-center text-xs btn-outline uppercase font-bold">Official X</a>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-900/50 p-8 border border-slate-800 rounded-lg flex flex-col h-full hover:border-slate-500 transition-all">
+                        <h3 class="text-2xl font-bold mb-2">TRAVID</h3>
+                        <p class="text-xs text-green-400 mb-6 uppercase">Travel Media</p>
+                        <p class="text-gray-400 text-sm mb-8 flex-grow">「旅」の新しい形を提案するメディア。地域の魅力と旅人の記憶を繋ぎます。</p>
+                        <div class="space-y-3">
+                            <div class="py-2 text-center text-[10px] border border-white/5 text-gray-600 uppercase font-bold">Site Preparing</div>
+                            <a href="#" class="block py-2 text-center text-xs btn-outline uppercase font-bold">Official note</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section id="news" class="py-24 px-6 bg-black/20">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl font-bold mb-12 tracking-widest uppercase text-center">News</h2>
+                <div class="space-y-6">
+                    <div class="flex flex-col md:flex-row md:items-center gap-4 border-b border-slate-800 pb-6">
+                        <span class="text-gray-500 font-mono text-sm">2026.01.01</span>
+                        <span class="text-[10px] px-2 py-1 bg-blue-900/30 text-blue-400 font-bold rounded">Goalink</span>
+                        <a href="index.html" class="hover:gold-text transition-colors">Goalink メディアサイトを公開しました</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="py-16 border-t border-slate-800 text-center">
+        <p class="text-gray-600 text-[10px] tracking-[0.4em]">&copy; 2026 HEKION GROUP</p>
+    </footer>
+
+    <script>
+        const menuBtn = document.getElementById('menu-btn');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        const links = document.querySelectorAll('.menu-link');
+
+        function toggle() {
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('show');
+        }
+
+        menuBtn.addEventListener('click', toggle);
+        overlay.addEventListener('click', toggle);
+        links.forEach(l => l.addEventListener('click', toggle));
+    </script>
+</body>
+</html>

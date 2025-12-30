@@ -6,6 +6,7 @@
     <title>HEKION | Official Portal</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;700&family=Yuji+Syuku&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root { --navy: #090e1a; --gold: #c5a059; }
         html { scroll-behavior: smooth; }
@@ -22,13 +23,11 @@
             opacity: 0.03; pointer-events: none; z-index: 100;
         }
 
-        /* 修正版：正確な等間隔スライダー（16秒サイクル） */
+        /* 16:9スライダー */
         @keyframes hero-fade {
-            0% { opacity: 0; }
-            5% { opacity: 1; }
-            25% { opacity: 1; }
+            0%, 100% { opacity: 0; }
+            5%, 25% { opacity: 1; }
             30% { opacity: 0; }
-            100% { opacity: 0; }
         }
         .hero-slide {
             position: absolute; inset: 0; width: 100%; height: 100%;
@@ -36,30 +35,26 @@
             animation: hero-fade 16s infinite;
         }
 
-        /* メニューボタン（和モダン） */
+        /* メニューボタン */
         #menu-btn .line { transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1); }
         #menu-btn.open .line-1 { transform: translateY(4px) rotate(45deg); width: 32px; }
         #menu-btn.open .line-2 { transform: translateY(-4px) rotate(-45deg); width: 32px; }
 
-        /* サイドメニュー演出 */
+        /* サイドメニュー */
         #sidebar { transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); transform: translateX(100%); }
         #sidebar.open { transform: translateX(0); }
-        .menu-link { 
-            opacity: 0; transform: translateX(30px); 
-            transition: all 0.6s ease;
-        }
+        .menu-link { opacity: 0; transform: translateX(30px); transition: all 0.6s ease; }
         #sidebar.open .menu-link { opacity: 1; transform: translateX(0); }
 
+        /* 筆文字「碧音」の濃度調整 */
         .fude-text {
             writing-mode: vertical-rl;
             font-family: 'Yuji Syuku', serif;
-            position: absolute;
-            left: 20px;
-            bottom: 40px;
-            font-size: 15vh;
-            color: rgba(197, 160, 89, 0.05);
-            pointer-events: none;
-            line-height: 1;
+            position: absolute; left: 20px; bottom: 40px;
+            font-size: 15vh; 
+            color: rgba(197, 160, 89, 0.15); /* 0.05から0.15へ濃くしました */
+            pointer-events: none; line-height: 1;
+            z-index: 0;
         }
 
         .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
@@ -74,6 +69,17 @@
             border-color: var(--gold);
             background: rgba(197, 160, 89, 0.05);
         }
+
+        .gold-btn {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 40px; height: 40px; border-radius: 50%;
+            border: 1px solid rgba(197, 160, 89, 0.3);
+            color: var(--gold); transition: all 0.3s ease;
+        }
+        .gold-btn:hover {
+            background: rgba(197, 160, 89, 0.2);
+            border-color: var(--gold); transform: translateY(-2px);
+        }
     </style>
 </head>
 <body>
@@ -81,7 +87,10 @@
 
     <header class="fixed w-full top-0 z-[70] bg-[#090e1a]/80 backdrop-blur-md border-b border-white/5">
         <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-            <a href="#" class="h-5 md:h-6"><img src="hekionlogo.png" alt="HEKION" class="h-full"></a>
+            <a href="#" class="h-full py-2 flex items-center">
+                <img src="hekionlogo.png" alt="HEKION" class="h-full w-auto object-contain">
+            </a>
+            
             <button id="menu-btn" class="relative w-10 h-10 flex flex-col items-end justify-center gap-1.5 focus:outline-none group">
                 <span class="line line-1 w-8 h-[1px] bg-white group-hover:bg-[#c5a059]"></span>
                 <span class="line line-2 w-5 h-[1px] bg-white group-hover:w-8 group-hover:bg-[#c5a059]"></span>
@@ -97,11 +106,15 @@
             <img src="slider-4.png" class="hero-slide" style="animation-delay: 12s;">
         </section>
 
-        <section class="py-16 px-6 text-center">
+        <section class="py-20 px-6 text-center">
             <div class="reveal">
                 <h1 class="text-xl md:text-3xl font-light tracking-[0.6em] mb-4">発見・楽しさ・繋がり</h1>
-                <div class="h-[1px] w-12 bg-[#c5a059] mx-auto mb-4 opacity-50"></div>
+                <div class="h-[1px] w-12 bg-[#c5a059] mx-auto mb-6 opacity-50"></div>
                 <p class="text-[9px] md:text-xs tracking-[0.3em] text-[#c5a059] font-sans uppercase">The World of HEKION</p>
+                <p class="max-w-xl mx-auto mt-8 text-xs text-gray-400 leading-relaxed tracking-widest">
+                    私たちは、デジタルの海と現実の世界を繋ぎ、<br>
+                    まだ見ぬ感動と新しい文化の形を創造します。
+                </p>
             </div>
         </section>
 
@@ -119,17 +132,27 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
                 <div class="reveal interactive-item p-12 flex flex-col items-center text-center">
                     <div class="h-20 md:h-24 mb-10"><img src="ganarlogo.png" alt="GANAR" class="h-full w-full object-contain"></div>
-                    <p class="text-gray-500 text-[11px] leading-loose mb-10 max-w-[240px]">eSportsチーム運営。競技とエンタテインメントを融合させ、新たな文化を創出します。</p>
-                    <a href="https://hekion.github.io/ganar/index.html" class="text-[9px] tracking-[0.4em] uppercase border-b border-[#c5a059]/40 pb-1 hover:border-[#c5a059]">Visit Site</a>
+                    <p class="text-gray-500 text-[11px] leading-loose mb-10">eSportsチーム運営。競技とエンタテインメントを融合させ、新たな文化を創出します。</p>
+                    <div class="flex gap-4 mb-8">
+                        <a href="https://x.com/GANAR_games" target="_blank" class="gold-btn"><i class="fa-brands fa-x-twitter"></i></a>
+                    </div>
+                    <a href="https://hekion.github.io/ganar/index.html" class="text-[9px] tracking-[0.4em] uppercase border-b border-[#c5a059]/40 pb-1">Visit Site</a>
                 </div>
                 <div class="reveal interactive-item p-12 flex flex-col items-center text-center">
                     <div class="h-20 md:h-24 mb-10"><img src="goalinklogo.png" alt="Goalink" class="h-full w-full object-contain"></div>
-                    <p class="text-gray-500 text-[11px] leading-loose mb-10 max-w-[240px]">Jリーグ専門メディア。独自の視点とデータで、日本サッカーの魅力を世界へ発信します。</p>
-                    <a href="https://hekion.github.io/goalinkjp/" class="text-[9px] tracking-[0.4em] uppercase border-b border-[#c5a059]/40 pb-1 hover:border-[#c5a059]">Visit Site</a>
+                    <p class="text-gray-500 text-[11px] leading-loose mb-10">Jリーグ専門メディア。独自の視点とデータで、日本サッカーの魅力を世界へ発信します。</p>
+                    <div class="flex gap-4 mb-8">
+                        <a href="https://x.com/Goalink_JP" target="_blank" class="gold-btn"><i class="fa-brands fa-x-twitter"></i></a>
+                        <a href="https://note.com/goalink_jp" target="_blank" class="gold-btn"><i class="fa-solid fa-note-sticky"></i></a>
+                    </div>
+                    <a href="https://hekion.github.io/goalinkjp/" class="text-[9px] tracking-[0.4em] uppercase border-b border-[#c5a059]/40 pb-1">Visit Site</a>
                 </div>
                 <div class="reveal interactive-item p-12 flex flex-col items-center text-center">
                     <div class="h-20 md:h-24 mb-10"><img src="travid-logo.png" alt="TRAVID" class="h-full w-full object-contain"></div>
-                    <p class="text-gray-600 text-[10px] italic mt-4">Preparing for the next journey...</p>
+                    <p class="text-gray-600 text-[10px] italic mb-10">Preparing for the next journey...</p>
+                    <div class="flex gap-4">
+                        <a href="https://note.com/travid_" target="_blank" class="gold-btn"><i class="fa-solid fa-note-sticky"></i></a>
+                    </div>
                 </div>
             </div>
         </section>
@@ -186,9 +209,7 @@
             const reveals = document.querySelectorAll('.reveal');
             reveals.forEach(r => {
                 const elementTop = r.getBoundingClientRect().top;
-                if (elementTop < window.innerHeight - 50) {
-                    r.classList.add('active');
-                }
+                if (elementTop < window.innerHeight - 50) r.classList.add('active');
             });
         };
         window.addEventListener('scroll', reveal);

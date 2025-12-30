@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>碧音 HEKION | Official Portal</title>
+    <title>HEKION | Official Portal</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -16,18 +16,17 @@
             overflow-x: hidden;
         }
 
-        /* 和紙のテクスチャ（オーバーレイ） */
         .washi-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-image: url('https://www.transparenttextures.com/patterns/p6.png');
             opacity: 0.03; pointer-events: none; z-index: 100;
         }
 
-        /* 全画面スライダーのアニメーション */
+        /* 16:9スライダー */
         @keyframes hero-fade {
-            0%, 100% { opacity: 0; transform: scale(1.1); filter: brightness(0.5) blur(5px); }
-            10%, 35% { opacity: 1; transform: scale(1); filter: brightness(0.8) blur(0px); }
-            45% { opacity: 0; transform: scale(0.95); filter: brightness(0.5) blur(5px); }
+            0%, 100% { opacity: 0; filter: brightness(0.8); }
+            10%, 35% { opacity: 1; filter: brightness(1); }
+            45% { opacity: 0; filter: brightness(0.8); }
         }
         .hero-slide {
             position: absolute; inset: 0; width: 100%; height: 100%;
@@ -35,96 +34,156 @@
             animation: hero-fade 16s infinite;
         }
 
-        /* サイドメニュー */
-        #sidebar { transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1); transform: translateX(100%); }
-        #sidebar.open { transform: translateX(0); }
-        .menu-item { opacity: 0; transform: translateY(20px); transition: all 0.5s ease; }
-        #sidebar.open .menu-item { opacity: 1; transform: translateY(0); }
+        /* 浮き上がり演出 */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
-        /* 金色ロゴを際立たせるカード */
-        .project-card {
+        /* カードの金色補正用フィルタ (TRAVID等に適用) */
+        .gold-filter {
+            filter: sepia(100%) saturate(500%) hue-rotate(10deg) brightness(90%);
+        }
+
+        .interactive-item {
             background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(5px);
             border: 1px solid rgba(197, 160, 89, 0.1);
-            transition: all 0.5s ease;
+            transition: all 0.3s ease;
+            -webkit-tap-highlight-color: transparent;
         }
-        .project-card:hover {
+        .interactive-item:active, .interactive-item:hover {
             border-color: var(--gold);
-            background: rgba(197, 160, 89, 0.05);
-            transform: translateY(-5px);
+            background: rgba(197, 160, 89, 0.08);
         }
+
+        #sidebar { transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); transform: translateX(100%); }
+        #sidebar.open { transform: translateX(0); }
     </style>
 </head>
 <body>
     <div class="washi-overlay"></div>
 
-    <header class="fixed w-full top-0 z-50 mix-blend-difference">
-        <div class="max-w-7xl mx-auto px-8 h-24 flex items-center justify-between">
-            <a href="#" class="h-8"><img src="hekionlogo.png" alt="HEKION" class="h-full"></a>
-            <button id="menu-btn" class="flex flex-col gap-2 items-end group">
-                <span class="w-10 h-[1px] bg-white transition-all"></span>
-                <span class="w-6 h-[1px] bg-white transition-all group-hover:w-10"></span>
+    <header class="fixed w-full top-0 z-50 bg-[#090e1a]/90 backdrop-blur-md border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+            <a href="#" class="h-6"><img src="hekionlogo.png" alt="HEKION" class="h-full"></a>
+            <button id="menu-btn" class="p-2 flex flex-col gap-1.5 items-end">
+                <span class="w-6 h-[1px] bg-white"></span>
+                <span class="w-4 h-[1px] bg-white"></span>
             </button>
         </div>
     </header>
 
-    <section class="relative w-screen h-screen overflow-hidden bg-black">
-        <img src="slider-1.png" class="hero-slide" style="animation-delay: 0s;">
-        <img src="slider-2.png" class="hero-slide" style="animation-delay: 4s;">
-        <img src="slider-3.png" class="hero-slide" style="animation-delay: 8s;">
-        <img src="slider-4.png" class="hero-slide" style="animation-delay: 12s;">
-        
-        <div class="absolute inset-0 flex flex-col items-center justify-center z-10 bg-gradient-to-b from-transparent via-transparent to-[#090e1a]">
-            <h1 class="text-3xl md:text-5xl font-light tracking-[0.8em] mb-4 drop-shadow-2xl">発見・楽しさ・繋がり</h1>
-            <p class="text-xs md:text-sm tracking-[0.4em] text-[#c5a059] font-sans italic uppercase">The World of HEKION</p>
-        </div>
-    </section>
+    <main class="pt-16">
+        <section class="relative w-full aspect-video bg-black overflow-hidden shadow-2xl">
+            <img src="slider-1.png" class="hero-slide" style="animation-delay: 0s;">
+            <img src="slider-2.png" class="hero-slide" style="animation-delay: 4s;">
+            <img src="slider-3.png" class="hero-slide" style="animation-delay: 8s;">
+            <img src="slider-4.png" class="hero-slide" style="animation-delay: 12s;">
+        </section>
 
-    <nav id="sidebar" class="fixed top-0 right-0 h-full w-full md:w-[400px] bg-[#050810] z-[60] border-l border-white/5 shadow-2xl">
-        <button id="close-btn" class="absolute top-10 right-10 text-gray-500 hover:text-white"><svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="0.5" d="M6 18L18 6M6 6l12 12"></path></svg></button>
-        <div class="flex flex-col h-full pt-48 px-16 space-y-12">
-            <div class="menu-item" style="transition-delay: 0.2s;"><a href="#" class="text-3xl font-light tracking-widest hover:text-[#c5a059] transition-all uppercase">Home</a></div>
-            <div class="menu-item" style="transition-delay: 0.3s;"><a href="#projects" class="text-3xl font-light tracking-widest hover:text-[#c5a059] transition-all uppercase">Projects</a></div>
-            <div class="menu-item" style="transition-delay: 0.4s;"><a href="#about" class="text-3xl font-light tracking-widest hover:text-[#c5a059] transition-all uppercase">About</a></div>
-            <div class="menu-item" style="transition-delay: 0.5s;"><a href="#news" class="text-3xl font-light tracking-widest hover:text-[#c5a059] transition-all uppercase">News</a></div>
-        </div>
-    </nav>
+        <section class="py-16 px-6 text-center">
+            <div class="reveal">
+                <h1 class="text-xl md:text-3xl font-light tracking-[0.6em] mb-4">発見・楽しさ・繋がり</h1>
+                <div class="h-[1px] w-12 bg-[#c5a059] mx-auto mb-4"></div>
+                <p class="text-[9px] md:text-xs tracking-[0.3em] text-[#c5a059] font-sans uppercase">The World of HEKION</p>
+            </div>
+        </section>
 
-    <main id="projects" class="py-32 px-8">
-        <div class="max-w-7xl mx-auto">
-            <h2 class="text-3xl font-light mb-24 text-center tracking-[1em] uppercase">Projects</h2>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
-                <div class="project-card p-10 flex flex-col items-center text-center">
-                    <div class="h-16 mb-10"><img src="ganarlogo.png" alt="GANAR" class="h-full object-contain"></div>
-                    <h3 class="text-lg tracking-widest mb-4">GANAR</h3>
-                    <p class="text-gray-500 text-xs leading-loose mb-8 font-sans">eSportsチーム運営。競技とエンタテインメントを融合させ、新たな文化を創出します。</p>
-                    <a href="https://hekion.github.io/ganar/index.html" class="text-[10px] tracking-[0.4em] uppercase border-b border-[#c5a059]/30 pb-2 hover:border-[#c5a059] transition-all">Visit Project</a>
+        <nav id="sidebar" class="fixed top-0 right-0 h-full w-full md:w-[400px] bg-[#050810] z-[60] border-l border-white/5 shadow-2xl">
+            <button id="close-btn" class="absolute top-6 right-6 p-2 text-gray-500"><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="0.5" d="M6 18L18 6M6 6l12 12"></path></svg></button>
+            <div class="flex flex-col h-full pt-32 px-12 space-y-8">
+                <a href="#" class="text-xl font-light tracking-widest hover:text-[#c5a059]">HOME</a>
+                <a href="#projects" class="text-xl font-light tracking-widest hover:text-[#c5a059]">PROJECTS</a>
+                <a href="#news" class="text-xl font-light tracking-widest hover:text-[#c5a059]">NEWS</a>
+            </div>
+        </nav>
+
+        <section id="projects" class="py-20 px-6 max-w-7xl mx-auto">
+            <h2 class="reveal text-lg font-light mb-16 text-center tracking-[0.8em] uppercase border-b border-white/5 pb-8">PROJECTS</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="reveal interactive-item p-10 flex flex-col items-center text-center">
+                    <div class="h-12 mb-8"><img src="ganarlogo.png" alt="GANAR" class="h-full object-contain"></div>
+                    <p class="text-gray-500 text-[11px] leading-loose mb-8">eSportsチーム運営。競技とエンタテインメントを融合させ、新たな文化を創出します。</p>
+                    <a href="https://hekion.github.io/ganar/index.html" class="text-[9px] tracking-[0.3em] uppercase border-b border-[#c5a059]/30 pb-1">Visit Site</a>
                 </div>
-
-                <div class="project-card p-10 flex flex-col items-center text-center">
-                    <div class="h-16 mb-10"><img src="goalinklogo.png" alt="Goalink" class="h-full object-contain"></div>
-                    <h3 class="text-lg tracking-widest mb-4">Goalink</h3>
-                    <p class="text-gray-500 text-xs leading-loose mb-8 font-sans">Jリーグ専門メディア。独自の視点とデータで、日本サッカーの魅力を世界へ発信します。</p>
-                    <a href="https://hekion.github.io/goalinkjp/" class="text-[10px] tracking-[0.4em] uppercase border-b border-[#c5a059]/30 pb-2 hover:border-[#c5a059] transition-all">Visit Project</a>
+                <div class="reveal interactive-item p-10 flex flex-col items-center text-center">
+                    <div class="h-12 mb-8"><img src="goalinklogo.png" alt="Goalink" class="h-full object-contain"></div>
+                    <p class="text-gray-500 text-[11px] leading-loose mb-8">Jリーグ専門メディア。独自の視点とデータで、日本サッカーの魅力を世界へ発信します。</p>
+                    <a href="https://hekion.github.io/goalinkjp/" class="text-[9px] tracking-[0.3em] uppercase border-b border-[#c5a059]/30 pb-1">Visit Site</a>
                 </div>
-
-                <div class="project-card p-10 flex flex-col items-center text-center opacity-70">
-                    <div class="h-16 mb-10"><img src="travid-logo.png" alt="TRAVID" class="h-full object-contain grayscale brightness-200"></div>
-                    <h3 class="text-lg tracking-widest mb-4 text-gray-500">TRAVID</h3>
-                    <p class="text-gray-600 text-xs leading-loose mb-8 font-sans italic">Preparing for the next journey...</p>
+                <div class="reveal interactive-item p-10 flex flex-col items-center text-center opacity-80">
+                    <div class="h-12 mb-8"><img src="travid-logo.png" alt="TRAVID" class="h-full object-contain gold-filter"></div>
+                    <p class="text-gray-600 text-[10px] italic mt-4">Preparing for the next journey...</p>
                 </div>
             </div>
-        </div>
+        </section>
+
+        <section id="news" class="py-24 px-6 bg-black/40">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="reveal text-lg font-light mb-12 text-center tracking-[0.8em] uppercase">NEWS</h2>
+                <div class="space-y-3">
+                    <div class="reveal interactive-item p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div class="flex items-center gap-4">
+                            <span class="text-[9px] font-sans text-gray-500">2026.01.01</span>
+                            <span class="text-[8px] px-2 py-0.5 border border-[#c5a059]/50 text-[#c5a059] uppercase">Hekion</span>
+                        </div>
+                        <a href="#" class="text-xs md:text-sm tracking-widest flex-1">HEKIONブランドサイトオープンのお知らせ</a>
+                    </div>
+                    <div class="reveal interactive-item p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div class="flex items-center gap-4">
+                            <span class="text-[9px] font-sans text-gray-500">2026.01.01</span>
+                            <span class="text-[8px] px-2 py-0.5 border border-[#c5a059]/50 text-[#c5a059] uppercase">Goalink</span>
+                        </div>
+                        <a href="#" class="text-xs md:text-sm tracking-widest flex-1">Goalink公式サイト、公式noteオープンのお知らせ</a>
+                    </div>
+                    <div class="reveal interactive-item p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div class="flex items-center gap-4">
+                            <span class="text-[9px] font-sans text-gray-500">2026.01.01</span>
+                            <span class="text-[8px] px-2 py-0.5 border border-[#c5a059]/50 text-[#c5a059] uppercase">Ganar</span>
+                        </div>
+                        <a href="#" class="text-xs md:text-sm tracking-widest flex-1">GANAR公式サイトオープンのお知らせ</a>
+                    </div>
+                    <div class="reveal interactive-item p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div class="flex items-center gap-4">
+                            <span class="text-[9px] font-sans text-gray-500">2026.01.01</span>
+                            <span class="text-[8px] px-2 py-0.5 border border-[#c5a059]/50 text-[#c5a059] uppercase">Travid</span>
+                        </div>
+                        <a href="#" class="text-xs md:text-sm tracking-widest flex-1">TRAVID公式noteオープンのお知らせ</a>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
+
+    <footer class="py-16 text-center border-t border-white/5">
+        <p class="text-gray-600 text-[9px] tracking-[0.4em] uppercase">&copy; 2026 HEKION GROUP</p>
+    </footer>
 
     <script>
         const sidebar = document.getElementById('sidebar');
         const menuBtn = document.getElementById('menu-btn');
         const closeBtn = document.getElementById('close-btn');
 
-        menuBtn.onclick = () => { sidebar.classList.add('open'); document.body.style.overflow = 'hidden'; }
-        closeBtn.onclick = () => { sidebar.classList.remove('open'); document.body.style.overflow = ''; }
+        menuBtn.onclick = () => sidebar.classList.add('open');
+        closeBtn.onclick = () => sidebar.classList.remove('open');
+
+        const reveal = () => {
+            const reveals = document.querySelectorAll('.reveal');
+            reveals.forEach(r => {
+                const windowHeight = window.innerHeight;
+                const elementTop = r.getBoundingClientRect().top;
+                if (elementTop < windowHeight - 50) {
+                    r.classList.add('active');
+                }
+            });
+        };
+        window.addEventListener('scroll', reveal);
+        window.addEventListener('load', reveal);
     </script>
 </body>
 </html>

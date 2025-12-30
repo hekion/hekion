@@ -16,20 +16,62 @@
         }
         .gold-text { color: var(--gold); }
         .gold-bg { background-color: var(--gold); }
-        .btn-outline {
-            border: 1px solid var(--gold);
-            color: var(--gold);
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .btn-outline:hover:not(.opacity-50) { background-color: var(--gold); color: var(--navy); }
         
-        #sidebar { transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); transform: translateX(100%); }
-        #sidebar.open { transform: translateX(0); }
+        /* サイドメニューの動き */
+        #sidebar { 
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); 
+            transform: translateX(100%);
+            visibility: hidden;
+        }
+        #sidebar.open { 
+            transform: translateX(0); 
+            visibility: visible;
+        }
         #overlay { transition: opacity 0.4s ease; pointer-events: none; }
         #overlay.show { opacity: 1; pointer-events: auto; }
+
+        /* メニュー項目のスタッガード（時間差）演出 */
+        .menu-item {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+        #sidebar.open .menu-item {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        #sidebar.open .menu-item:nth-child(1) { transition-delay: 0.2s; }
+        #sidebar.open .menu-item:nth-child(2) { transition-delay: 0.3s; }
+        #sidebar.open .menu-item:nth-child(3) { transition-delay: 0.4s; }
+        #sidebar.open .menu-item:nth-child(4) { transition-delay: 0.5s; }
+
+        .menu-link {
+            position: relative;
+            display: inline-block;
+        }
+        .menu-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--gold);
+            transition: width 0.3s ease;
+        }
+        .menu-link:hover::after { width: 100%; }
+
+        /* ロゴスライダー：4枚16秒ループ */
+        @keyframes fade-loop {
+            0%, 100% { opacity: 0; transform: scale(0.9); filter: blur(8px); }
+            7.5%, 25% { opacity: 1; transform: scale(1); filter: blur(0px); }
+            32.5% { opacity: 0; transform: scale(1.1); filter: blur(8px); }
+        }
+        .animate-fade-loop {
+            animation: fade-loop 16s infinite;
+            opacity: 0;
+            will-change: transform, opacity;
+        }
     </style>
 </head>
 <body>
@@ -39,31 +81,35 @@
             <a href="#" class="flex items-center gap-3">
                 <img src="hekionlogo.png" alt="HEKION" class="h-10 w-auto object-contain">
             </a>
+            <div class="hidden lg:block text-sm tracking-[0.2em] text-gray-400 font-light pl-4 border-l border-slate-700">発見・楽しさ・繋がりを届ける</div>
             
-            <div class="hidden lg:block text-sm tracking-[0.2em] text-gray-400 font-light pl-4 border-l border-slate-700">
-                発見・楽しさ・繋がりを届ける
-            </div>
-
-            <button id="menu-btn" class="group p-2 flex flex-col gap-1.5 justify-center items-end z-[60] relative">
+            <button id="menu-btn" class="p-2 flex flex-col gap-1.5 justify-center items-end group">
                 <span class="w-8 h-0.5 gold-bg transition-all"></span>
-                <span class="w-8 h-0.5 gold-bg transition-all"></span>
+                <span class="w-5 h-0.5 gold-bg transition-all group-hover:w-8"></span>
                 <span class="w-8 h-0.5 gold-bg transition-all"></span>
             </button>
         </div>
     </header>
 
-    <div id="overlay" class="fixed inset-0 bg-black/60 z-[55] backdrop-blur-sm opacity-0"></div>
+    <div id="overlay" class="fixed inset-0 bg-black/80 z-[55] backdrop-blur-md opacity-0"></div>
 
-    <nav id="sidebar" class="fixed top-0 right-0 h-full w-80 bg-[#0a101f] z-[58] shadow-2xl border-l border-slate-800">
-        <div class="flex flex-col h-full pt-32 px-10">
-            <ul class="space-y-8 text-xl tracking-[0.2em] font-light">
-                <li><a href="#" class="hover:gold-text transition-colors block menu-link uppercase">Home</a></li>
-                <li><a href="#projects" class="hover:gold-text transition-colors block menu-link uppercase">Projects</a></li>
-                <li><a href="#about" class="hover:gold-text transition-colors block menu-link uppercase">About</a></li>
-                <li><a href="#news" class="hover:gold-text transition-colors block menu-link uppercase">News</a></li>
-            </ul>
-            <div class="mt-auto pb-10 border-t border-slate-800 pt-6">
-                <p class="text-[10px] text-gray-600 tracking-widest uppercase">&copy; HEKION GROUP</p>
+    <nav id="sidebar" class="fixed top-0 right-0 h-full w-full md:w-[450px] bg-[#0a101f] z-[60] shadow-2xl border-l border-slate-800">
+        <button id="close-btn" class="absolute top-8 right-8 text-gray-400 hover:text-white transition-colors">
+            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        </button>
+
+        <div class="flex flex-col h-full pt-40 px-12">
+            <div class="space-y-10">
+                <div class="menu-item"><a href="#" class="menu-link text-3xl tracking-[0.2em] font-light uppercase">Home</a></div>
+                <div class="menu-item"><a href="#projects" class="menu-link text-3xl tracking-[0.2em] font-light uppercase">Projects</a></div>
+                <div class="menu-item"><a href="#about" class="menu-link text-3xl tracking-[0.2em] font-light uppercase">About</a></div>
+                <div class="menu-item"><a href="#news" class="menu-link text-3xl tracking-[0.2em] font-light uppercase">News</a></div>
+            </div>
+            
+            <div class="mt-auto pb-12 border-t border-slate-800 pt-8 menu-item">
+                <p class="text-[10px] text-gray-600 tracking-[0.5em] uppercase">&copy; HEKION GROUP 2026</p>
             </div>
         </div>
     </nav>
@@ -71,7 +117,22 @@
     <main>
         <section id="about" class="pt-40 pb-24 px-6 border-b border-slate-800">
             <div class="max-w-4xl mx-auto text-center">
-                <img src="hekionlogo.png" alt="HEKION" class="h-24 md:h-36 w-auto mx-auto mb-10 object-contain">
+                
+                <div class="relative aspect-video max-w-xs md:max-w-md mx-auto mb-10 overflow-hidden">
+                    <div class="absolute inset-0 flex items-center justify-center animate-fade-loop">
+                        <img src="slider-1.png" alt="Slider 1" class="h-2/3 w-auto object-contain">
+                    </div>
+                    <div class="absolute inset-0 flex items-center justify-center animate-fade-loop [animation-delay:4s]">
+                        <img src="slider-2.png" alt="Slider 2" class="h-2/3 w-auto object-contain">
+                    </div>
+                    <div class="absolute inset-0 flex items-center justify-center animate-fade-loop [animation-delay:8s]">
+                        <img src="slider-3.png" alt="Slider 3" class="h-2/3 w-auto object-contain">
+                    </div>
+                    <div class="absolute inset-0 flex items-center justify-center animate-fade-loop [animation-delay:12s]">
+                        <img src="slider-4.png" alt="Slider 4" class="h-2/3 w-auto object-contain">
+                    </div>
+                </div>
+
                 <p class="text-xl md:text-2xl font-light tracking-[0.3em] mb-10 uppercase">発見・楽しさ・繋がりを届ける</p>
                 <div class="h-1 w-20 gold-bg mx-auto mb-10"></div>
                 <p class="text-gray-400 leading-loose text-base md:text-lg mx-auto max-w-2xl">
@@ -84,90 +145,73 @@
             <div class="max-w-7xl mx-auto">
                 <h2 class="text-3xl font-bold mb-16 text-center tracking-widest uppercase">Projects</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-                    
                     <div class="bg-slate-900/50 p-8 border border-slate-800 rounded-lg flex flex-col h-full hover:border-slate-500 transition-all group">
-                        <div class="mb-10 h-16 flex items-center">
-                            <img src="ganarlogo.png" alt="GANAR" class="h-full w-auto object-contain">
-                        </div>
+                        <div class="mb-10 h-16 flex items-center"><img src="ganarlogo.png" alt="GANAR" class="h-full w-auto object-contain"></div>
                         <p class="text-xs text-purple-400 mb-6 uppercase font-bold tracking-widest">eSports Team</p>
                         <p class="text-gray-400 text-sm mb-8 flex-grow leading-relaxed">ストリーマーとプレイヤーが所属するeSportsチーム。競技シーンとエンタメの両立を目指します。</p>
                         <div class="grid grid-cols-1 gap-4">
-                            <a href="https://hekion.github.io/ganar/index.html" class="w-full py-2 text-xs btn-outline uppercase font-black tracking-widest">Visit Site</a>
+                            <a href="https://hekion.github.io/ganar/index.html" class="w-full py-2 text-xs btn-outline-custom uppercase font-black tracking-widest">Visit Site</a>
                             <div class="flex justify-end">
-                                <a href="https://x.com/GANAR_games" target="_blank" class="w-10 h-10 rounded-md border border-slate-700 flex items-center justify-center hover:bg-white hover:border-white transition-all group/icon">
+                                <a href="https://x.com/GANAR_games" target="_blank" class="w-10 h-10 rounded-md border border-slate-700 flex items-center justify-center hover:bg-white transition-all group/icon">
                                     <svg class="w-5 h-5 fill-white group-hover/icon:fill-black" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
                                 </a>
                             </div>
                         </div>
                     </div>
-
                     <div class="bg-slate-900/50 p-8 border border-slate-800 rounded-lg flex flex-col h-full hover:border-slate-500 transition-all group">
-                        <div class="mb-10 h-16 flex items-center">
-                            <img src="goalink-logo.png" alt="Goalink" class="h-full w-auto object-contain">
-                        </div>
+                        <div class="mb-10 h-16 flex items-center"><img src="goalinklogo.png" alt="Goalink" class="h-full w-auto object-contain"></div>
                         <p class="text-xs text-blue-400 mb-6 uppercase font-bold tracking-widest">J-League Media</p>
                         <p class="text-gray-400 text-sm mb-8 flex-grow leading-relaxed">Jリーグ専門メディア。スタッツ、日程、順位表など、日本サッカーの熱狂を可視化します。</p>
                         <div class="grid grid-cols-1 gap-4">
-                            <a href="https://hekion.github.io/goalinkjp/" class="w-full py-2 text-xs btn-outline uppercase font-black tracking-widest">Visit Site</a>
-                            <div class="flex justify-end gap-3">
-                                <a href="https://x.com/Goalink_JP" target="_blank" class="w-10 h-10 rounded-md border border-slate-700 flex items-center justify-center hover:bg-white hover:border-white transition-all group/icon">
+                            <a href="https://hekion.github.io/goalinkjp/" class="w-full py-2 text-xs btn-outline-custom uppercase font-black tracking-widest">Visit Site</a>
+                            <div class="flex justify-end">
+                                <a href="https://x.com/Goalink_JP" target="_blank" class="w-10 h-10 rounded-md border border-slate-700 flex items-center justify-center hover:bg-white transition-all group/icon">
                                     <svg class="w-5 h-5 fill-white group-hover/icon:fill-black" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
                                 </a>
-                                <a href="https://note.com/goalink_jp" target="_blank" class="w-10 h-10 rounded-md border border-slate-700 flex items-center justify-center hover:bg-[#24b21a] hover:border-[#24b21a] transition-all group/icon font-bold text-[10px] text-gold group-hover/icon:text-white uppercase tracking-tighter">note</a>
                             </div>
                         </div>
                     </div>
-
                     <div class="bg-slate-900/50 p-8 border border-slate-800 rounded-lg flex flex-col h-full hover:border-slate-500 transition-all group">
-                        <div class="mb-10 h-20 flex items-center bg-white rounded-xl p-4 shadow-xl">
-                            <img src="travid-logo.png" alt="TRAVID" class="h-full w-auto object-contain mx-auto">
-                        </div>
+                        <div class="mb-10 h-16 flex items-center"><img src="travid-logo.png" alt="TRAVID" class="h-full w-auto object-contain mx-auto brightness-0 invert opacity-50"></div>
                         <p class="text-xs text-green-400 mb-6 uppercase font-bold tracking-widest">Travel Media</p>
                         <p class="text-gray-400 text-sm mb-8 flex-grow leading-relaxed">「旅」の新しい形を提案するメディア。地域の魅力と旅人の記憶を繋ぎます。</p>
                         <div class="grid grid-cols-1 gap-4">
                             <div class="py-2 text-center text-[10px] border border-white/5 text-gray-600 uppercase font-bold tracking-tighter">Site Preparing</div>
-                            <div class="flex justify-end">
-                                <a href="https://note.com/travid" target="_blank" class="w-10 h-10 rounded-md border border-slate-700 flex items-center justify-center hover:bg-[#24b21a] hover:border-[#24b21a] transition-all group/icon font-bold text-[10px] text-gold group-hover/icon:text-white uppercase tracking-tighter">note</a>
-                            </div>
                         </div>
-                    </div>
-
-                </div>
-            </div>
-        </section>
-
-        <section id="news" class="py-24 px-6 bg-black/20">
-            <div class="max-w-4xl mx-auto">
-                <h2 class="text-3xl font-bold mb-12 tracking-widest uppercase text-center">News</h2>
-                <div class="space-y-6">
-                    <div class="flex flex-col md:flex-row md:items-center gap-4 border-b border-slate-800 pb-6">
-                        <span class="text-gray-500 font-mono text-sm">2026.01.01</span>
-                        <span class="text-[10px] px-2 py-1 bg-blue-900/30 text-blue-400 font-bold rounded uppercase">Goalink</span>
-                        <a href="https://hekion.github.io/goalinkjp/" class="hover:gold-text transition-colors text-sm md:text-base font-bold">Goalink メディアサイトを公開しました</a>
                     </div>
                 </div>
             </div>
         </section>
     </main>
 
-    <footer class="py-16 border-t border-slate-800 text-center">
-        <p class="text-gray-600 text-[10px] tracking-[0.4em]">&copy; 2026 HEKION GROUP</p>
-    </footer>
+    <style>
+        .btn-outline-custom { border: 1px solid var(--gold); color: var(--gold); transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; }
+        .btn-outline-custom:hover { background-color: var(--gold); color: var(--navy); }
+    </style>
 
     <script>
         const menuBtn = document.getElementById('menu-btn');
+        const closeBtn = document.getElementById('close-btn');
         const sidebar = document.getElementById('sidebar');
         const overlay = document.getElementById('overlay');
-        const links = document.querySelectorAll('.menu-link');
+        const menuLinks = document.querySelectorAll('.menu-link');
 
-        function toggle() {
-            sidebar.classList.toggle('open');
-            overlay.classList.toggle('show');
+        function openSidebar() {
+            sidebar.classList.add('open');
+            overlay.classList.add('show');
+            document.body.style.overflow = 'hidden';
         }
 
-        menuBtn.addEventListener('click', toggle);
-        overlay.addEventListener('click', toggle);
-        links.forEach(l => l.addEventListener('click', toggle));
+        function closeSidebar() {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('show');
+            document.body.style.overflow = '';
+        }
+
+        menuBtn.addEventListener('click', openSidebar);
+        closeBtn.addEventListener('click', closeSidebar);
+        overlay.addEventListener('click', closeSidebar);
+        menuLinks.forEach(link => link.addEventListener('click', closeSidebar));
     </script>
 </body>
 </html>

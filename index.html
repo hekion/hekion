@@ -45,7 +45,6 @@
         .menu-link { opacity: 0; transform: translateX(30px); transition: all 0.6s ease; }
         #sidebar.open .menu-link { opacity: 1; transform: translateX(0); }
 
-        /* 筆文字「碧音」の濃度調整 */
         .fude-text {
             writing-mode: vertical-rl;
             font-family: 'Yuji Syuku', serif;
@@ -69,7 +68,6 @@
             background: rgba(197, 160, 89, 0.05);
         }
 
-        /* プロジェクトリンクのタップエリア改善 */
         .project-link {
             font-size: 11px;
             letter-spacing: 0.2em;
@@ -96,6 +94,16 @@
             user-select: none;
             margin: 0 -2px;
         }
+
+        /* セクション見出しの統一スタイル */
+        .section-title {
+            font-size: 1.125rem; /* text-lg */
+            font-weight: 300; /* font-light */
+            letter-spacing: 0.8em;
+            text-transform: uppercase;
+            text-align: center;
+            margin-bottom: 4rem; /* mb-16 */
+        }
     </style>
 </head>
 <body>
@@ -121,9 +129,10 @@
             <img src="slider-4.png" class="hero-slide" style="animation-delay: 12s;">
         </section>
 
-        <section class="py-24 px-6 text-center">
+        <section id="concept" class="py-32 px-6 text-center">
             <div class="reveal">
-                <h1 class="text-xl md:text-3xl font-light tracking-[0.6em] mb-6">発見・楽しさ・繋がり</h1>
+                <h2 class="section-title">CONCEPT</h2>
+                <h3 class="text-xl md:text-3xl font-light tracking-[0.6em] mb-8">発見・楽しさ・繋がり</h3>
                 <div class="h-[1px] w-12 bg-[#c5a059] mx-auto mb-6 opacity-50"></div>
                 <p class="text-[9px] md:text-xs tracking-[0.3em] text-[#c5a059] font-sans uppercase">The World of HEKION</p>
             </div>
@@ -133,13 +142,14 @@
             <div class="fude-text">碧音</div>
             <div class="flex flex-col h-full pt-40 px-16 space-y-12 relative z-10">
                 <div class="menu-link" style="transition-delay: 0.1s;"><a href="#" class="group flex items-center gap-4"><span class="w-0 h-[1px] bg-[#c5a059] transition-all group-hover:w-8"></span><span class="text-2xl font-light tracking-[0.3em] hover:text-[#c5a059]">HOME</span></a></div>
-                <div class="menu-link" style="transition-delay: 0.2s;"><a href="#projects" class="group flex items-center gap-4"><span class="w-0 h-[1px] bg-[#c5a059] transition-all group-hover:w-8"></span><span class="text-2xl font-light tracking-[0.3em] hover:text-[#c5a059]">PROJECTS</span></a></div>
-                <div class="menu-link" style="transition-delay: 0.3s;"><a href="#news" class="group flex items-center gap-4"><span class="w-0 h-[1px] bg-[#c5a059] transition-all group-hover:w-8"></span><span class="text-2xl font-light tracking-[0.3em] hover:text-[#c5a059]">NEWS</span></a></div>
+                <div class="menu-link" style="transition-delay: 0.2s;"><a href="#concept" class="group flex items-center gap-4"><span class="w-0 h-[1px] bg-[#c5a059] transition-all group-hover:w-8"></span><span class="text-2xl font-light tracking-[0.3em] hover:text-[#c5a059]">CONCEPT</span></a></div>
+                <div class="menu-link" style="transition-delay: 0.3s;"><a href="#projects" class="group flex items-center gap-4"><span class="w-0 h-[1px] bg-[#c5a059] transition-all group-hover:w-8"></span><span class="text-2xl font-light tracking-[0.3em] hover:text-[#c5a059]">PROJECTS</span></a></div>
+                <div class="menu-link" style="transition-delay: 0.4s;"><a href="#news" class="group flex items-center gap-4"><span class="w-0 h-[1px] bg-[#c5a059] transition-all group-hover:w-8"></span><span class="text-2xl font-light tracking-[0.3em] hover:text-[#c5a059]">NEWS</span></a></div>
             </div>
         </nav>
 
-        <section id="projects" class="py-20 px-6 max-w-7xl mx-auto">
-            <h2 class="reveal text-lg font-light mb-16 text-center tracking-[0.8em] uppercase">PROJECTS</h2>
+        <section id="projects" class="py-24 px-6 max-w-7xl mx-auto">
+            <h2 class="reveal section-title">PROJECTS</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
                 <div class="reveal interactive-item p-12 flex flex-col items-center text-center">
                     <div class="h-28 md:h-32 mb-10 w-full"><img src="ganarlogo.png" alt="GANAR" class="h-full w-full object-contain"></div>
@@ -171,9 +181,9 @@
             </div>
         </section>
 
-        <section id="news" class="py-24 px-6 bg-black/40">
+        <section id="news" class="py-24 px-6 border-t border-white/5">
             <div class="max-w-4xl mx-auto">
-                <h2 class="reveal text-lg font-light mb-12 text-center tracking-[0.8em] uppercase">NEWS</h2>
+                <h2 class="reveal section-title">NEWS</h2>
                 <div class="space-y-3">
                     <div class="reveal interactive-item p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
                         <div class="flex items-center gap-4"><span class="text-[9px] font-sans text-gray-500">2026.01.01</span><span class="text-[8px] px-2 py-0.5 border border-[#c5a059]/50 text-[#c5a059] uppercase">Ganar</span></div>
@@ -208,15 +218,12 @@
         const sidebar = document.getElementById('sidebar');
         const menuBtn = document.getElementById('menu-btn');
         const menuLinks = document.querySelectorAll('.menu-link a');
-
         menuBtn.onclick = () => {
             const isOpen = sidebar.classList.toggle('open');
             menuBtn.classList.toggle('open');
             document.body.style.overflow = isOpen ? 'hidden' : '';
         };
-
         menuLinks.forEach(link => { link.onclick = () => { sidebar.classList.remove('open'); menuBtn.classList.remove('open'); document.body.style.overflow = ''; }; });
-
         const reveal = () => {
             const reveals = document.querySelectorAll('.reveal');
             reveals.forEach(r => {

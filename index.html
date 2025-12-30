@@ -62,32 +62,32 @@
             transition: all 0.4s ease;
         }
 
-        /* プロジェクトリンクのテキストスタイル */
+        /* プロジェクトリンクのタップエリア改善 */
         .project-link {
-            font-size: 10px;
-            letter-spacing: 0.15em;
+            font-size: 11px; /* 10pxから11pxへ微増 */
+            letter-spacing: 0.2em;
             color: var(--gold);
             opacity: 0.7;
             transition: all 0.3s ease;
             position: relative;
-            padding-bottom: 2px;
+            padding: 10px 12px; /* タップ範囲を拡大 */
+            display: inline-block;
         }
-        .project-link:hover {
-            opacity: 1;
-        }
-        .project-link::after {
+        .project-link:hover { opacity: 1; }
+        .project-link span { position: relative; padding-bottom: 2px; }
+        .project-link span::after {
             content: '';
             position: absolute; width: 0; height: 1px; bottom: 0; left: 0;
             background-color: var(--gold);
             transition: width 0.3s ease;
         }
-        .project-link:hover::after {
-            width: 100%;
-        }
+        .project-link:hover span::after { width: 100%; }
+        
         .link-divider {
-            color: rgba(197, 160, 89, 0.3);
+            color: rgba(197, 160, 89, 0.2);
             font-size: 10px;
-            margin: 0 8px;
+            user-select: none;
+            margin: 0 -2px; /* パディングを含めた調整 */
         }
     </style>
 </head>
@@ -114,15 +114,11 @@
             <img src="slider-4.png" class="hero-slide" style="animation-delay: 12s;">
         </section>
 
-        <section class="py-20 px-6 text-center">
+        <section class="py-24 px-6 text-center">
             <div class="reveal">
-                <h1 class="text-xl md:text-3xl font-light tracking-[0.6em] mb-4">発見・楽しさ・繋がり</h1>
+                <h1 class="text-xl md:text-3xl font-light tracking-[0.6em] mb-6">発見・楽しさ・繋がり</h1>
                 <div class="h-[1px] w-12 bg-[#c5a059] mx-auto mb-6 opacity-50"></div>
                 <p class="text-[9px] md:text-xs tracking-[0.3em] text-[#c5a059] font-sans uppercase">The World of HEKION</p>
-                <p class="max-w-xl mx-auto mt-8 text-xs text-gray-400 leading-relaxed tracking-widest px-4">
-                    私たちは、デジタルの海と現実の世界を繋ぎ、<br>
-                    まだ見ぬ感動と新しい文化の形を創造します。
-                </p>
             </div>
         </section>
 
@@ -139,30 +135,30 @@
             <h2 class="reveal text-lg font-light mb-16 text-center tracking-[0.8em] uppercase">PROJECTS</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
                 <div class="reveal interactive-item p-12 flex flex-col items-center text-center">
-                    <div class="h-20 md:h-24 mb-10"><img src="ganarlogo.png" alt="GANAR" class="h-full w-full object-contain"></div>
+                    <div class="h-28 md:h-32 mb-10 w-full"><img src="ganarlogo.png" alt="GANAR" class="h-full w-full object-contain"></div>
                     <p class="text-gray-500 text-[11px] leading-loose mb-10">eSportsチーム運営。競技とエンタテインメントを融合させ、新たな文化を創出します。</p>
                     <div class="flex items-center justify-center font-sans">
-                        <a href="https://hekion.github.io/ganar/index.html" class="project-link">SITE</a>
+                        <a href="https://hekion.github.io/ganar/index.html" class="project-link"><span>SITE</span></a>
                         <span class="link-divider">/</span>
-                        <a href="https://x.com/GANAR_games" target="_blank" class="project-link">X</a>
+                        <a href="https://x.com/GANAR_games" target="_blank" class="project-link"><span>X</span></a>
                     </div>
                 </div>
                 <div class="reveal interactive-item p-12 flex flex-col items-center text-center">
-                    <div class="h-20 md:h-24 mb-10"><img src="goalinklogo.png" alt="Goalink" class="h-full w-full object-contain"></div>
+                    <div class="h-28 md:h-32 mb-10 w-full"><img src="goalinklogo.png" alt="Goalink" class="h-full w-full object-contain"></div>
                     <p class="text-gray-500 text-[11px] leading-loose mb-10">Jリーグ専門メディア。独自の視点とデータで、日本サッカーの魅力を世界へ発信します。</p>
                     <div class="flex items-center justify-center font-sans">
-                        <a href="https://hekion.github.io/goalinkjp/" class="project-link">SITE</a>
+                        <a href="https://hekion.github.io/goalinkjp/" class="project-link"><span>SITE</span></a>
                         <span class="link-divider">/</span>
-                        <a href="https://x.com/Goalink_JP" target="_blank" class="project-link">X</a>
+                        <a href="https://x.com/Goalink_JP" target="_blank" class="project-link"><span>X</span></a>
                         <span class="link-divider">/</span>
-                        <a href="https://note.com/goalink_jp" target="_blank" class="project-link">NOTE</a>
+                        <a href="https://note.com/goalink_jp" target="_blank" class="project-link"><span>NOTE</span></a>
                     </div>
                 </div>
                 <div class="reveal interactive-item p-12 flex flex-col items-center text-center">
-                    <div class="h-20 md:h-24 mb-10"><img src="travid-logo.png" alt="TRAVID" class="h-full w-full object-contain"></div>
+                    <div class="h-28 md:h-32 mb-10 w-full"><img src="travid-logo.png" alt="TRAVID" class="h-full w-full object-contain"></div>
                     <p class="text-gray-600 text-[10px] italic mb-10 leading-loose">Preparing for the next journey...</p>
                     <div class="flex items-center justify-center font-sans">
-                        <a href="https://note.com/travid_" target="_blank" class="project-link">NOTE</a>
+                        <a href="https://note.com/travid_" target="_blank" class="project-link"><span>NOTE</span></a>
                     </div>
                 </div>
             </div>
@@ -172,6 +168,10 @@
             <div class="max-w-4xl mx-auto">
                 <h2 class="reveal text-lg font-light mb-12 text-center tracking-[0.8em] uppercase">NEWS</h2>
                 <div class="space-y-3">
+                    <div class="reveal interactive-item p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div class="flex items-center gap-4"><span class="text-[9px] font-sans text-gray-500">2026.01.01</span><span class="text-[8px] px-2 py-0.5 border border-[#c5a059]/50 text-[#c5a059] uppercase">Ganar</span></div>
+                        <a href="#" class="text-xs md:text-sm tracking-widest flex-1 text-[#c5a059]">GANAR 新メンバー募集開始のお知らせ</a>
+                    </div>
                     <div class="reveal interactive-item p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
                         <div class="flex items-center gap-4"><span class="text-[9px] font-sans text-gray-500">2026.01.01</span><span class="text-[8px] px-2 py-0.5 border border-[#c5a059]/50 text-[#c5a059] uppercase">Hekion</span></div>
                         <a href="#" class="text-xs md:text-sm tracking-widest flex-1">HEKIONブランドサイトオープンのお知らせ</a>
@@ -208,13 +208,7 @@
             document.body.style.overflow = isOpen ? 'hidden' : '';
         };
 
-        menuLinks.forEach(link => {
-            link.onclick = () => {
-                sidebar.classList.remove('open');
-                menuBtn.classList.remove('open');
-                document.body.style.overflow = '';
-            };
-        });
+        menuLinks.forEach(link => { link.onclick = () => { sidebar.classList.remove('open'); menuBtn.classList.remove('open'); document.body.style.overflow = ''; }; });
 
         const reveal = () => {
             const reveals = document.querySelectorAll('.reveal');

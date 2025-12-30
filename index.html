@@ -6,7 +6,6 @@
     <title>HEKION | Official Portal</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;700&family=Yuji+Syuku&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root { --navy: #090e1a; --gold: #c5a059; }
         html { scroll-behavior: smooth; }
@@ -46,15 +45,12 @@
         .menu-link { opacity: 0; transform: translateX(30px); transition: all 0.6s ease; }
         #sidebar.open .menu-link { opacity: 1; transform: translateX(0); }
 
-        /* 筆文字「碧音」の濃度調整 */
         .fude-text {
             writing-mode: vertical-rl;
             font-family: 'Yuji Syuku', serif;
             position: absolute; left: 20px; bottom: 40px;
-            font-size: 15vh; 
-            color: rgba(197, 160, 89, 0.15); /* 0.05から0.15へ濃くしました */
-            pointer-events: none; line-height: 1;
-            z-index: 0;
+            font-size: 15vh; color: rgba(197, 160, 89, 0.15);
+            pointer-events: none; line-height: 1; z-index: 0;
         }
 
         .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
@@ -65,20 +61,33 @@
             border: 1px solid rgba(197, 160, 89, 0.08);
             transition: all 0.4s ease;
         }
-        .interactive-item:hover {
-            border-color: var(--gold);
-            background: rgba(197, 160, 89, 0.05);
-        }
 
-        .gold-btn {
-            display: inline-flex; align-items: center; justify-content: center;
-            width: 40px; height: 40px; border-radius: 50%;
-            border: 1px solid rgba(197, 160, 89, 0.3);
-            color: var(--gold); transition: all 0.3s ease;
+        /* プロジェクトリンクのテキストスタイル */
+        .project-link {
+            font-size: 10px;
+            letter-spacing: 0.15em;
+            color: var(--gold);
+            opacity: 0.7;
+            transition: all 0.3s ease;
+            position: relative;
+            padding-bottom: 2px;
         }
-        .gold-btn:hover {
-            background: rgba(197, 160, 89, 0.2);
-            border-color: var(--gold); transform: translateY(-2px);
+        .project-link:hover {
+            opacity: 1;
+        }
+        .project-link::after {
+            content: '';
+            position: absolute; width: 0; height: 1px; bottom: 0; left: 0;
+            background-color: var(--gold);
+            transition: width 0.3s ease;
+        }
+        .project-link:hover::after {
+            width: 100%;
+        }
+        .link-divider {
+            color: rgba(197, 160, 89, 0.3);
+            font-size: 10px;
+            margin: 0 8px;
         }
     </style>
 </head>
@@ -90,7 +99,6 @@
             <a href="#" class="h-full py-2 flex items-center">
                 <img src="hekionlogo.png" alt="HEKION" class="h-full w-auto object-contain">
             </a>
-            
             <button id="menu-btn" class="relative w-10 h-10 flex flex-col items-end justify-center gap-1.5 focus:outline-none group">
                 <span class="line line-1 w-8 h-[1px] bg-white group-hover:bg-[#c5a059]"></span>
                 <span class="line line-2 w-5 h-[1px] bg-white group-hover:w-8 group-hover:bg-[#c5a059]"></span>
@@ -111,7 +119,7 @@
                 <h1 class="text-xl md:text-3xl font-light tracking-[0.6em] mb-4">発見・楽しさ・繋がり</h1>
                 <div class="h-[1px] w-12 bg-[#c5a059] mx-auto mb-6 opacity-50"></div>
                 <p class="text-[9px] md:text-xs tracking-[0.3em] text-[#c5a059] font-sans uppercase">The World of HEKION</p>
-                <p class="max-w-xl mx-auto mt-8 text-xs text-gray-400 leading-relaxed tracking-widest">
+                <p class="max-w-xl mx-auto mt-8 text-xs text-gray-400 leading-relaxed tracking-widest px-4">
                     私たちは、デジタルの海と現実の世界を繋ぎ、<br>
                     まだ見ぬ感動と新しい文化の形を創造します。
                 </p>
@@ -133,25 +141,28 @@
                 <div class="reveal interactive-item p-12 flex flex-col items-center text-center">
                     <div class="h-20 md:h-24 mb-10"><img src="ganarlogo.png" alt="GANAR" class="h-full w-full object-contain"></div>
                     <p class="text-gray-500 text-[11px] leading-loose mb-10">eSportsチーム運営。競技とエンタテインメントを融合させ、新たな文化を創出します。</p>
-                    <div class="flex gap-4 mb-8">
-                        <a href="https://x.com/GANAR_games" target="_blank" class="gold-btn"><i class="fa-brands fa-x-twitter"></i></a>
+                    <div class="flex items-center justify-center font-sans">
+                        <a href="https://hekion.github.io/ganar/index.html" class="project-link">SITE</a>
+                        <span class="link-divider">/</span>
+                        <a href="https://x.com/GANAR_games" target="_blank" class="project-link">X</a>
                     </div>
-                    <a href="https://hekion.github.io/ganar/index.html" class="text-[9px] tracking-[0.4em] uppercase border-b border-[#c5a059]/40 pb-1">Visit Site</a>
                 </div>
                 <div class="reveal interactive-item p-12 flex flex-col items-center text-center">
                     <div class="h-20 md:h-24 mb-10"><img src="goalinklogo.png" alt="Goalink" class="h-full w-full object-contain"></div>
                     <p class="text-gray-500 text-[11px] leading-loose mb-10">Jリーグ専門メディア。独自の視点とデータで、日本サッカーの魅力を世界へ発信します。</p>
-                    <div class="flex gap-4 mb-8">
-                        <a href="https://x.com/Goalink_JP" target="_blank" class="gold-btn"><i class="fa-brands fa-x-twitter"></i></a>
-                        <a href="https://note.com/goalink_jp" target="_blank" class="gold-btn"><i class="fa-solid fa-note-sticky"></i></a>
+                    <div class="flex items-center justify-center font-sans">
+                        <a href="https://hekion.github.io/goalinkjp/" class="project-link">SITE</a>
+                        <span class="link-divider">/</span>
+                        <a href="https://x.com/Goalink_JP" target="_blank" class="project-link">X</a>
+                        <span class="link-divider">/</span>
+                        <a href="https://note.com/goalink_jp" target="_blank" class="project-link">NOTE</a>
                     </div>
-                    <a href="https://hekion.github.io/goalinkjp/" class="text-[9px] tracking-[0.4em] uppercase border-b border-[#c5a059]/40 pb-1">Visit Site</a>
                 </div>
                 <div class="reveal interactive-item p-12 flex flex-col items-center text-center">
                     <div class="h-20 md:h-24 mb-10"><img src="travid-logo.png" alt="TRAVID" class="h-full w-full object-contain"></div>
-                    <p class="text-gray-600 text-[10px] italic mb-10">Preparing for the next journey...</p>
-                    <div class="flex gap-4">
-                        <a href="https://note.com/travid_" target="_blank" class="gold-btn"><i class="fa-solid fa-note-sticky"></i></a>
+                    <p class="text-gray-600 text-[10px] italic mb-10 leading-loose">Preparing for the next journey...</p>
+                    <div class="flex items-center justify-center font-sans">
+                        <a href="https://note.com/travid_" target="_blank" class="project-link">NOTE</a>
                     </div>
                 </div>
             </div>

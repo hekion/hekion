@@ -24,9 +24,9 @@
 
         /* 16:9スライダー */
         @keyframes hero-fade {
-            0%, 100% { opacity: 0; filter: brightness(0.8); }
-            10%, 35% { opacity: 1; filter: brightness(1); }
-            45% { opacity: 0; filter: brightness(0.8); }
+            0%, 100% { opacity: 0; }
+            10%, 35% { opacity: 1; }
+            45% { opacity: 0; }
         }
         .hero-slide {
             position: absolute; inset: 0; width: 100%; height: 100%;
@@ -43,11 +43,6 @@
         .reveal.active {
             opacity: 1;
             transform: translateY(0);
-        }
-
-        /* カードの金色補正用フィルタ (TRAVID等に適用) */
-        .gold-filter {
-            filter: sepia(100%) saturate(500%) hue-rotate(10deg) brightness(90%);
         }
 
         .interactive-item {
@@ -109,15 +104,15 @@
                 <div class="reveal interactive-item p-10 flex flex-col items-center text-center">
                     <div class="h-12 mb-8"><img src="ganarlogo.png" alt="GANAR" class="h-full object-contain"></div>
                     <p class="text-gray-500 text-[11px] leading-loose mb-8">eSportsチーム運営。競技とエンタテインメントを融合させ、新たな文化を創出します。</p>
-                    <a href="https://hekion.github.io/ganar/index.html" class="text-[9px] tracking-[0.3em] uppercase border-b border-[#c5a059]/30 pb-1">Visit Site</a>
+                    <a href="https://hekion.github.io/ganar/index.html" class="text-[9px] tracking-[0.4em] uppercase border-b border-[#c5a059]/30 pb-1">Visit Site</a>
                 </div>
                 <div class="reveal interactive-item p-10 flex flex-col items-center text-center">
                     <div class="h-12 mb-8"><img src="goalinklogo.png" alt="Goalink" class="h-full object-contain"></div>
                     <p class="text-gray-500 text-[11px] leading-loose mb-8">Jリーグ専門メディア。独自の視点とデータで、日本サッカーの魅力を世界へ発信します。</p>
-                    <a href="https://hekion.github.io/goalinkjp/" class="text-[9px] tracking-[0.3em] uppercase border-b border-[#c5a059]/30 pb-1">Visit Site</a>
+                    <a href="https://hekion.github.io/goalinkjp/" class="text-[9px] tracking-[0.4em] uppercase border-b border-[#c5a059]/30 pb-1">Visit Site</a>
                 </div>
-                <div class="reveal interactive-item p-10 flex flex-col items-center text-center opacity-80">
-                    <div class="h-12 mb-8"><img src="travid-logo.png" alt="TRAVID" class="h-full object-contain gold-filter"></div>
+                <div class="reveal interactive-item p-10 flex flex-col items-center text-center">
+                    <div class="h-12 mb-8"><img src="travid-logo.png" alt="TRAVID" class="h-full object-contain"></div>
                     <p class="text-gray-600 text-[10px] italic mt-4">Preparing for the next journey...</p>
                 </div>
             </div>

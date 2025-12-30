@@ -45,12 +45,15 @@
         .menu-link { opacity: 0; transform: translateX(30px); transition: all 0.6s ease; }
         #sidebar.open .menu-link { opacity: 1; transform: translateX(0); }
 
+        /* 筆文字「碧音」の濃度調整 */
         .fude-text {
             writing-mode: vertical-rl;
             font-family: 'Yuji Syuku', serif;
             position: absolute; left: 20px; bottom: 40px;
-            font-size: 15vh; color: rgba(197, 160, 89, 0.15);
-            pointer-events: none; line-height: 1; z-index: 0;
+            font-size: 15vh; 
+            color: rgba(197, 160, 89, 0.15);
+            pointer-events: none; line-height: 1;
+            z-index: 0;
         }
 
         .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
@@ -61,16 +64,20 @@
             border: 1px solid rgba(197, 160, 89, 0.08);
             transition: all 0.4s ease;
         }
+        .interactive-item:hover {
+            border-color: var(--gold);
+            background: rgba(197, 160, 89, 0.05);
+        }
 
         /* プロジェクトリンクのタップエリア改善 */
         .project-link {
-            font-size: 11px; /* 10pxから11pxへ微増 */
+            font-size: 11px;
             letter-spacing: 0.2em;
             color: var(--gold);
             opacity: 0.7;
             transition: all 0.3s ease;
             position: relative;
-            padding: 10px 12px; /* タップ範囲を拡大 */
+            padding: 10px 12px;
             display: inline-block;
         }
         .project-link:hover { opacity: 1; }
@@ -87,7 +94,7 @@
             color: rgba(197, 160, 89, 0.2);
             font-size: 10px;
             user-select: none;
-            margin: 0 -2px; /* パディングを含めた調整 */
+            margin: 0 -2px;
         }
     </style>
 </head>
@@ -136,7 +143,7 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
                 <div class="reveal interactive-item p-12 flex flex-col items-center text-center">
                     <div class="h-28 md:h-32 mb-10 w-full"><img src="ganarlogo.png" alt="GANAR" class="h-full w-full object-contain"></div>
-                    <p class="text-gray-500 text-[11px] leading-loose mb-10">eSportsチーム運営。競技とエンタテインメントを融合させ、新たな文化を創出します。</p>
+                    <p class="text-gray-500 text-[11px] leading-loose mb-10">「楽しんだもん勝ち」が合言葉。強さだけではなく、プレイする側も観る側も、心からワクワクできる瞬間を追求するエンジョイ・eSportsチーム。</p>
                     <div class="flex items-center justify-center font-sans">
                         <a href="https://hekion.github.io/ganar/index.html" class="project-link"><span>SITE</span></a>
                         <span class="link-divider">/</span>
@@ -145,7 +152,7 @@
                 </div>
                 <div class="reveal interactive-item p-12 flex flex-col items-center text-center">
                     <div class="h-28 md:h-32 mb-10 w-full"><img src="goalinklogo.png" alt="Goalink" class="h-full w-full object-contain"></div>
-                    <p class="text-gray-500 text-[11px] leading-loose mb-10">Jリーグ専門メディア。独自の視点とデータで、日本サッカーの魅力を世界へ発信します。</p>
+                    <p class="text-gray-500 text-[11px] leading-loose mb-10">Jリーグをもっと身近に。一人のサポーターとしての視点を大切にしながら、スタジアムの空気感を自分たちの言葉で伝える Jリーグ情報サイト。</p>
                     <div class="flex items-center justify-center font-sans">
                         <a href="https://hekion.github.io/goalinkjp/" class="project-link"><span>SITE</span></a>
                         <span class="link-divider">/</span>
@@ -156,7 +163,7 @@
                 </div>
                 <div class="reveal interactive-item p-12 flex flex-col items-center text-center">
                     <div class="h-28 md:h-32 mb-10 w-full"><img src="travid-logo.png" alt="TRAVID" class="h-full w-full object-contain"></div>
-                    <p class="text-gray-600 text-[10px] italic mb-10 leading-loose">Preparing for the next journey...</p>
+                    <p class="text-gray-500 text-[11px] leading-loose mb-10">旅のお供に。テーマに沿った歩き方や、周辺の観光情報など、あなたの旅がもっと楽しくなるヒントを提案。</p>
                     <div class="flex items-center justify-center font-sans">
                         <a href="https://note.com/travid_" target="_blank" class="project-link"><span>NOTE</span></a>
                     </div>

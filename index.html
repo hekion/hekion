@@ -22,40 +22,48 @@
             opacity: 0.03; pointer-events: none; z-index: 100;
         }
 
-        /* 16:9スライダー */
         @keyframes hero-fade { 0%, 100% { opacity: 0; } 5%, 25% { opacity: 1; } 30% { opacity: 0; } }
         .hero-slide { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; animation: hero-fade 16s infinite; }
 
-        /* スマート・ヘッダー（初期透明） */
         header { transition: background-color 0.5s ease, border-color 0.5s ease; border-bottom: 1px solid transparent; }
         header.scrolled { background-color: rgba(9, 14, 26, 0.95); backdrop-filter: blur(10px); border-bottom-color: rgba(255, 255, 255, 0.05); }
 
-        /* メニューボタン */
         #menu-btn .line { transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1); }
         #menu-btn.open .line-1 { transform: translateY(4px) rotate(45deg); width: 32px; }
         #menu-btn.open .line-2 { transform: translateY(-4px) rotate(-45deg); width: 32px; }
 
-        /* サイドメニュー */
-        #sidebar { transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); transform: translateX(100%); }
+        /* サイドメニュー強化 */
+        #sidebar { 
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); 
+            transform: translateX(100%); 
+            background: linear-gradient(to left, #060a12, #090e1a);
+        }
         #sidebar.open { transform: translateX(0); }
-        .menu-link { opacity: 0; transform: translateX(30px); transition: all 0.6s ease; }
+        
+        /* メニュー背景の装飾ライン（組子イメージ） */
+        #sidebar::after {
+            content: ''; position: absolute; top: 0; right: 40px; width: 1px; height: 100%;
+            background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+            opacity: 0.1;
+        }
+
+        .menu-link { opacity: 0; transform: translateX(40px); transition: all 0.8s ease; }
         #sidebar.open .menu-link { opacity: 1; transform: translateX(0); }
 
         .fude-text {
             writing-mode: vertical-rl; font-family: 'Yuji Syuku', serif;
-            position: absolute; left: 20px; bottom: 40px; font-size: 15vh; 
-            color: rgba(197, 160, 89, 0.15); pointer-events: none; line-height: 1; z-index: 0;
+            position: absolute; left: 5%; bottom: 10%; font-size: 12vh; 
+            color: rgba(197, 160, 89, 0.1); pointer-events: none; line-height: 1; z-index: 0;
+            transition: all 1.5s ease; transform: translateY(20px); opacity: 0;
         }
+        #sidebar.open .fude-text { transform: translateY(0); opacity: 1; }
 
-        /* ふわっと現れる演出 */
         .reveal { opacity: 0; transform: translateY(20px); transition: opacity 1.2s ease, transform 1.2s ease; }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* 文字を一文字ずつ出す（CONCEPT用） */
         .char { display: inline-block; opacity: 0; transform: translateY(10px); transition: all 0.6s ease; }
         .active .char { opacity: 1; transform: translateY(0); }
 
-        /* 中央から伸びる金糸（ライン） */
         .gold-line {
             width: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent);
             margin: 0 auto; transition: width 1.5s cubic-bezier(0.16, 1, 0.3, 1);
@@ -115,13 +123,17 @@
             </div>
         </section>
 
-        <nav id="sidebar" class="fixed top-0 right-0 h-full w-full md:w-[450px] bg-[#060a12] z-[60] border-l border-white/5 overflow-hidden shadow-2xl">
+        <nav id="sidebar" class="fixed top-0 right-0 h-full w-full md:w-[450px] z-[60] border-l border-white/5 overflow-hidden shadow-2xl">
             <div class="fude-text">碧音</div>
-            <div class="flex flex-col h-full pt-40 px-16 space-y-12 relative z-10">
-                <div class="menu-link" style="transition-delay: 0.1s;"><a href="#" class="group flex items-center gap-4"><span class="w-0 h-[1px] bg-[#c5a059] transition-all group-hover:w-8"></span><span class="text-2xl font-light tracking-[0.3em] hover:text-[#c5a059]">HOME</span></a></div>
-                <div class="menu-link" style="transition-delay: 0.2s;"><a href="#concept" class="group flex items-center gap-4"><span class="w-0 h-[1px] bg-[#c5a059] transition-all group-hover:w-8"></span><span class="text-2xl font-light tracking-[0.3em] hover:text-[#c5a059]">CONCEPT</span></a></div>
-                <div class="menu-link" style="transition-delay: 0.3s;"><a href="#projects" class="group flex items-center gap-4"><span class="w-0 h-[1px] bg-[#c5a059] transition-all group-hover:w-8"></span><span class="text-2xl font-light tracking-[0.3em] hover:text-[#c5a059]">PROJECTS</span></a></div>
-                <div class="menu-link" style="transition-delay: 0.4s;"><a href="#news" class="group flex items-center gap-4"><span class="w-0 h-[1px] bg-[#c5a059] transition-all group-hover:w-8"></span><span class="text-2xl font-light tracking-[0.3em] hover:text-[#c5a059]">NEWS</span></a></div>
+            <div class="flex flex-col h-full pt-40 px-12 md:px-20 space-y-10 relative z-10">
+                <div class="menu-link" style="transition-delay: 0.2s;"><a href="#" class="group flex items-center gap-6"><span class="w-2 h-2 rounded-full border border-[#c5a059] group-hover:bg-[#c5a059] transition-all"></span><span class="text-xl md:text-2xl font-light tracking-[0.4em] hover:text-[#c5a059] transition-colors">HOME</span></a></div>
+                <div class="menu-link" style="transition-delay: 0.3s;"><a href="#concept" class="group flex items-center gap-6"><span class="w-2 h-2 rounded-full border border-[#c5a059] group-hover:bg-[#c5a059] transition-all"></span><span class="text-xl md:text-2xl font-light tracking-[0.4em] hover:text-[#c5a059] transition-colors">CONCEPT</span></a></div>
+                <div class="menu-link" style="transition-delay: 0.4s;"><a href="#projects" class="group flex items-center gap-6"><span class="w-2 h-2 rounded-full border border-[#c5a059] group-hover:bg-[#c5a059] transition-all"></span><span class="text-xl md:text-2xl font-light tracking-[0.4em] hover:text-[#c5a059] transition-colors">PROJECTS</span></a></div>
+                <div class="menu-link" style="transition-delay: 0.5s;"><a href="#news" class="group flex items-center gap-6"><span class="w-2 h-2 rounded-full border border-[#c5a059] group-hover:bg-[#c5a059] transition-all"></span><span class="text-xl md:text-2xl font-light tracking-[0.4em] hover:text-[#c5a059] transition-colors">NEWS</span></a></div>
+                
+                <div class="menu-link pt-10" style="transition-delay: 0.6s;">
+                    <p class="text-[9px] tracking-[0.5em] text-[#c5a059]/40 uppercase font-sans italic">Established 2026</p>
+                </div>
             </div>
         </nav>
 
@@ -192,7 +204,6 @@
     </footer>
 
     <script>
-        // 一文字ずつ表示する準備
         const conceptTitle = document.getElementById('typing-concept');
         const text = conceptTitle.textContent;
         conceptTitle.textContent = '';
@@ -204,7 +215,6 @@
             conceptTitle.appendChild(span);
         });
 
-        // ヘッダースクロール制御
         window.addEventListener('scroll', () => {
             const header = document.getElementById('main-header');
             if (window.scrollY > 100) { header.classList.add('scrolled'); }

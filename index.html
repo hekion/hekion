@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;700&family=Yuji+Syuku&display=swap" rel="stylesheet">
     <style>
-        :root { --navy: #090e1a; --gold: #c5a059; --gold-light: rgba(197, 160, 89, 0.2); }
+        :root { --navy: #090e1a; --gold: #c5a059; }
         html { scroll-behavior: smooth; }
         body {
             background-color: var(--navy);
@@ -16,24 +16,19 @@
             overflow-x: hidden;
         }
 
-        /* 和紙の質感を少し強調 */
         .washi-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-image: url('https://www.transparenttextures.com/patterns/p6.png');
-            opacity: 0.05; pointer-events: none; z-index: 100;
+            opacity: 0.03; pointer-events: none; z-index: 100;
         }
 
         /* 16:9スライダー */
-        @keyframes hero-fade {
-            0%, 100% { opacity: 0; }
-            5%, 25% { opacity: 1; }
-            30% { opacity: 0; }
-        }
-        .hero-slide {
-            position: absolute; inset: 0; width: 100%; height: 100%;
-            object-fit: cover; opacity: 0;
-            animation: hero-fade 16s infinite;
-        }
+        @keyframes hero-fade { 0%, 100% { opacity: 0; } 5%, 25% { opacity: 1; } 30% { opacity: 0; } }
+        .hero-slide { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; animation: hero-fade 16s infinite; }
+
+        /* スマート・ヘッダー（初期透明） */
+        header { transition: background-color 0.5s ease, border-color 0.5s ease; border-bottom: 1px solid transparent; }
+        header.scrolled { background-color: rgba(9, 14, 26, 0.95); backdrop-filter: blur(10px); border-bottom-color: rgba(255, 255, 255, 0.05); }
 
         /* メニューボタン */
         #menu-btn .line { transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1); }
@@ -47,82 +42,51 @@
         #sidebar.open .menu-link { opacity: 1; transform: translateX(0); }
 
         .fude-text {
-            writing-mode: vertical-rl;
-            font-family: 'Yuji Syuku', serif;
-            position: absolute; left: 20px; bottom: 40px;
-            font-size: 15vh; 
-            color: rgba(197, 160, 89, 0.12);
-            pointer-events: none; line-height: 1;
-            z-index: 0;
+            writing-mode: vertical-rl; font-family: 'Yuji Syuku', serif;
+            position: absolute; left: 20px; bottom: 40px; font-size: 15vh; 
+            color: rgba(197, 160, 89, 0.15); pointer-events: none; line-height: 1; z-index: 0;
         }
 
-        /* 墨が滲むようなフェードイン */
-        .reveal { opacity: 0; filter: blur(15px); transform: translateY(30px); transition: all 1.2s cubic-bezier(0.22, 1, 0.36, 1); }
-        .reveal.active { opacity: 1; filter: blur(0); transform: translateY(0); }
+        /* ふわっと現れる演出 */
+        .reveal { opacity: 0; transform: translateY(20px); transition: opacity 1.2s ease, transform 1.2s ease; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* 文字を一文字ずつ出す（CONCEPT用） */
+        .char { display: inline-block; opacity: 0; transform: translateY(10px); transition: all 0.6s ease; }
+        .active .char { opacity: 1; transform: translateY(0); }
+
+        /* 中央から伸びる金糸（ライン） */
+        .gold-line {
+            width: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            margin: 0 auto; transition: width 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .active .gold-line { width: 100%; }
 
         .interactive-item {
             background: rgba(255, 255, 255, 0.01);
             border: 1px solid rgba(197, 160, 89, 0.08);
             transition: all 0.5s ease;
-            position: relative;
-            overflow: hidden;
         }
-        /* 金箔のようなグラデーションホバー */
-        .interactive-item:hover {
-            border-color: var(--gold);
-            background: linear-gradient(145deg, rgba(197, 160, 89, 0.02) 0%, rgba(197, 160, 89, 0.08) 50%, rgba(197, 160, 89, 0.02) 100%);
-            box-shadow: 0 0 30px rgba(197, 160, 89, 0.05);
-        }
+        .interactive-item:hover { border-color: var(--gold); background: rgba(197, 160, 89, 0.05); transform: translateY(-5px); }
 
         .project-link {
-            font-size: 11px;
-            letter-spacing: 0.2em;
-            color: var(--gold);
-            opacity: 0.7;
-            transition: all 0.3s ease;
-            position: relative;
-            padding: 10px 12px;
-            display: inline-block;
+            font-size: 11px; letter-spacing: 0.2em; color: var(--gold);
+            opacity: 0.7; transition: all 0.3s ease; position: relative; padding: 10px 12px; display: inline-block;
         }
         .project-link:hover { opacity: 1; }
         .project-link span::after {
-            content: '';
-            position: absolute; width: 0; height: 1px; bottom: 0; left: 0;
-            background-color: var(--gold);
-            transition: width 0.3s ease;
+            content: ''; position: absolute; width: 0; height: 1px; bottom: 0; left: 0;
+            background-color: var(--gold); transition: width 0.3s ease;
         }
         .project-link:hover span::after { width: 100%; }
         
-        .link-divider { color: rgba(197, 160, 89, 0.2); font-size: 10px; margin: 0 -2px; }
-
-        /* セクション見出しの強化（縦書き添え字） */
-        .section-header {
-            position: relative;
-            display: inline-block;
-            margin-bottom: 5rem;
-        }
-        .section-title {
-            font-size: 1.125rem;
-            font-weight: 300;
-            letter-spacing: 0.8em;
-            text-transform: uppercase;
-        }
-        .section-sub-jp {
-            writing-mode: vertical-rl;
-            position: absolute;
-            top: -10px;
-            right: -2.5rem;
-            font-size: 10px;
-            letter-spacing: 0.4em;
-            color: var(--gold);
-            opacity: 0.6;
-        }
+        .section-title { font-size: 1.125rem; font-weight: 300; letter-spacing: 0.8em; text-transform: uppercase; text-align: center; margin-bottom: 3rem; }
     </style>
 </head>
 <body>
     <div class="washi-overlay"></div>
 
-    <header class="fixed w-full top-0 z-[70] bg-[#090e1a]/80 backdrop-blur-md border-b border-white/5">
+    <header id="main-header" class="fixed w-full top-0 z-[70]">
         <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
             <a href="#" class="h-full py-2 flex items-center">
                 <img src="hekionlogo.png" alt="HEKION" class="h-full w-auto object-contain">
@@ -134,7 +98,7 @@
         </div>
     </header>
 
-    <main class="pt-16">
+    <main>
         <section class="relative w-full aspect-video bg-black overflow-hidden shadow-2xl">
             <img src="slider-1.png" class="hero-slide" style="animation-delay: 0s;">
             <img src="slider-2.png" class="hero-slide" style="animation-delay: 4s;">
@@ -142,15 +106,12 @@
             <img src="slider-4.png" class="hero-slide" style="animation-delay: 12s;">
         </section>
 
-        <section id="concept" class="py-40 px-6 text-center">
-            <div class="reveal">
-                <div class="section-header">
-                    <h2 class="section-title">CONCEPT</h2>
-                    <span class="section-sub-jp">活動理念</span>
-                </div>
-                <h3 class="text-xl md:text-3xl font-light tracking-[0.6em] mb-10 leading-relaxed">発見・楽しさ・繋がり</h3>
-                <div class="h-[1px] w-16 bg-[#c5a059] mx-auto mb-8 opacity-40"></div>
-                <p class="text-[10px] md:text-xs tracking-[0.4em] text-[#c5a059] font-sans uppercase">The World of HEKION</p>
+        <section id="concept" class="py-32 px-6 text-center">
+            <div class="reveal max-w-4xl mx-auto">
+                <h2 class="section-title">CONCEPT</h2>
+                <h3 id="typing-concept" class="text-xl md:text-3xl font-light tracking-[0.6em] mb-10 leading-relaxed">発見・楽しさ・繋がり</h3>
+                <div class="gold-line mb-8"></div>
+                <p class="text-[9px] md:text-xs tracking-[0.3em] text-[#c5a059] font-sans uppercase">The World of HEKION</p>
             </div>
         </section>
 
@@ -164,27 +125,22 @@
             </div>
         </nav>
 
-        <section id="projects" class="py-32 px-6 max-w-7xl mx-auto text-center">
-            <div class="reveal">
-                <div class="section-header">
-                    <h2 class="section-title">PROJECTS</h2>
-                    <span class="section-sub-jp">事業展開</span>
-                </div>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mt-4">
-                <div class="reveal interactive-item p-12 flex flex-col items-center">
-                    <div class="h-28 md:h-32 mb-10 w-full"><img src="ganarlogo.png" alt="GANAR" class="h-full w-full object-contain"></div>
-                    <p class="text-gray-500 text-[11px] leading-[2.2] mb-10 font-light">「楽しんだもん勝ち」が合言葉。強さだけではなく、プレイする側も観る側も、心からワクワクできる瞬間を追求するエンジョイチーム。</p>
-                    <div class="flex items-center justify-center font-sans mt-auto">
+        <section id="projects" class="py-24 px-6 max-w-7xl mx-auto">
+            <div class="reveal"><h2 class="section-title">PROJECTS</h2></div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                <div class="reveal interactive-item p-12 flex flex-col items-center text-center" style="transition-delay: 0.1s;">
+                    <div class="h-28 md:h-32 mb-10 w-full hover:scale-105 transition-transform duration-700"><img src="ganarlogo.png" alt="GANAR" class="h-full w-full object-contain"></div>
+                    <p class="text-gray-500 text-[11px] leading-loose mb-10">「楽しんだもん勝ち」が合言葉。強さだけではなく、プレイする側も観る側も、心からワクワクできる瞬間を追求するエンジョイチーム。</p>
+                    <div class="flex items-center justify-center font-sans">
                         <a href="https://hekion.github.io/ganar/index.html" class="project-link"><span>SITE</span></a>
                         <span class="link-divider">/</span>
                         <a href="https://x.com/GANAR_games" target="_blank" class="project-link"><span>X</span></a>
                     </div>
                 </div>
-                <div class="reveal interactive-item p-12 flex flex-col items-center">
-                    <div class="h-28 md:h-32 mb-10 w-full"><img src="goalinklogo.png" alt="Goalink" class="h-full w-full object-contain"></div>
-                    <p class="text-gray-500 text-[11px] leading-[2.2] mb-10 font-light">Jリーグをもっと身近に。一人のサポーターとしての視点を大切にしながら、スタジアムの空気感を自分たちの言葉で伝える Jリーグ情報サイト。</p>
-                    <div class="flex items-center justify-center font-sans mt-auto">
+                <div class="reveal interactive-item p-12 flex flex-col items-center text-center" style="transition-delay: 0.3s;">
+                    <div class="h-28 md:h-32 mb-10 w-full hover:scale-105 transition-transform duration-700"><img src="goalinklogo.png" alt="Goalink" class="h-full w-full object-contain"></div>
+                    <p class="text-gray-500 text-[11px] leading-loose mb-10">Jリーグをもっと身近に。一人のサポーターとしての視点を大切にしながら、スタジアムの空気感を自分たちの言葉で伝える Jリーグ情報サイト。</p>
+                    <div class="flex items-center justify-center font-sans">
                         <a href="https://hekion.github.io/goalinkjp/" class="project-link"><span>SITE</span></a>
                         <span class="link-divider">/</span>
                         <a href="https://x.com/Goalink_JP" target="_blank" class="project-link"><span>X</span></a>
@@ -192,49 +148,69 @@
                         <a href="https://note.com/goalink_jp" target="_blank" class="project-link"><span>NOTE</span></a>
                     </div>
                 </div>
-                <div class="reveal interactive-item p-12 flex flex-col items-center">
-                    <div class="h-28 md:h-32 mb-10 w-full"><img src="travid-logo.png" alt="TRAVID" class="h-full w-full object-contain"></div>
-                    <p class="text-gray-500 text-[11px] leading-[2.2] mb-10 font-light">旅のお供に。テーマに沿った歩き方や、周辺の観光情報など、あなたの旅がもっと楽しくなるヒントを提案。</p>
-                    <div class="flex items-center justify-center font-sans mt-auto">
+                <div class="reveal interactive-item p-12 flex flex-col items-center text-center" style="transition-delay: 0.5s;">
+                    <div class="h-28 md:h-32 mb-10 w-full hover:scale-105 transition-transform duration-700"><img src="travid-logo.png" alt="TRAVID" class="h-full w-full object-contain"></div>
+                    <p class="text-gray-500 text-[11px] leading-loose mb-10">旅のお供に。テーマに沿った歩き方や、周辺の観光情報など、あなたの旅がもっと楽しくなるヒントを提案。</p>
+                    <div class="flex items-center justify-center font-sans">
                         <a href="https://note.com/travid_" target="_blank" class="project-link"><span>NOTE</span></a>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="news" class="py-32 px-6 border-t border-white/5 text-center">
+        <section id="news" class="py-24 px-6">
             <div class="max-w-4xl mx-auto">
-                <div class="reveal">
-                    <div class="section-header">
-                        <h2 class="section-title">NEWS</h2>
-                        <span class="section-sub-jp">最新情報</span>
+                <div class="reveal"><h2 class="section-title">NEWS</h2><div class="gold-line mb-12"></div></div>
+                <div class="space-y-3">
+                    <div class="reveal interactive-item p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div class="flex items-center gap-4"><span class="text-[9px] font-sans text-gray-500">2026.01.01</span><span class="text-[8px] px-2 py-0.5 border border-[#c5a059]/50 text-[#c5a059] uppercase">Ganar</span></div>
+                        <a href="#" class="text-xs md:text-sm tracking-widest flex-1 text-[#c5a059]">GANAR 新メンバー募集開始のお知らせ</a>
+                    </div>
+                    <div class="reveal interactive-item p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div class="flex items-center gap-4"><span class="text-[9px] font-sans text-gray-500">2026.01.01</span><span class="text-[8px] px-2 py-0.5 border border-white/10 text-white/40 uppercase">Hekion</span></div>
+                        <a href="#" class="text-xs md:text-sm tracking-widest flex-1">HEKIONブランドサイトオープンのお知らせ</a>
+                    </div>
+                    <div class="reveal interactive-item p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div class="flex items-center gap-4"><span class="text-[9px] font-sans text-gray-500">2026.01.01</span><span class="text-[8px] px-2 py-0.5 border border-white/10 text-white/40 uppercase">Goalink</span></div>
+                        <a href="#" class="text-xs md:text-sm tracking-widest flex-1">Goalink公式サイト、公式noteオープンのお知らせ</a>
+                    </div>
+                    <div class="reveal interactive-item p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div class="flex items-center gap-4"><span class="text-[9px] font-sans text-gray-500">2026.01.01</span><span class="text-[8px] px-2 py-0.5 border border-white/10 text-white/40 uppercase">Ganar</span></div>
+                        <a href="#" class="text-xs md:text-sm tracking-widest flex-1">GANAR公式サイトオープンのお知らせ</a>
+                    </div>
+                    <div class="reveal interactive-item p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div class="flex items-center gap-4"><span class="text-[9px] font-sans text-gray-500">2026.01.01</span><span class="text-[8px] px-2 py-0.5 border border-white/10 text-white/40 uppercase">Travid</span></div>
+                        <a href="#" class="text-xs md:text-sm tracking-widest flex-1">TRAVID公式noteオープンのお知らせ</a>
                     </div>
                 </div>
-                <div class="space-y-4 mt-8">
-                    <div class="reveal interactive-item p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
-                        <div class="flex items-center gap-6">
-                            <span class="text-[10px] font-sans text-gray-500 tracking-tighter">2026.01.01</span>
-                            <span class="text-[8px] px-2 py-0.5 border border-[#c5a059]/40 text-[#c5a059] uppercase tracking-widest">Ganar</span>
-                        </div>
-                        <a href="#" class="text-xs md:text-sm tracking-[0.15em] flex-1 text-left md:text-center text-[#c5a059]">GANAR 新メンバー募集開始のお知らせ</a>
-                    </div>
-                    <div class="reveal interactive-item p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
-                        <div class="flex items-center gap-6">
-                            <span class="text-[10px] font-sans text-gray-500 tracking-tighter">2026.01.01</span>
-                            <span class="text-[8px] px-2 py-0.5 border border-white/20 text-white/60 uppercase tracking-widest">Hekion</span>
-                        </div>
-                        <a href="#" class="text-xs md:text-sm tracking-[0.15em] flex-1 text-left md:text-center">HEKIONブランドサイトオープンのお知らせ</a>
-                    </div>
-                    </div>
             </div>
         </section>
     </main>
 
-    <footer class="py-20 text-center border-t border-white/5">
-        <p class="text-gray-600 text-[10px] tracking-[0.5em] uppercase font-sans">&copy; 2026 HEKION GROUP</p>
+    <footer class="py-16 text-center border-t border-white/5">
+        <p class="text-gray-600 text-[9px] tracking-[0.4em] uppercase">&copy; 2026 HEKION GROUP</p>
     </footer>
 
     <script>
+        // 一文字ずつ表示する準備
+        const conceptTitle = document.getElementById('typing-concept');
+        const text = conceptTitle.textContent;
+        conceptTitle.textContent = '';
+        [...text].forEach((char, i) => {
+            const span = document.createElement('span');
+            span.textContent = char;
+            span.className = 'char';
+            span.style.transitionDelay = `${i * 0.1}s`;
+            conceptTitle.appendChild(span);
+        });
+
+        // ヘッダースクロール制御
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('main-header');
+            if (window.scrollY > 100) { header.classList.add('scrolled'); }
+            else { header.classList.remove('scrolled'); }
+        });
+
         const sidebar = document.getElementById('sidebar');
         const menuBtn = document.getElementById('menu-btn');
         const menuLinks = document.querySelectorAll('.menu-link a');
@@ -244,12 +220,12 @@
             document.body.style.overflow = isOpen ? 'hidden' : '';
         };
         menuLinks.forEach(link => { link.onclick = () => { sidebar.classList.remove('open'); menuBtn.classList.remove('open'); document.body.style.overflow = ''; }; });
-        
+
         const reveal = () => {
             const reveals = document.querySelectorAll('.reveal');
             reveals.forEach(r => {
                 const elementTop = r.getBoundingClientRect().top;
-                if (elementTop < window.innerHeight - 100) r.classList.add('active');
+                if (elementTop < window.innerHeight - 50) r.classList.add('active');
             });
         };
         window.addEventListener('scroll', reveal);

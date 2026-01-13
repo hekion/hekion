@@ -72,14 +72,22 @@
         .container { height: 100vh; overflow-y: scroll; scroll-snap-type: y mandatory; scroll-behavior: smooth; }
         section { height: 100vh; width: 100%; display: flex; align-items: center; justify-content: center; position: relative; scroll-snap-align: start; overflow: hidden; }
 
-        /* 縦書き装飾 */
+        /* 縦書き装飾（表示されない問題を修正） */
         .vertical-text {
-            writing-mode: vertical-rl; position: absolute; right: 8%; top: 50%; transform: translateY(-50%);
-            letter-spacing: 0.6em; color: var(--accent-gold); font-size: 0.85rem; opacity: 0.7; z-index: 20;
+            writing-mode: vertical-rl;
+            position: absolute;
+            right: 5%; /* 少し内側へ移動 */
+            top: 50%;
+            transform: translateY(-50%);
+            letter-spacing: 0.6em;
+            color: var(--accent-gold);
+            font-size: 0.9rem;
+            opacity: 1; /* 透明度を1にして確実に見えるように */
+            z-index: 50; /* コンテンツより前面へ */
+            pointer-events: none;
         }
 
         .content { z-index: 10; text-align: center; width: 90%; }
-        /* フィルターを削除 */
         .brand-logo { width: clamp(200px, 25vw, 350px); margin-bottom: 25px; }
         
         .project-visual { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }

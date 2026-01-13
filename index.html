@@ -15,148 +15,149 @@
             overflow-x: hidden;
         }
 
-        /* 和紙の質感（全体に薄く） */
-        .washi-skin {
+        /* 和紙の質感 overlay */
+        .washi {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-image: url('https://www.transparenttextures.com/patterns/p6.png');
             opacity: 0.05; pointer-events: none; z-index: 100;
         }
 
         /* ヘッダー */
-        header { transition: 0.5s; z-index: 80; }
-        header.scrolled { background: rgba(5, 8, 15, 0.9); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(197, 160, 89, 0.2); }
+        header { transition: 0.5s; z-index: 80; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+        header.scrolled { background: rgba(5, 8, 15, 0.9); backdrop-filter: blur(15px); border-bottom-color: var(--gold); }
 
-        /* セクション共通（全画面） */
+        /* 全画面セクション設定 */
         .full-section {
             height: 100vh; width: 100%; position: relative;
             display: flex; align-items: center; justify-content: center;
             overflow: hidden;
         }
 
-        /* プロジェクトごとの背景色・テクスチャ */
-        .bg-layer { position: absolute; inset: 0; z-index: -1; transition: 1s; }
-        .ganar-bg { background: radial-gradient(circle at center, #1a1010 0%, var(--navy) 100%); }
-        .goalink-bg { background: radial-gradient(circle at center, #0a1520 0%, var(--navy) 100%); }
-        .travid-bg { background: radial-gradient(circle at center, #151810 0%, var(--navy) 100%); }
+        /* 背景画像レイヤー（ここで境目をハッキリさせる） */
+        .section-bg {
+            position: absolute; inset: 0; z-index: -1;
+            background-size: cover; background-position: center;
+            filter: brightness(0.4); /* 画像を見やすくしつつ文字を立たせる */
+            transition: transform 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .full-section:hover .section-bg { transform: scale(1.05); }
 
-        /* 巨大な筆文字デザイン */
-        .fude-huge {
+        /* プロジェクトごとの背景指定 */
+        #hero .section-bg { background-image: url('slider-1.png'); }
+        #ganar .section-bg { background-image: url('slider-2.png'); }
+        #goalink .section-bg { background-image: url('slider-3.png'); }
+        #travid .section-bg { background-image: url('slider-4.png'); }
+
+        /* 巨大筆文字デザイン（各セクションに配置） */
+        .fude-design {
             position: absolute; font-family: 'Yuji Syuku', serif;
-            font-size: 40vh; color: rgba(197, 160, 89, 0.04);
-            line-height: 1; pointer-events: none; white-space: nowrap;
+            font-size: 35vh; color: rgba(197, 160, 89, 0.08);
+            line-height: 1; pointer-events: none; z-index: 0;
+            writing-mode: vertical-rl;
         }
 
-        /* プロジェクトのロゴとボタンのセット */
-        .content-box { text-align: center; z-index: 10; }
-        .project-logo { 
-            height: 25vh; margin: 0 auto 4rem; filter: drop-shadow(0 0 20px rgba(0,0,0,0.5));
-            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        /* コンテンツボックス */
+        .content-box { position: relative; z-index: 10; text-align: center; width: 100%; }
+        .project-logo-large { 
+            height: 20vh; max-width: 80%; margin: 0 auto 3rem; object-contain;
+            filter: drop-shadow(0 10px 30px rgba(0,0,0,0.8));
         }
-        .full-section:hover .project-logo { transform: scale(1.05); }
 
         /* 鋭い金のボタン */
-        .btn-gold {
-            display: inline-block; padding: 1.2rem 4rem;
+        .view-btn {
+            display: inline-block; padding: 1rem 3.5rem;
             border: 1px solid var(--gold); color: var(--gold);
-            font-family: 'Oswald', sans-serif; font-size: 14px; letter-spacing: 0.5em;
-            position: relative; transition: 0.5s; overflow: hidden;
+            font-family: 'Oswald', sans-serif; font-size: 13px; letter-spacing: 0.6em;
+            text-transform: uppercase; transition: all 0.4s;
+            background: rgba(0, 0, 0, 0.3);
         }
-        .btn-gold:hover { color: var(--navy); background: var(--gold); }
+        .view-btn:hover { background: var(--gold); color: var(--navy); letter-spacing: 0.8em; }
 
-        /* ニュース（雑誌のような見出し） */
-        .news-large-title {
-            font-size: 3.5vw; line-height: 1.5; tracking: 0.2em;
-            border-left: 2px solid var(--gold); padding-left: 2rem;
-        }
+        /* NEWSセクション */
+        #news-section { background: #080b14; border-top: 1px solid rgba(197, 160, 89, 0.2); }
+        .news-heading { font-size: 2.5rem; letter-spacing: 0.2em; line-height: 1.6; }
 
-        /* サイドバー */
+        /* アニメーション */
+        .reveal { opacity: 0; transform: translateY(40px); transition: 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
         #sidebar { 
             position: fixed; top: 0; right: 0; width: 100%; height: 100%;
             background: rgba(5, 8, 15, 0.98); z-index: 90;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
-            transform: translateY(-100%); transition: 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateX(100%); transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        #sidebar.open { transform: translateY(0); }
-
-        /* スクロールアニメーション */
-        .reveal { opacity: 0; transform: translateY(50px); transition: 1.2s cubic-bezier(0.16, 1, 0.3, 1); }
-        .reveal.active { opacity: 1; transform: translateY(0); }
+        #sidebar.open { transform: translateX(0); }
     </style>
 </head>
 <body>
-    <div class="washi-skin"></div>
+    <div class="washi"></div>
 
-    <header id="main-header" class="fixed w-full top-0 px-8 h-24 flex items-center justify-between">
-        <a href="#"><img src="hekionlogo.png" alt="HEKION" class="h-10"></a>
-        <button id="menu-btn" class="flex flex-col items-end gap-2 focus:outline-none group">
-            <span class="w-10 h-[1px] bg-white group-hover:bg-[#c5a059] transition-all"></span>
-            <span class="w-6 h-[1px] bg-white group-hover:w-10 group-hover:bg-[#c5a059] transition-all"></span>
+    <header id="main-header" class="fixed w-full top-0 px-8 h-20 flex items-center justify-between">
+        <a href="#"><img src="hekionlogo.png" alt="HEKION" class="h-8"></a>
+        <button id="menu-btn" class="flex flex-col items-end gap-1.5 focus:outline-none group">
+            <span class="w-8 h-[1px] bg-white group-hover:bg-[#c5a059] transition-all"></span>
+            <span class="w-5 h-[1px] bg-white group-hover:w-8 group-hover:bg-[#c5a059] transition-all"></span>
         </button>
     </header>
 
     <nav id="sidebar">
-        <a href="#" class="text-4xl font-light tracking-[0.5em] my-6 hover:text-[#c5a059]">TOP</a>
-        <a href="projects.html" class="text-4xl font-light tracking-[0.5em] my-6 hover:text-[#c5a059]">PROJECTS</a>
-        <a href="news.html" class="text-4xl font-light tracking-[0.5em] my-6 hover:text-[#c5a059]">NEWS</a>
+        <a href="#hero" class="text-3xl font-light tracking-[0.4em] my-4 hover:text-[#c5a059]">TOP</a>
+        <a href="news.html" class="text-3xl font-light tracking-[0.4em] my-4 hover:text-[#c5a059]">NEWS</a>
+        <a href="projects.html" class="text-3xl font-light tracking-[0.4em] my-4 hover:text-[#c5a059]">PROJECTS</a>
     </nav>
 
     <main>
-        <section class="full-section">
-            <div class="fude-huge" style="left: -5%;">碧音</div>
-            <div class="reveal text-center">
-                <p class="font-oswald text-[#c5a059] tracking-[1.2em] text-xs mb-8">FOOTBALL / GAME / TRAVEL</p>
-                <h1 class="text-5xl md:text-8xl font-light tracking-[0.2em] leading-tight italic">
+        <section id="hero" class="full-section">
+            <div class="section-bg"></div>
+            <div class="fude-design" style="left: 5%; top: 10%;">碧音</div>
+            <div class="content-box reveal">
+                <p class="font-oswald text-[#c5a059] tracking-[1em] text-[10px] mb-6 uppercase">The World of HEKION</p>
+                <h1 class="text-4xl md:text-7xl font-light tracking-[0.3em] leading-tight italic">
                     情熱を、<br>理論で加速させる。
                 </h1>
             </div>
         </section>
 
-        <section class="full-section" style="background: #080b14;">
-            <div class="reveal max-w-4xl px-6 text-center">
-                <h2 class="font-oswald text-[#c5a059] text-sm tracking-[1em] mb-12 uppercase">Concept</h2>
-                <h3 class="text-3xl md:text-5xl tracking-[0.6em] leading-relaxed italic">発見・楽しさ・繋がり</h3>
-            </div>
-        </section>
-
         <section id="ganar" class="full-section">
-            <div class="bg-layer ganar-bg"></div>
-            <div class="fude-huge" style="right: -10%; top: 10%;">我成</div>
+            <div class="section-bg"></div>
+            <div class="fude-design" style="right: 5%; bottom: 10%;">我成</div>
             <div class="content-box reveal">
-                <img src="ganarlogo.png" alt="GANAR" class="project-logo">
-                <div><a href="project-ganar.html" class="btn-gold">VIEW DETAILS</a></div>
+                <img src="ganarlogo.png" alt="GANAR" class="project-logo-large">
+                <div><a href="project-ganar.html" class="view-btn">View Details</a></div>
             </div>
         </section>
 
         <section id="goalink" class="full-section">
-            <div class="bg-layer goalink-bg"></div>
-            <div class="fude-huge" style="left: -10%; bottom: 10%;">蹴鎖</div>
+            <div class="section-bg"></div>
+            <div class="fude-design" style="left: 10%; top: 20%;">蹴鎖</div>
             <div class="content-box reveal">
-                <img src="goalinklogo.png" alt="Goalink" class="project-logo">
-                <div><a href="project-goalink.html" class="btn-gold">VIEW DETAILS</a></div>
+                <img src="goalinklogo.png" alt="Goalink" class="project-logo-large">
+                <div><a href="project-goalink.html" class="view-btn">View Details</a></div>
             </div>
         </section>
 
         <section id="travid" class="full-section">
-            <div class="bg-layer travid-bg"></div>
-            <div class="fude-huge" style="right: -5%; bottom: 0;">旅道</div>
+            <div class="section-bg"></div>
+            <div class="fude-design" style="right: 10%; top: 10%;">旅道</div>
             <div class="content-box reveal">
-                <img src="travid-logo.png" alt="TRAVID" class="project-logo">
-                <div><a href="project-travid.html" class="btn-gold">VIEW DETAILS</a></div>
+                <img src="travid-logo.png" alt="TRAVID" class="project-logo-large">
+                <div><a href="project-travid.html" class="view-btn">View Details</a></div>
             </div>
         </section>
 
-        <section class="full-section" style="background: var(--navy);">
-            <div class="max-w-6xl w-full px-12">
-                <div class="reveal mb-20">
-                    <h2 class="font-oswald text-[#c5a059] text-sm tracking-[1em] mb-4">LATEST NEWS</h2>
-                    <div class="w-20 h-[1px] bg-[#c5a059]"></div>
+        <section id="news-section" class="py-40 px-8">
+            <div class="max-w-5xl mx-auto">
+                <div class="reveal mb-16">
+                    <h2 class="font-oswald text-[#c5a059] text-sm tracking-[0.8em] uppercase">Latest Update</h2>
+                    <div class="w-16 h-[1px] bg-[#c5a059] mt-4"></div>
                 </div>
                 <div class="reveal">
-                    <span class="font-oswald text-[#c5a059] text-sm block mb-6 tracking-widest text-gray-500">2026.01.13 UPDATE</span>
-                    <a href="news.html" class="news-large-title block hover:text-[#c5a059] transition-colors">
+                    <span class="font-oswald text-[#c5a059] text-xs block mb-6">2026.01.13</span>
+                    <a href="news.html" class="news-heading block hover:opacity-70 transition-opacity">
                         Goalink 2026シーズンの<br>データ更新を開始
                     </a>
-                    <a href="news.html" class="inline-block mt-16 font-oswald text-xs tracking-[0.5em] border-b border-white/20 pb-2 hover:border-[#c5a059] transition-all">
+                    <a href="news.html" class="inline-block mt-16 font-oswald text-xs tracking-[0.4em] border-b border-white/20 pb-2 hover:border-[#c5a059] transition-all">
                         ARCHIVE →
                     </a>
                 </div>
@@ -164,20 +165,20 @@
         </section>
     </main>
 
-    <footer class="py-24 text-center border-t border-white/5">
-        <img src="hekionlogo.png" class="h-8 mx-auto mb-12 opacity-30">
-        <p class="text-gray-600 text-[10px] tracking-[0.8em] uppercase">&copy; 2026 HEKION GROUP</p>
+    <footer class="py-20 text-center border-t border-white/5 bg-[#05080f]">
+        <img src="hekionlogo.png" class="h-8 mx-auto mb-10 opacity-20">
+        <p class="text-gray-600 text-[9px] tracking-[0.8em] uppercase">&copy; 2026 HEKION GROUP</p>
     </footer>
 
     <script>
-        // スクロールでヘッダー変化
+        // スクロール時の挙動
         window.addEventListener('scroll', () => {
             const header = document.getElementById('main-header');
-            if (window.scrollY > 50) header.classList.add('scrolled');
+            if (window.scrollY > 100) header.classList.add('scrolled');
             else header.classList.remove('scrolled');
         });
 
-        // サイドメニュー開閉
+        // サイドメニュー
         const menuBtn = document.getElementById('menu-btn');
         const sidebar = document.getElementById('sidebar');
         menuBtn.onclick = () => {
@@ -185,7 +186,7 @@
             document.body.style.overflow = isOpen ? 'hidden' : '';
         };
 
-        // スクロール検知
+        // フェードイン
         const reveal = () => {
             document.querySelectorAll('.reveal').forEach(el => {
                 if (el.getBoundingClientRect().top < window.innerHeight * 0.8) {

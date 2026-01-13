@@ -21,6 +21,7 @@
             overflow: hidden;
         }
 
+        /* 背景：麻の葉グリッド */
         .bg-pattern {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-image: 
@@ -31,6 +32,13 @@
             opacity: 0.3; z-index: -1;
         }
 
+        /* 閃光：セクション間の繋がり */
+        .gold-line {
+            position: absolute; width: 150%; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+            opacity: 0.3; pointer-events: none; z-index: 5;
+        }
+
         /* 追従メニューボタン */
         .menu-trigger {
             position: fixed; top: 40px; right: 40px;
@@ -39,12 +47,12 @@
             display: flex; flex-direction: column; justify-content: center; align-items: flex-end;
             gap: 8px;
         }
-        .line { height: 1px; background: var(--accent-gold); transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1); }
+        .line { height: 1px; background: var(--accent-gold); transition: all 0.5s ease; }
         .line-1 { width: 100%; }
         .line-2 { width: 70%; }
         .line-3 { width: 100%; }
         .menu-trigger.active .line-1 { transform: translateY(9px) rotate(45deg); }
-        .menu-trigger.active .line-2 { opacity: 0; width: 0; }
+        .menu-trigger.active .line-2 { opacity: 0; }
         .menu-trigger.active .line-3 { transform: translateY(-9px) rotate(-45deg); }
 
         /* サイドメニュー */
@@ -57,60 +65,42 @@
             border-left: 1px solid rgba(197, 160, 89, 0.2);
         }
         .side-menu.open { transform: translateX(0); }
-        .menu-item { text-decoration: none; color: var(--accent-gold); font-size: 0.85rem; letter-spacing: 0.2em; opacity: 0.7; transition: 0.4s; position: relative; }
+        .menu-item { text-decoration: none; color: var(--accent-gold); font-size: 0.85rem; letter-spacing: 0.2em; opacity: 0.7; transition: 0.4s; }
         .menu-item:hover, .menu-item.active { opacity: 1; }
         .menu-item.sub-item { margin-left: 1.5em; font-size: 0.75rem; }
 
-        /* フッター */
-        footer {
-            position: fixed; bottom: 20px; left: 0; width: 100%;
-            text-align: center; z-index: 100; pointer-events: none;
-        }
-        .copyright { font-size: 0.6rem; letter-spacing: 0.4em; opacity: 0.3; color: var(--text-white); }
-
-        /* コンテナ */
+        /* メインコンテナ */
         .container { height: 100vh; overflow-y: scroll; scroll-snap-type: y mandatory; scroll-behavior: smooth; }
         section { height: 100vh; width: 100%; display: flex; align-items: center; justify-content: center; position: relative; scroll-snap-align: start; overflow: hidden; }
 
-        /* 縦書き装飾（表示されない問題を修正） */
+        /* 縦書き */
         .vertical-text {
-            writing-mode: vertical-rl;
-            position: absolute;
-            right: 5%; /* 少し内側へ移動 */
-            top: 50%;
-            transform: translateY(-50%);
-            letter-spacing: 0.6em;
-            color: var(--accent-gold);
-            font-size: 0.9rem;
-            opacity: 1; /* 透明度を1にして確実に見えるように */
-            z-index: 50; /* コンテンツより前面へ */
-            pointer-events: none;
+            writing-mode: vertical-rl; position: absolute; right: 5%; top: 50%; transform: translateY(-50%);
+            letter-spacing: 0.6em; color: var(--accent-gold); font-size: 0.9rem; z-index: 50;
         }
 
         .content { z-index: 10; text-align: center; width: 90%; }
-        .brand-logo { width: clamp(200px, 25vw, 350px); margin-bottom: 25px; }
+        
+        /* ロゴの視認性向上：背後に微かな影を置くがエッジはボカさない */
+        .brand-logo { 
+            width: clamp(200px, 25vw, 350px); 
+            margin-bottom: 25px;
+            filter: drop-shadow(0 0 20px rgba(0,0,0,0.8)); /* 背景から浮かせる */
+        }
         
         .project-visual { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
-        .img-bg { width: 100%; height: 100%; object-fit: cover; opacity: 0.25; transition: transform 2s ease; }
+        .img-bg { width: 100%; height: 100%; object-fit: cover; opacity: 0.3; transition: transform 2s ease; }
         
-        .concept-wrap { border-left: 1px solid var(--accent-gold); border-right: 1px solid var(--accent-gold); padding: 60px 100px; }
         .concept-text { font-size: clamp(1rem, 2.5vw, 1.3rem); letter-spacing: 0.4em; line-height: 2.8; }
-        .tagline { color: var(--accent-gold); letter-spacing: 0.5em; font-size: 0.75rem; margin-bottom: 15px; }
         .desc-text { font-size: 1rem; color: #fff; margin: 10px auto 40px; max-width: 500px; line-height: 2; letter-spacing: 0.1em; }
         .btn-link { display: inline-block; padding: 12px 40px; border: 1px solid var(--accent-gold); color: var(--accent-gold); text-decoration: none; font-size: 0.75rem; letter-spacing: 0.2em; transition: 0.4s; background: rgba(0,0,0,0.3); }
         .btn-link:hover { background: var(--accent-gold); color: var(--ink-black); }
 
-        .footer-links { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; width: 100%; max-width: 900px; margin-top: 50px; }
-        .tile { aspect-ratio: 16/9; border: 1px solid rgba(197, 160, 89, 0.3); display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.03); text-decoration: none; transition: 0.4s; }
-        .tile img { width: 60%; opacity: 0.5; transition: 0.4s; }
-        .tile:hover { border-color: var(--accent-gold); background: rgba(197, 160, 89, 0.1); }
-        .tile:hover img { opacity: 1; transform: scale(1.1); }
+        footer { position: fixed; bottom: 20px; left: 0; width: 100%; text-align: center; z-index: 100; pointer-events: none; }
+        .copyright { font-size: 0.6rem; letter-spacing: 0.4em; opacity: 0.3; }
 
         @media (max-width: 768px) {
-            .side-menu { width: 100%; }
             .vertical-text { display: none; }
-            .concept-wrap { padding: 40px 20px; }
-            .footer-links { grid-template-columns: 1fr; width: 80%; }
         }
     </style>
 </head>
@@ -127,7 +117,6 @@
     <nav class="side-menu" id="sideMenu">
         <a href="#top" class="menu-item active">TOP トップ</a>
         <a href="#concept" class="menu-item">ABOUT HEKIONについて</a>
-        <a href="#links" class="menu-item">PROJECTS プロジェクト</a>
         <a href="#ganar" class="menu-item sub-item">GANAR</a>
         <a href="#goalink" class="menu-item sub-item">Goalink</a>
         <a href="#travid" class="menu-item sub-item">TRAVID</a>
@@ -135,115 +124,73 @@
 
     <div class="container" id="scrollContainer">
         <section id="top">
-            <div class="project-visual">
-                <picture>
-                    <source media="(max-width: 768px)" srcset="mv_sp_bg.png">
-                    <img src="mv_pc_bg.png" class="img-bg">
-                </picture>
-            </div>
+            <div class="gold-line" style="top:30%; left:-20%; transform: rotate(-15deg);"></div>
             <div class="content">
-                <p class="tagline">発見、楽しさ、繋がり。</p>
-                <img src="gold_hekionlogo.png" style="width: clamp(250px, 45vw, 450px);">
+                <p style="color:var(--accent-gold); letter-spacing:0.5em; font-size:0.75rem; margin-bottom:15px;">発見、楽しさ、繋がり。</p>
+                <img src="gold_hekionlogo.png" style="width: clamp(250px, 45vw, 450px); filter: drop-shadow(0 0 20px rgba(0,0,0,0.8));">
             </div>
         </section>
 
         <section id="concept">
+            <div class="gold-line" style="top:60%; right:-10%; transform: rotate(5deg);"></div>
             <div class="content">
-                <div class="concept-wrap">
-                    <p class="concept-text">
-                        日常のなかの発見を楽しさに変え、<br>
-                        そこから繋がりを生み出していく。
-                    </p>
-                </div>
+                <p class="concept-text">
+                    日常のなかの発見を楽しさに変え、<br>
+                    そこから繋がりを生み出していく。
+                </p>
             </div>
         </section>
 
         <section id="ganar">
+            <div class="gold-line" style="top:40%; left:-10%; transform: rotate(-8deg);"></div>
             <div class="project-visual"><img src="bg_ganar.png" class="img-bg"></div>
             <div class="content">
                 <img src="ganarlogo.png" class="brand-logo">
                 <p class="desc-text">勝ちにこだわる。<br>でも、楽しむことを忘れない。</p>
-                <a href="#" class="btn-link">PROJECT DISCOVER</a>
+                <a href="ganar.html" class="btn-link">PROJECT DISCOVER</a>
             </div>
             <div class="vertical-text">楽しんだもん勝ち</div>
         </section>
 
         <section id="goalink">
+            <div class="gold-line" style="top:20%; right:-20%; transform: rotate(12deg);"></div>
             <div class="project-visual"><img src="bg_goalink.png" class="img-bg"></div>
             <div class="content">
                 <img src="goalinklogo.png" class="brand-logo">
                 <p class="desc-text">サッカーを、もっと近くに。<br>知ることで、好きになる。</p>
-                <a href="#" class="btn-link">VIEW THEORY</a>
+                <a href="goalink.html" class="btn-link">VIEW THEORY</a>
             </div>
             <div class="vertical-text">サッカーと人をつなぐ</div>
         </section>
 
         <section id="travid">
+            <div class="gold-line" style="top:70%; left:-10%; transform: rotate(-5deg);"></div>
             <div class="project-visual"><img src="bg_travid.png" class="img-bg"></div>
             <div class="content">
                 <img src="travidlogo.png" class="brand-logo">
                 <p class="desc-text">旅の前も、旅のあとも。<br>楽しさを、カタチにする。</p>
-                <a href="#" class="btn-link">EXPLORE JOURNEY</a>
+                <a href="travid.html" class="btn-link">EXPLORE JOURNEY</a>
             </div>
             <div class="vertical-text">旅の楽しさをカタチに</div>
         </section>
-
-        <section id="links">
-            <div class="content">
-                <h3 style="color:var(--accent-gold); letter-spacing:0.5em; font-size:0.8rem; margin-bottom:30px;">PROJECT ARCHIVE</h3>
-                <div class="footer-links">
-                    <a href="#ganar" class="tile"><img src="gold_ganarlogo.png" alt="GANAR"></a>
-                    <a href="#goalink" class="tile"><img src="gold_goalinklogo.png" alt="Goalink"></a>
-                    <a href="#travid" class="tile"><img src="gold_travidlogo.png" alt="TRAVID"></a>
-                </div>
-            </div>
-        </section>
     </div>
 
-    <footer>
-        <p class="copyright">© 2026 HEKION. ALL RIGHTS RESERVED.</p>
-    </footer>
+    <footer><p class="copyright">© 2026 HEKION. ALL RIGHTS RESERVED.</p></footer>
 
     <script>
         const container = document.getElementById('scrollContainer');
         const menuBtn = document.getElementById('menuBtn');
         const sideMenu = document.getElementById('sideMenu');
         const menuItems = document.querySelectorAll('.menu-item');
-        const contents = document.querySelectorAll('.content');
-        const visuals = document.querySelectorAll('.img-bg');
 
         menuBtn.addEventListener('click', () => {
             menuBtn.classList.toggle('active');
             sideMenu.classList.toggle('open');
         });
 
-        menuItems.forEach(item => {
-            item.addEventListener('click', () => {
-                menuBtn.classList.remove('active');
-                sideMenu.classList.remove('open');
-            });
-        });
-
         container.addEventListener('scroll', () => {
-            const scrolled = container.scrollTop;
-            const winH = window.innerHeight;
-            const activeIndex = Math.round(scrolled / winH);
-
-            menuItems.forEach((item, i) => {
-                item.classList.toggle('active', i === activeIndex);
-            });
-
-            contents.forEach((content, index) => {
-                const offset = index * winH;
-                const progress = (scrolled - offset) / winH;
-                if (Math.abs(progress) < 1.2) {
-                    content.style.transform = `translateY(${progress * 80}px)`;
-                    content.style.opacity = 1 - Math.abs(progress);
-                    if(visuals[index]) {
-                        visuals[index].style.transform = `scale(${1 + Math.abs(progress) * 0.1}) translateY(${progress * -20}px)`;
-                    }
-                }
-            });
+            const activeIndex = Math.round(container.scrollTop / window.innerHeight);
+            menuItems.forEach((item, i) => item.classList.toggle('active', i === activeIndex));
         });
     </script>
 </body>

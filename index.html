@@ -3,252 +3,275 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HEKION | 情熱を、理論で加速させる</title>
+    <title>HEKION Portal | 情熱を、理論で加速させる</title>
     <style>
         :root {
             --bg-navy: #0a111f;
+            --bg-ink: #050505;
             --accent-gold: #c5a059;
+            --accent-blue: #00a0e9;
             --text-white: #e0e0e0;
-            --ink-black: #050505;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             background-color: var(--bg-navy);
             color: var(--text-white);
-            font-family: "Yu Mincho", "YuMincho", "Hiragino Mincho ProN", serif;
-            overflow: hidden; /* カスタムスクロールのため */
+            font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+            line-height: 1.6;
+            overflow-x: hidden;
         }
 
-        /* 背景の麻の葉グリッド（アクセント） */
-        .bg-pattern {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                linear-gradient(30deg, #121a2b 12%, transparent 12.5%, transparent 87%, #121a2b 87.5%, #121a2b),
-                linear-gradient(150deg, #121a2b 12%, transparent 12.5%, transparent 87%, #121a2b 87.5%, #121a2b),
-                linear-gradient(30deg, #121a2b 12%, transparent 12.5%, transparent 87%, #121a2b 87.5%, #121a2b),
-                linear-gradient(150deg, #121a2b 12%, transparent 12.5%, transparent 87%, #121a2b 87.5%, #121a2b),
-                linear-gradient(60deg, #161e2e 25%, transparent 25.5%, transparent 75%, #161e2e 75%, #161e2e),
-                linear-gradient(60deg, #161e2e 25%, transparent 25.5%, transparent 75%, #161e2e 75%, #161e2e);
-            background-size: 80px 140px;
-            background-position: 0 0, 0 0, 40px 70px, 40px 70px, 0 0, 40px 70px;
-            opacity: 0.3;
-            z-index: -1;
-        }
-
-        /* セクション構成 */
-        .container {
-            height: 100vh;
-            overflow-y: scroll;
-            scroll-snap-type: y mandatory;
-        }
-
-        section {
-            height: 100vh;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            scroll-snap-align: start;
-            overflow: hidden;
-            border-bottom: 1px solid rgba(197, 160, 89, 0.2);
-        }
-
-        .content {
-            z-index: 10;
-            text-align: center;
-            transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
-        }
-
-        /* 縦書きの装飾 */
-        .vertical-text {
-            writing-mode: vertical-rl;
-            text-orientation: mixed;
+        /* --- 和のモチーフ：青海波アクセント --- */
+        .seigaiha-pattern {
             position: absolute;
-            right: 5%;
-            top: 50%;
-            transform: translateY(-50%);
-            letter-spacing: 0.5em;
-            color: var(--accent-gold);
-            font-size: 0.9rem;
-            opacity: 0.7;
-        }
-
-        h2 {
-            font-size: clamp(3rem, 10vw, 6rem);
-            font-weight: 300;
-            letter-spacing: 0.2em;
-            margin-bottom: 20px;
-            background: linear-gradient(to bottom, #fff, var(--accent-gold));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-transform: uppercase;
-        }
-
-        .tagline {
-            font-size: 1rem;
-            letter-spacing: 0.4em;
-            color: var(--accent-gold);
-        }
-
-        /* 筆跡・金粉エフェクト（擬似） */
-        .gold-line {
-            position: absolute;
-            width: 150%;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
-            transform: rotate(-45deg);
-            top: 20%;
-            left: -25%;
-            opacity: 0.4;
+            width: 100%;
+            height: 200px;
+            background-image: radial-gradient(circle at 50% 100%, transparent 45%, var(--accent-gold) 45%, var(--accent-gold) 50%, transparent 50%);
+            background-size: 60px 30px;
+            opacity: 0.15; /* 少し濃く調整 */
             pointer-events: none;
         }
 
-        /* プロジェクト画像（ポスター風） */
-        .project-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            opacity: 0.2;
-            filter: grayscale(50%) contrast(120%);
-            transition: transform 2s ease;
-        }
-
-        section:hover .project-bg {
-            transform: scale(1.1);
-        }
-
-        /* レスポンシブ */
-        @media (max-width: 768px) {
-            .vertical-text {
-                right: auto;
-                left: 5%;
-                font-size: 0.7rem;
-            }
-            h2 { font-size: 3rem; }
-        }
-
-        /* ナビゲーションバー */
-        nav {
+        /* --- Header & Side Menu --- */
+        header {
             position: fixed;
-            top: 40px;
-            left: 40px;
-            z-index: 100;
+            top: 0;
+            width: 100%;
+            padding: 25px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: linear-gradient(to bottom, var(--bg-navy), transparent);
         }
 
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
+        .menu-btn {
+            background: none;
+            border: none;
             color: var(--accent-gold);
-            letter-spacing: 0.3em;
-            text-decoration: none;
+            cursor: pointer;
+            font-size: 1rem;
+            letter-spacing: 0.2em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        /* 発見・繋がりボタン */
-        .btn-link {
-            margin-top: 30px;
-            display: inline-block;
-            padding: 10px 40px;
+        #side-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 350px;
+            height: 100%;
+            background: var(--bg-ink);
+            z-index: 2000;
+            padding: 80px 40px;
+            transition: 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            border-left: 1px solid var(--accent-gold);
+        }
+
+        #side-menu.active { right: 0; }
+
+        .menu-item {
+            margin-bottom: 40px;
+        }
+
+        .menu-item h3 { color: var(--accent-gold); font-size: 0.8rem; margin-bottom: 10px; border-bottom: 1px solid #333; }
+        .menu-link {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.2rem;
+            display: block;
+            transition: 0.3s;
+        }
+        .menu-link:hover { padding-left: 10px; color: var(--accent-gold); }
+
+        /* --- Sections --- */
+        section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            padding: 100px 20px;
+            scroll-snap-align: start;
+        }
+
+        .main-visual { text-align: center; }
+        .main-visual h1 { font-size: 12vw; letter-spacing: 0.3em; margin: 0; color: var(--accent-gold); }
+
+        .intro-box {
+            max-width: 700px;
+            text-align: center;
+            border: 1px solid rgba(197, 160, 89, 0.3);
+            padding: 60px 40px;
+            position: relative;
+        }
+
+        .project-card {
+            width: 80%;
+            max-width: 1000px;
+            margin: 50px 0;
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .project-img {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: #1a2a44;
+            border: 1px solid var(--accent-gold);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* --- NEWS Section --- */
+        .news-section { background: #070c16; width: 100%; }
+        .news-list { width: 80%; max-width: 800px; }
+        .news-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(197, 160, 89, 0.2);
+            text-decoration: none;
+            color: var(--text-white);
+        }
+
+        /* --- Footer --- */
+        footer {
+            background: var(--bg-ink);
+            padding: 80px 50px 30px;
+            text-align: center;
+            border-top: 1px solid var(--accent-gold);
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+        }
+
+        .footer-btn {
+            padding: 12px 30px;
             border: 1px solid var(--accent-gold);
             color: var(--accent-gold);
             text-decoration: none;
-            position: relative;
-            overflow: hidden;
-            transition: 0.4s;
+            font-size: 0.9rem;
+            transition: 0.3s;
         }
 
-        .btn-link:hover {
-            background: var(--accent-gold);
-            color: var(--ink-black);
+        .footer-btn:hover { background: var(--accent-gold); color: #000; }
+
+        .copyright { font-size: 0.7rem; opacity: 0.5; margin-top: 40px; }
+
+        @media (max-width: 768px) {
+            .project-card { grid-template-columns: 1fr; }
+            header { padding: 20px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="bg-pattern"></div>
-    
-    <nav>
-        <a href="#" class="logo">HEKION</a>
-    </nav>
+    <header>
+        <div style="font-weight:bold; letter-spacing: 0.2em; color: var(--accent-gold);">HEKION</div>
+        <button class="menu-btn" onclick="toggleMenu()">MENU <span>☰</span></button>
+    </header>
 
-    <div class="container">
-        <section id="top">
-            <div class="gold-line"></div>
-            <div class="content">
-                <p class="tagline">発見、楽しさ、繋がり。</p>
-                <h2>HEKION</h2>
-                <p>情熱を、理論で加速させる</p>
+    <div id="side-menu">
+        <button class="menu-btn" onclick="toggleMenu()" style="margin-bottom: 40px;">CLOSE <span>✕</span></button>
+        <div class="menu-item">
+            <h3>GAMING</h3>
+            <a href="#" class="menu-link">GANAR</a>
+        </div>
+        <div class="menu-item">
+            <h3>DATA THEORY</h3>
+            <a href="#" class="menu-link">Goalink</a>
+        </div>
+        <div class="menu-item">
+            <h3>TRAVEL</h3>
+            <a href="#" class="menu-link">TRAVID</a>
+        </div>
+    </div>
+
+    <main>
+        <section class="main-visual">
+            <div class="seigaiha-pattern" style="top: 20%; opacity: 0.05;"></div>
+            <h1>HEKION</h1>
+            <p style="letter-spacing: 0.5em; margin-top: -20px;">情熱を、理論で加速させる</p>
+        </section>
+
+        <section>
+            <div class="intro-box">
+                <div class="seigaiha-pattern" style="bottom: 0; height: 60px;"></div>
+                <h2 style="color:var(--accent-gold); margin-bottom: 20px;">PHILOSOPHY</h2>
+                <p>発見、楽しさ、繋がり。<br>私たちは、感情の揺らぎを理論によって最大化し、<br>新たな世界のポータルを切り拓きます。</p>
             </div>
-            <div class="vertical-text">碧音 ― SHIZUKE NO NAKA NO HIKARI</div>
         </section>
 
         <section id="ganar">
-            <div class="gold-line" style="top:70%; transform: rotate(15deg);"></div>
-            <div class="content">
-                <p class="tagline">eSports / Enjoy</p>
-                <h2>GANAR</h2>
-                <a href="#" class="btn-link">PROJECT DISCOVER</a>
+            <div class="project-card">
+                <div class="project-img">
+                    <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); color:rgba(255,255,255,0.1); font-size:4rem;">GANAR</div>
+                </div>
+                <div>
+                    <h2 style="font-size: 3rem; color: var(--accent-gold);">GANAR</h2>
+                    <p>ゲームを愛するすべてのプレイヤーへ。楽しさの原点を理論で加速させるeSportsプロジェクト。</p>
+                </div>
             </div>
-            <div class="vertical-text">情熱を、遊び尽くせ。</div>
-            <div class="project-bg" style="background: radial-gradient(circle, #2a1010 0%, #0a111f 100%);"></div>
         </section>
 
         <section id="goalink">
-            <div class="gold-line" style="top:40%; transform: rotate(-10deg);"></div>
-            <div class="content">
-                <p class="tagline">J-League Data Analysis</p>
-                <h2>Goalink</h2>
-                <a href="#" class="btn-link">VIEW DATA THEORY</a>
+            <div class="project-card" style="direction: rtl;">
+                <div class="project-img" style="direction: ltr;">
+                    <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); color:rgba(255,255,255,0.1); font-size:4rem;">Goalink</div>
+                </div>
+                <div style="direction: ltr;">
+                    <h2 style="font-size: 3rem; color: var(--accent-gold);">Goalink</h2>
+                    <p>Jリーグのデータを可視化し、知性でサッカーを繋ぐ。データ解析の新たな視点を提供します。</p>
+                </div>
             </div>
-            <div class="vertical-text">理論で、勝利を繋ぐ。</div>
-            <div class="project-bg" style="background: radial-gradient(circle, #10202a 0%, #0a111f 100%);"></div>
         </section>
 
-        <section id="travid">
-            <div class="gold-line" style="top:10%; transform: rotate(160deg);"></div>
-            <div class="content">
-                <p class="tagline">Travel / Journey</p>
-                <h2>TRAVID</h2>
-                <a href="#" class="btn-link">EXPLORE JOURNEY</a>
+        <section class="news-section">
+            <h2 style="margin-bottom: 50px; letter-spacing: 0.3em;">LATEST NEWS</h2>
+            <div class="news-list">
+                <a href="#" class="news-item">
+                    <span>2026.01.13</span>
+                    <span>HEKION ポータルサイトを公開しました</span>
+                </a>
+                <a href="#" class="news-item">
+                    <span>2026.01.10</span>
+                    <span>【note】GANARの目指す未来について</span>
+                </a>
+                <a href="#" class="news-item">
+                    <span>2026.01.05</span>
+                    <span>TRAVID 新規プロジェクト始動</span>
+                </a>
             </div>
-            <div class="vertical-text">旅を、再定義する。</div>
-            <div class="project-bg" style="background: radial-gradient(circle, #2a2510 0%, #0a111f 100%);"></div>
         </section>
-    </div>
+    </main>
+
+    <footer>
+        <div class="footer-links">
+            <a href="#" class="footer-btn">GANAR Official</a>
+            <a href="#" class="footer-btn">Goalink Note</a>
+            <a href="#" class="footer-btn">TRAVID Web</a>
+        </div>
+        <div style="color:var(--accent-gold); letter-spacing: 0.5em;">HEKION</div>
+        <p class="copyright">© 2026 HEKION. All Rights Reserved.</p>
+    </footer>
 
     <script>
-        // スクロール時の視差効果（パララックス）
-        const container = document.querySelector('.container');
-        const contents = document.querySelectorAll('.content');
-
-        container.addEventListener('scroll', () => {
-            const scrolled = container.scrollTop;
-            contents.forEach((content, index) => {
-                const offset = index * window.innerHeight;
-                const progress = (scrolled - offset) / window.innerHeight;
-                
-                if (Math.abs(progress) < 1) {
-                    content.style.transform = `translateY(${progress * 50}px) scale(${1 - Math.abs(progress) * 0.1})`;
-                    content.style.opacity = 1 - Math.abs(progress);
-                }
-            });
-        });
-
-        // スマホでの体験向上のため、タップでスクロールを少し加速させるなどの
-        // インタラクションを追加することも可能です。
+        function toggleMenu() {
+            document.getElementById('side-menu').classList.toggle('active');
+        }
     </script>
 </body>
 </html>

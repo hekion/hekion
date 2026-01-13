@@ -3,201 +3,252 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HEKION | Official Portal</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;700&family=Yuji+Syuku&family=Oswald:wght@500&display=swap" rel="stylesheet">
+    <title>HEKION | 情熱を、理論で加速させる</title>
     <style>
-        :root { --navy: #05080f; --gold: #c5a059; }
-        html { scroll-behavior: smooth; }
+        :root {
+            --bg-navy: #0a111f;
+            --accent-gold: #c5a059;
+            --text-white: #e0e0e0;
+            --ink-black: #050505;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            background-color: var(--navy);
-            color: #f1f5f9;
-            font-family: 'Shippori Mincho', serif;
-            overflow-x: hidden;
+            background-color: var(--bg-navy);
+            color: var(--text-white);
+            font-family: "Yu Mincho", "YuMincho", "Hiragino Mincho ProN", serif;
+            overflow: hidden; /* カスタムスクロールのため */
         }
 
-        /* 和紙のテクスチャ */
-        .washi {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: url('https://www.transparenttextures.com/patterns/p6.png');
-            opacity: 0.05; pointer-events: none; z-index: 100;
+        /* 背景の麻の葉グリッド（アクセント） */
+        .bg-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(30deg, #121a2b 12%, transparent 12.5%, transparent 87%, #121a2b 87.5%, #121a2b),
+                linear-gradient(150deg, #121a2b 12%, transparent 12.5%, transparent 87%, #121a2b 87.5%, #121a2b),
+                linear-gradient(30deg, #121a2b 12%, transparent 12.5%, transparent 87%, #121a2b 87.5%, #121a2b),
+                linear-gradient(150deg, #121a2b 12%, transparent 12.5%, transparent 87%, #121a2b 87.5%, #121a2b),
+                linear-gradient(60deg, #161e2e 25%, transparent 25.5%, transparent 75%, #161e2e 75%, #161e2e),
+                linear-gradient(60deg, #161e2e 25%, transparent 25.5%, transparent 75%, #161e2e 75%, #161e2e);
+            background-size: 80px 140px;
+            background-position: 0 0, 0 0, 40px 70px, 40px 70px, 0 0, 40px 70px;
+            opacity: 0.3;
+            z-index: -1;
         }
 
-        /* ヘッダー */
-        header { transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1); z-index: 80; }
-        header.scrolled { background: rgba(5, 8, 15, 0.95); backdrop-filter: blur(15px); height: 70px; }
+        /* セクション構成 */
+        .container {
+            height: 100vh;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+        }
 
-        /* 全画面セクション */
-        .full-section {
-            height: 100vh; width: 100%; position: relative;
-            display: flex; align-items: center; justify-content: center;
+        section {
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            scroll-snap-align: start;
             overflow: hidden;
             border-bottom: 1px solid rgba(197, 160, 89, 0.2);
         }
 
-        /* 背景画像 */
-        .section-bg {
-            position: absolute; inset: 0; z-index: -1;
-            background-size: cover; background-position: center;
-            filter: brightness(0.4);
+        .content {
+            z-index: 10;
+            text-align: center;
+            transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        /* 縦書きの装飾 */
+        .vertical-text {
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            position: absolute;
+            right: 5%;
+            top: 50%;
+            transform: translateY(-50%);
+            letter-spacing: 0.5em;
+            color: var(--accent-gold);
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        h2 {
+            font-size: clamp(3rem, 10vw, 6rem);
+            font-weight: 300;
+            letter-spacing: 0.2em;
+            margin-bottom: 20px;
+            background: linear-gradient(to bottom, #fff, var(--accent-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+        }
+
+        .tagline {
+            font-size: 1rem;
+            letter-spacing: 0.4em;
+            color: var(--accent-gold);
+        }
+
+        /* 筆跡・金粉エフェクト（擬似） */
+        .gold-line {
+            position: absolute;
+            width: 150%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+            transform: rotate(-45deg);
+            top: 20%;
+            left: -25%;
+            opacity: 0.4;
+            pointer-events: none;
+        }
+
+        /* プロジェクト画像（ポスター風） */
+        .project-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.2;
+            filter: grayscale(50%) contrast(120%);
             transition: transform 2s ease;
         }
-        .full-section:hover .section-bg { transform: scale(1.08); }
 
-        #hero .section-bg { background-image: url('slider-1.png'); }
-        #ganar .section-bg { background-image: url('slider-2.png'); }
-        #goalink .section-bg { background-image: url('slider-3.png'); }
-        #travid .section-bg { background-image: url('slider-4.png'); }
-
-        /* 巨大筆文字 */
-        .fude-design {
-            position: absolute; font-family: 'Yuji Syuku', serif;
-            font-size: 35vh; color: rgba(197, 160, 89, 0.06);
-            line-height: 1; pointer-events: none; z-index: 0;
-            writing-mode: vertical-rl;
+        section:hover .project-bg {
+            transform: scale(1.1);
         }
 
-        /* コンテンツ */
-        .content-box { position: relative; z-index: 10; text-align: center; }
-        .project-logo-large { 
-            height: 18vh; margin: 0 auto 3rem; 
-            filter: drop-shadow(0 15px 35px rgba(0,0,0,0.9));
+        /* レスポンシブ */
+        @media (max-width: 768px) {
+            .vertical-text {
+                right: auto;
+                left: 5%;
+                font-size: 0.7rem;
+            }
+            h2 { font-size: 3rem; }
         }
 
-        .view-btn {
-            display: inline-block; padding: 1rem 3rem;
-            border: 1px solid var(--gold); color: var(--gold);
-            font-family: 'Oswald', sans-serif; font-size: 12px; letter-spacing: 0.6em;
-            text-transform: uppercase; transition: 0.4s;
-            background: rgba(0, 0, 0, 0.4);
+        /* ナビゲーションバー */
+        nav {
+            position: fixed;
+            top: 40px;
+            left: 40px;
+            z-index: 100;
         }
-        .view-btn:hover { background: var(--gold); color: var(--navy); }
 
-        /* サイドバー（修正版） */
-        #sidebar { 
-            position: fixed; top: 0; right: 0; width: 100%; height: 100%;
-            background: rgba(5, 8, 15, 0.98); z-index: 90;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            transform: translateX(100%); transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent-gold);
+            letter-spacing: 0.3em;
+            text-decoration: none;
         }
-        #sidebar.open { transform: translateX(0); }
 
-        /* メニューボタン（アニメーション） */
-        #menu-btn.open .line-1 { transform: translateY(4px) rotate(45deg); }
-        #menu-btn.open .line-2 { transform: translateY(-4px) rotate(-45deg); width: 32px; }
+        /* 発見・繋がりボタン */
+        .btn-link {
+            margin-top: 30px;
+            display: inline-block;
+            padding: 10px 40px;
+            border: 1px solid var(--accent-gold);
+            color: var(--accent-gold);
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+            transition: 0.4s;
+        }
 
-        /* スクロールアニメーション */
-        .reveal { opacity: 0; transform: translateY(40px); transition: 1.5s cubic-bezier(0.16, 1, 0.3, 1); }
-        .reveal.active { opacity: 1; transform: translateY(0); }
+        .btn-link:hover {
+            background: var(--accent-gold);
+            color: var(--ink-black);
+        }
     </style>
 </head>
 <body>
-    <div class="washi"></div>
 
-    <header id="main-header" class="fixed w-full top-0 px-8 h-24 flex items-center justify-between">
-        <a href="#hero"><img src="hekionlogo.png" alt="HEKION" class="h-8"></a>
-        <button id="menu-btn" class="flex flex-col items-end gap-1.5 focus:outline-none group relative z-[100]">
-            <span class="line-1 w-8 h-[1px] bg-white group-hover:bg-[#c5a059] transition-all"></span>
-            <span class="line-2 w-5 h-[1px] bg-white group-hover:w-8 group-hover:bg-[#c5a059] transition-all"></span>
-        </button>
-    </header>
-
-    <nav id="sidebar">
-        <a href="#hero" class="menu-item text-3xl font-light tracking-[0.4em] my-4 hover:text-[#c5a059]">TOP</a>
-        <a href="#ganar" class="menu-item text-3xl font-light tracking-[0.4em] my-4 hover:text-[#c5a059]">GANAR</a>
-        <a href="#goalink" class="menu-item text-3xl font-light tracking-[0.4em] my-4 hover:text-[#c5a059]">GOALINK</a>
-        <a href="#travid" class="menu-item text-3xl font-light tracking-[0.4em] my-4 hover:text-[#c5a059]">TRAVID</a>
-        <a href="news.html" class="menu-item text-3xl font-light tracking-[0.4em] my-4 hover:text-[#c5a059]">NEWS</a>
+    <div class="bg-pattern"></div>
+    
+    <nav>
+        <a href="#" class="logo">HEKION</a>
     </nav>
 
-    <main>
-        <section id="hero" class="full-section">
-            <div class="section-bg"></div>
-            <div class="fude-design" style="left: 5%; top: 10%;">碧音</div>
-            <div class="content-box reveal">
-                <p class="font-oswald text-[#c5a059] tracking-[1em] text-[10px] mb-8 uppercase">HEKION Portal</p>
-                <h1 class="text-4xl md:text-7xl font-light tracking-[0.3em] leading-tight italic">情熱を、<br>理論で加速させる。</h1>
+    <div class="container">
+        <section id="top">
+            <div class="gold-line"></div>
+            <div class="content">
+                <p class="tagline">発見、楽しさ、繋がり。</p>
+                <h2>HEKION</h2>
+                <p>情熱を、理論で加速させる</p>
             </div>
+            <div class="vertical-text">碧音 ― SHIZUKE NO NAKA NO HIKARI</div>
         </section>
 
-        <section id="ganar" class="full-section">
-            <div class="section-bg"></div>
-            <div class="fude-design" style="right: 5%; bottom: 10%;">我成</div>
-            <div class="content-box reveal">
-                <img src="ganarlogo.png" alt="GANAR" class="project-logo-large">
-                <div><a href="project-ganar.html" class="view-btn">View Details</a></div>
+        <section id="ganar">
+            <div class="gold-line" style="top:70%; transform: rotate(15deg);"></div>
+            <div class="content">
+                <p class="tagline">eSports / Enjoy</p>
+                <h2>GANAR</h2>
+                <a href="#" class="btn-link">PROJECT DISCOVER</a>
             </div>
+            <div class="vertical-text">情熱を、遊び尽くせ。</div>
+            <div class="project-bg" style="background: radial-gradient(circle, #2a1010 0%, #0a111f 100%);"></div>
         </section>
 
-        <section id="goalink" class="full-section">
-            <div class="section-bg"></div>
-            <div class="fude-design" style="left: 8%; top: 15%;">蹴鎖</div>
-            <div class="content-box reveal">
-                <img src="goalinklogo.png" alt="Goalink" class="project-logo-large">
-                <div><a href="project-goalink.html" class="view-btn">View Details</a></div>
+        <section id="goalink">
+            <div class="gold-line" style="top:40%; transform: rotate(-10deg);"></div>
+            <div class="content">
+                <p class="tagline">J-League Data Analysis</p>
+                <h2>Goalink</h2>
+                <a href="#" class="btn-link">VIEW DATA THEORY</a>
             </div>
+            <div class="vertical-text">理論で、勝利を繋ぐ。</div>
+            <div class="project-bg" style="background: radial-gradient(circle, #10202a 0%, #0a111f 100%);"></div>
         </section>
 
-        <section id="travid" class="full-section">
-            <div class="section-bg"></div>
-            <div class="fude-design" style="right: 8%; top: 5%;">旅道</div>
-            <div class="content-box reveal">
-                <img src="travid-logo.png" alt="TRAVID" class="project-logo-large">
-                <div><a href="project-travid.html" class="view-btn">View Details</a></div>
+        <section id="travid">
+            <div class="gold-line" style="top:10%; transform: rotate(160deg);"></div>
+            <div class="content">
+                <p class="tagline">Travel / Journey</p>
+                <h2>TRAVID</h2>
+                <a href="#" class="btn-link">EXPLORE JOURNEY</a>
             </div>
+            <div class="vertical-text">旅を、再定義する。</div>
+            <div class="project-bg" style="background: radial-gradient(circle, #2a2510 0%, #0a111f 100%);"></div>
         </section>
-
-        <section id="news-section" class="py-40 px-8 bg-[#04060b]">
-            <div class="max-w-4xl mx-auto reveal">
-                <h2 class="font-oswald text-[#c5a059] text-sm tracking-[0.8em] mb-12 uppercase">Latest Update</h2>
-                <span class="font-oswald text-[#c5a059] text-xs block mb-4">2026.01.13</span>
-                <a href="news.html" class="text-2xl md:text-4xl leading-snug tracking-widest hover:text-[#c5a059] transition-colors">
-                    Goalink 2026シーズンの<br>データ更新を開始
-                </a>
-                <div class="mt-16">
-                    <a href="news.html" class="view-btn">Archive</a>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer class="py-20 text-center bg-[#04060b]">
-        <p class="text-gray-600 text-[9px] tracking-[0.8em] uppercase">&copy; 2026 HEKION GROUP</p>
-    </footer>
+    </div>
 
     <script>
-        const menuBtn = document.getElementById('menu-btn');
-        const sidebar = document.getElementById('sidebar');
-        const header = document.getElementById('main-header');
+        // スクロール時の視差効果（パララックス）
+        const container = document.querySelector('.container');
+        const contents = document.querySelectorAll('.content');
 
-        // メニュー開閉
-        const toggleMenu = () => {
-            const isOpen = sidebar.classList.toggle('open');
-            menuBtn.classList.toggle('open');
-            document.body.style.overflow = isOpen ? 'hidden' : '';
-        };
-
-        menuBtn.addEventListener('click', toggleMenu);
-
-        // リンククリックで閉じる
-        document.querySelectorAll('.menu-item').forEach(link => {
-            link.addEventListener('click', toggleMenu);
-        });
-
-        // スクロール検知
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 100) header.classList.add('scrolled');
-            else header.classList.remove('scrolled');
-            reveal();
-        });
-
-        const reveal = () => {
-            document.querySelectorAll('.reveal').forEach(el => {
-                const top = el.getBoundingClientRect().top;
-                if (top < window.innerHeight * 0.85) el.classList.add('active');
+        container.addEventListener('scroll', () => {
+            const scrolled = container.scrollTop;
+            contents.forEach((content, index) => {
+                const offset = index * window.innerHeight;
+                const progress = (scrolled - offset) / window.innerHeight;
+                
+                if (Math.abs(progress) < 1) {
+                    content.style.transform = `translateY(${progress * 50}px) scale(${1 - Math.abs(progress) * 0.1})`;
+                    content.style.opacity = 1 - Math.abs(progress);
+                }
             });
-        };
-        window.addEventListener('load', reveal);
+        });
+
+        // スマホでの体験向上のため、タップでスクロールを少し加速させるなどの
+        // インタラクションを追加することも可能です。
     </script>
 </body>
 </html>

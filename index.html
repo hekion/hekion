@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HEKION公式サイト </title>
+    <title>HEKION公式サイト</title>
     <style>
         :root {
             --bg-navy: #0a111f;
@@ -21,7 +21,6 @@
             overflow: hidden;
         }
 
-        /* 背景：麻の葉グリッド */
         .bg-pattern {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-image: 
@@ -32,7 +31,7 @@
             opacity: 0.3; z-index: -1;
         }
 
-        /* 追従メニューボタン（三本線 ⇄ バツ） */
+        /* 追従メニューボタン */
         .menu-trigger {
             position: fixed; top: 40px; right: 40px;
             width: 40px; height: 40px;
@@ -40,65 +39,52 @@
             display: flex; flex-direction: column; justify-content: center; align-items: flex-end;
             gap: 8px;
         }
-        .line {
-            height: 1px; background: var(--accent-gold);
-            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-        }
+        .line { height: 1px; background: var(--accent-gold); transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1); }
         .line-1 { width: 100%; }
         .line-2 { width: 70%; }
         .line-3 { width: 100%; }
-
-        /* 開いた時のバツ印デザイン */
-        .menu-trigger.active .line-1 { transform: translateY(9px) rotate(45deg); width: 100%; }
+        .menu-trigger.active .line-1 { transform: translateY(9px) rotate(45deg); }
         .menu-trigger.active .line-2 { opacity: 0; width: 0; }
-        .menu-trigger.active .line-3 { transform: translateY(-9px) rotate(-45deg); width: 100%; }
+        .menu-trigger.active .line-3 { transform: translateY(-9px) rotate(-45deg); }
 
-        /* サイドメニュー本体（初期状態は隠す） */
+        /* サイドメニュー */
         .side-menu {
-            position: fixed; right: 0; top: 0;
-            width: 300px; height: 100vh;
-            background: rgba(10, 17, 31, 0.95);
-            backdrop-filter: blur(10px);
-            z-index: 1500;
-            display: flex; flex-direction: column; justify-content: center;
-            padding-left: 50px;
-            gap: 25px;
-            transform: translateX(100%);
+            position: fixed; right: 0; top: 0; width: 300px; height: 100vh;
+            background: rgba(10, 17, 31, 0.95); backdrop-filter: blur(10px);
+            z-index: 1500; display: flex; flex-direction: column; justify-content: center;
+            padding-left: 50px; gap: 25px; transform: translateX(100%);
             transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
             border-left: 1px solid rgba(197, 160, 89, 0.2);
         }
         .side-menu.open { transform: translateX(0); }
-
-        /* メニュー項目デザイン */
-        .menu-item {
-            text-decoration: none; color: var(--accent-gold);
-            font-size: 0.85rem; letter-spacing: 0.2em;
-            opacity: 0.7; transition: 0.4s;
-            position: relative; display: flex; align-items: center;
-        }
+        .menu-item { text-decoration: none; color: var(--accent-gold); font-size: 0.85rem; letter-spacing: 0.2em; opacity: 0.7; transition: 0.4s; position: relative; }
         .menu-item:hover, .menu-item.active { opacity: 1; }
         .menu-item.sub-item { margin-left: 1.5em; font-size: 0.75rem; }
-        
-        /* アクティブ時のインジケーター */
-        .menu-item::before {
-            content: ""; position: absolute; left: -20px;
-            width: 6px; height: 6px; border: 1px solid var(--accent-gold);
-            border-radius: 50%; opacity: 0; transition: 0.4s;
-        }
-        .menu-item.active::before { opacity: 1; background: var(--accent-gold); transform: scale(1.2); }
 
-        /* メインコンテナ */
+        /* フッター */
+        footer {
+            position: fixed; bottom: 20px; left: 0; width: 100%;
+            text-align: center; z-index: 100; pointer-events: none;
+        }
+        .copyright { font-size: 0.6rem; letter-spacing: 0.4em; opacity: 0.3; color: var(--text-white); }
+
+        /* コンテナ */
         .container { height: 100vh; overflow-y: scroll; scroll-snap-type: y mandatory; scroll-behavior: smooth; }
         section { height: 100vh; width: 100%; display: flex; align-items: center; justify-content: center; position: relative; scroll-snap-align: start; overflow: hidden; }
 
-        /* 縦書き装飾（HEKION以外に適用） */
-        .vertical-text { writing-mode: vertical-rl; position: absolute; right: 8%; top: 50%; transform: translateY(-50%); letter-spacing: 0.6em; color: var(--accent-gold); font-size: 0.85rem; opacity: 0.7; z-index: 20; }
+        /* 縦書き装飾 */
+        .vertical-text {
+            writing-mode: vertical-rl; position: absolute; right: 8%; top: 50%; transform: translateY(-50%);
+            letter-spacing: 0.6em; color: var(--accent-gold); font-size: 0.85rem; opacity: 0.7; z-index: 20;
+        }
+
         .content { z-index: 10; text-align: center; width: 90%; }
-        .brand-logo { width: clamp(200px, 25vw, 350px); margin-bottom: 25px; filter: drop-shadow(0 0 15px rgba(0,0,0,0.5)); }
+        /* フィルターを削除 */
+        .brand-logo { width: clamp(200px, 25vw, 350px); margin-bottom: 25px; }
+        
         .project-visual { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
         .img-bg { width: 100%; height: 100%; object-fit: cover; opacity: 0.25; transition: transform 2s ease; }
-        section:hover .img-bg { transform: scale(1.05); }
-
+        
         .concept-wrap { border-left: 1px solid var(--accent-gold); border-right: 1px solid var(--accent-gold); padding: 60px 100px; }
         .concept-text { font-size: clamp(1rem, 2.5vw, 1.3rem); letter-spacing: 0.4em; line-height: 2.8; }
         .tagline { color: var(--accent-gold); letter-spacing: 0.5em; font-size: 0.75rem; margin-bottom: 15px; }
@@ -158,8 +144,7 @@
                 <div class="concept-wrap">
                     <p class="concept-text">
                         日常のなかの発見を楽しさに変え、<br>
-                        そこから繋がりを生み出していく。<br>
-                        情熱を、理論で加速させる。
+                        そこから繋がりを生み出していく。
                     </p>
                 </div>
             </div>
@@ -203,10 +188,13 @@
                     <a href="#goalink" class="tile"><img src="gold_goalinklogo.png" alt="Goalink"></a>
                     <a href="#travid" class="tile"><img src="gold_travidlogo.png" alt="TRAVID"></a>
                 </div>
-                <p style="margin-top:60px; opacity:0.3; font-size:0.6rem; letter-spacing:0.4em;">© 2026 HEKION. ALL RIGHTS RESERVED.</p>
             </div>
         </section>
     </div>
+
+    <footer>
+        <p class="copyright">© 2026 HEKION. ALL RIGHTS RESERVED.</p>
+    </footer>
 
     <script>
         const container = document.getElementById('scrollContainer');
@@ -216,13 +204,11 @@
         const contents = document.querySelectorAll('.content');
         const visuals = document.querySelectorAll('.img-bg');
 
-        // メニューの開閉
         menuBtn.addEventListener('click', () => {
             menuBtn.classList.toggle('active');
             sideMenu.classList.toggle('open');
         });
 
-        // メニューリンクをクリックしたら閉じる
         menuItems.forEach(item => {
             item.addEventListener('click', () => {
                 menuBtn.classList.remove('active');
@@ -235,12 +221,10 @@
             const winH = window.innerHeight;
             const activeIndex = Math.round(scrolled / winH);
 
-            // メニューのアクティブ表示
             menuItems.forEach((item, i) => {
                 item.classList.toggle('active', i === activeIndex);
             });
 
-            // パララックス演出
             contents.forEach((content, index) => {
                 const offset = index * winH;
                 const progress = (scrolled - offset) / winH;

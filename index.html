@@ -4,19 +4,178 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HEKION - 統合ブランド公式サイト</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        :root {
+            --navy: #001a3d;
+            --gold: #d4af37;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--navy);
+            color: var(--white);
+            font-family: "Yu Mincho", "MS Mincho", serif;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* ヘッダー */
+        .header {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 80px;
+            z-index: 1000;
+            padding: 0 4%;
+            display: flex;
+            align-items: center;
+            transition: background 0.4s ease;
+        }
+
+        .header-inner {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo img { height: 45px; }
+
+        /* ハンバーガーボタン */
+        .menu-btn {
+            background: none; border: none; cursor: pointer;
+            width: 35px; height: 35px;
+            position: relative; z-index: 1100;
+        }
+
+        .menu-btn span {
+            display: block; width: 100%; height: 1.5px;
+            background-color: var(--gold);
+            position: absolute; left: 0;
+            transition: all 0.4s ease;
+        }
+
+        .menu-btn span:nth-child(1) { top: 8px; }
+        .menu-btn span:nth-child(2) { top: 17px; }
+        .menu-btn span:nth-child(3) { top: 26px; }
+
+        .menu-btn.active span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+        .menu-btn.active span:nth-child(2) { opacity: 0; }
+        .menu-btn.active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+
+        /* 全画面メニュー */
+        .nav {
+            position: fixed; top: 0; right: -100%;
+            width: 100%; height: 100vh;
+            background: rgba(0, 26, 61, 0.98);
+            z-index: 1050; transition: 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            display: flex; justify-content: center; align-items: center;
+        }
+
+        .nav.active { right: 0; }
+        .nav ul { list-style: none; text-align: center; }
+        .nav ul li { margin: 25px 0; }
+        .nav ul li a {
+            color: var(--gold); text-decoration: none;
+            font-size: 1.8rem; letter-spacing: 0.3em;
+        }
+
+        /* セクション設定 */
+        .section {
+            width: 100%; min-height: 100vh;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            position: relative;
+        }
+
+        /* メインビジュアル */
+        .mv { overflow: hidden; }
+        .mv-img { width: 100%; height: 100vh; object-fit: cover; }
+        .mv-copy {
+            position: absolute; right: 8%; top: 50%;
+            transform: translateY(-50%);
+        }
+        .vertical-text {
+            writing-mode: vertical-rl; font-size: 2.8rem;
+            color: var(--gold); letter-spacing: 0.6em;
+            text-shadow: 0 0 15px rgba(0,0,0,0.5);
+        }
+
+        /* ブランド共通 */
+        .brand-sec {
+            background-size: cover; background-position: center;
+            background-attachment: fixed;
+            padding: 100px 5%;
+        }
+
+        .brand-overlay {
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 26, 61, 0.6);
+        }
+
+        .brand-inner {
+            position: relative; z-index: 1; text-align: center;
+        }
+
+        .brand-logo { max-width: 250px; margin-bottom: 20px; }
+        .brand-theme { color: var(--gold); font-size: 1.5rem; margin-bottom: 15px; letter-spacing: 0.2em; }
+        .brand-concept { font-size: 1.1rem; letter-spacing: 0.1em; margin-bottom: 30px; }
+
+        .gold-text { color: var(--gold); letter-spacing: 0.4em; margin-bottom: 2rem; font-size: 2rem; }
+
+        /* ボタンデザイン */
+        .view-more {
+            display: inline-block; padding: 12px 50px;
+            border: 1px solid var(--gold); color: var(--gold);
+            text-decoration: none; letter-spacing: 0.2em;
+            transition: 0.4s;
+        }
+        .view-more:hover { background: var(--gold); color: var(--navy); }
+
+        /* お知らせ・コンセプト */
+        .concept-sec, .news-sec { padding: 120px 5%; text-align: center; background: var(--navy); }
+        .concept-text { font-size: 1.2rem; line-height: 2.5; }
+
+        .news-list { list-style: none; max-width: 800px; margin: 0 auto; text-align: left; }
+        .news-list li { border-bottom: 1px solid rgba(212, 175, 55, 0.3); padding: 15px 0; display: flex; align-items: center; }
+        .news-list .date { color: var(--gold); margin-right: 20px; font-family: sans-serif; }
+        .news-list .label { background: var(--gold); color: var(--navy); padding: 2px 8px; font-size: 0.7rem; margin-right: 15px; }
+
+        /* フッター */
+        .footer { padding: 80px 5%; background: #000c1a; text-align: center; border-top: 1px solid #002a5e; }
+        .footer-brand-logos img { height: 25px; margin: 10px 20px; opacity: 0.6; }
+        .copyright { margin-top: 40px; font-size: 0.75rem; color: rgba(212, 175, 55, 0.5); }
+
+        /* フェードイン演出 */
+        .fade-in {
+            opacity: 0; transform: translateY(30px);
+            transition: 1.2s cubic-bezier(0.33, 1, 0.68, 1);
+        }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+        @media (max-width: 767px) {
+            .vertical-text { font-size: 1.8rem; }
+            .brand-logo { max-width: 180px; }
+            .news-list li { flex-direction: column; align-items: flex-start; }
+            .news-list .date { margin-bottom: 5px; }
+        }
+    </style>
 </head>
 <body>
 
-    <header class="header">
+    <header class="header" id="header">
         <div class="header-inner">
             <h1 class="logo">
                 <img src="gold_hekionlogo.png" alt="HEKION">
             </h1>
             <button class="menu-btn" id="menu-btn">
-                <span></span>
-                <span></span>
-                <span></span>
+                <span></span><span></span><span></span>
             </button>
         </div>
     </header>
@@ -105,6 +264,42 @@
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuBtn = document.getElementById('menu-btn');
+            const nav = document.getElementById('nav');
+            const header = document.getElementById('header');
+
+            menuBtn.addEventListener('click', () => {
+                menuBtn.classList.toggle('active');
+                nav.classList.toggle('active');
+            });
+
+            nav.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    menuBtn.classList.remove('active');
+                    nav.classList.remove('active');
+                });
+            });
+
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 100) {
+                    header.style.background = 'rgba(0, 26, 61, 0.9)';
+                } else {
+                    header.style.background = 'transparent';
+                }
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.15 });
+
+            document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+        });
+    </script>
 </body>
 </html>

@@ -113,9 +113,9 @@
         .btn-viewmore { width: 220px; height: 56px; display: flex; justify-content: center; align-items: center; border: 1px solid currentColor; text-decoration: none; font-size: 1rem; letter-spacing: 0.25em; color: inherit; transition: 0.3s; }
         .btn-viewmore:hover { background: rgba(255, 255, 255, 0.1); }
 
-        /* PC版 縦書き：1列・改行なし */
+        /* PC版 縦書き */
         .card-side { position: relative; z-index: 10; width: 120px; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 60px 0; writing-mode: vertical-rl; font-size: 1.6rem; letter-spacing: 0.4em; border-left: 1px solid rgba(128, 128, 128, 0.2); font-weight: bold; }
-        .card-side span { white-space: nowrap; display: flex; flex-direction: column; justify-content: space-between; height: 100%; }
+        .card-side span { white-space: nowrap; display: flex; flex-direction: column; justify-content: flex-end; height: 100%; }
         
         .card-ganar, .card-goalink { color: var(--white); } .card-travid { color: var(--black); }
 
@@ -159,8 +159,7 @@
             .card-desc { font-size: 0.8rem; margin-bottom: 20px; }
             .btn-viewmore { width: 140px; height: 40px; font-size: 0.75rem; }
             .card-side { width: 50px; font-size: 0.85rem; padding: 20px 0; }
-            /* スマホ版では改行を許可 */
-            .card-side span { white-space: normal; }
+            .card-side span { white-space: normal; justify-content: center; } /* スマホは中央で良い場合 */
             .footer-site-links { flex-direction: column; align-items: center; }
             .footer-link-box { width: 100%; max-width: 320px; height: 85px; }
             .pagetop { right: 20px; bottom: 20px; width: 50px; height: 50px; }

@@ -2,25 +2,40 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HEKION Official</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>HEKION Official | 発見、楽しさ、繋がり。</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        /* * ==========================================
+         * CORE SETTINGS & VARIABLES
+         * ==========================================
+         */
         :root {
             --bg-navy: #0a111f;
+            --bg-navy-bright: #0f1a2e;
             --gold: #c5a059;
+            --gold-bright: #e0c28d;
+            --gold-dark: #8e6d35;
             --white: #ffffff;
             --black: #000000;
             --overlay-ganar: rgba(135, 206, 235, 0.75);
             --overlay-goalink: rgba(0, 0, 0, 0.85);
             --overlay-travid: rgba(255, 255, 255, 0.95);
+            --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+            --ease-in-out-sine: cubic-bezier(0.445, 0.05, 0.55, 0.95);
         }
 
-        /* 全体設定 */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            outline: none;
+        }
+
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+            -webkit-text-size-adjust: 100%;
         }
 
         body {
@@ -28,85 +43,108 @@
             color: var(--white);
             font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
             overflow-x: hidden;
-            line-height: 1.8;
+            line-height: 2.0;
             -webkit-font-smoothing: antialiased;
+            letter-spacing: 0.05em;
         }
 
-        /* 背景演出：麻の葉ドット */
+        /* * ==========================================
+         * BACKGROUND ANIMATIONS (FLASHLIGHT & PATTERN)
+         * ==========================================
+         */
+        .bg-layer {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
         .bg-pattern {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: radial-gradient(circle at 2px 2px, rgba(197, 160, 89, 0.05) 1px, transparent 0);
-            background-size: 40px 40px;
-            z-index: -1;
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                radial-gradient(circle at 2px 2px, rgba(197, 160, 89, 0.08) 1.5px, transparent 0);
+            background-size: 50px 50px;
+            opacity: 0.6;
         }
 
-        /* 背景演出：閃光（ゴールドライン） */
+        .gold-line-container {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            overflow: hidden;
+        }
+
         .gold-line {
-            position: fixed;
-            top: 50%;
-            left: -100%;
-            width: 200%;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            position: absolute;
+            top: 50%; left: -150%; width: 300%; height: 1px;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(197, 160, 89, 0) 20%, 
+                rgba(197, 160, 89, 0.8) 50%, 
+                rgba(197, 160, 89, 0) 80%, 
+                transparent 100%);
             transform: rotate(-35deg);
-            animation: flash-line 8s infinite linear;
             z-index: -1;
-            opacity: 0.3;
         }
 
-        @keyframes flash-line {
-            0% {
-                transform: rotate(-35deg) translateY(-100vh);
-                opacity: 0;
-            }
-            50% {
-                opacity: 0.3;
-            }
-            100% {
-                transform: rotate(-35deg) translateY(100vh);
-                opacity: 0;
-            }
+        .line-01 { animation: flash-line-1 12s infinite var(--ease-in-out-sine); }
+        .line-02 { animation: flash-line-2 15s infinite var(--ease-in-out-sine); animation-delay: 2s; }
+
+        @keyframes flash-line-1 {
+            0% { transform: rotate(-35deg) translateY(-120vh); opacity: 0; }
+            20% { opacity: 0.4; }
+            50% { opacity: 0.1; }
+            80% { opacity: 0.4; }
+            100% { transform: rotate(-35deg) translateY(120vh); opacity: 0; }
         }
 
-        /* ヘッダー：完全透明・追従 */
+        @keyframes flash-line-2 {
+            0% { transform: rotate(-35deg) translateY(120vh); opacity: 0; }
+            100% { transform: rotate(-35deg) translateY(-120vh); opacity: 0; }
+        }
+
+        /* * ==========================================
+         * HEADER & NAVIGATION
+         * ==========================================
+         */
         header {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 60px;
+            top: 0; left: 0; width: 100%; height: 120px;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0 80px;
             background: transparent;
-            z-index: 1000;
-            transition: all 0.4s ease;
+            z-index: 5000;
+            transition: transform 0.6s var(--ease-out-expo), background 0.4s;
+        }
+
+        header.scrolled {
+            height: 90px;
+            background: rgba(10, 17, 31, 0.8);
+            backdrop-filter: blur(10px);
         }
 
         .header-logo {
-            display: flex;
-            align-items: center;
+            cursor: pointer;
+            transition: opacity 0.3s;
         }
+
+        .header-logo:hover { opacity: 0.8; }
 
         .header-logo img {
-            height: 50px;
+            height: 60px;
             width: auto;
             object-fit: contain;
+            filter: drop-shadow(0 0 10px rgba(197, 160, 89, 0.2));
         }
 
-        /* サイドメニューボタン */
+        /* メニューボタン：z-indexをサイドメニューより高く設定 */
         .menu-btn {
             background: none;
             border: none;
             cursor: pointer;
-            z-index: 3000;
-            width: 45px;
-            height: 45px;
+            z-index: 9999;
+            width: 60px;
+            height: 60px;
             position: relative;
             display: flex;
             justify-content: center;
@@ -116,103 +154,89 @@
         .menu-btn span {
             display: block;
             position: absolute;
-            width: 35px;
-            height: 2px;
+            width: 40px;
+            height: 1px;
             background: var(--gold);
-            transition: all 0.4s cubic-bezier(0.7, 0, 0.3, 1);
+            transition: all 0.5s var(--ease-out-expo);
         }
 
-        .menu-btn span:nth-child(1) { top: 12px; }
-        .menu-btn span:nth-child(2) { top: 22px; }
-        .menu-btn span:nth-child(3) { top: 32px; }
+        .menu-btn span:nth-child(1) { transform: translateY(-12px); }
+        .menu-btn span:nth-child(2) { width: 30px; transform: translateX(5px); }
+        .menu-btn span:nth-child(3) { transform: translateY(12px); }
 
-        .menu-btn.open span:nth-child(1) {
-            transform: translateY(10px) rotate(45deg);
-        }
+        .menu-btn.open span:nth-child(1) { transform: translateY(0) rotate(45deg); background: var(--gold); }
+        .menu-btn.open span:nth-child(2) { opacity: 0; transform: translateX(-20px); }
+        .menu-btn.open span:nth-child(3) { transform: translateY(0) rotate(-45deg); background: var(--gold); }
 
-        .menu-btn.open span:nth-child(2) {
-            opacity: 0;
-            transform: translateX(-20px);
-        }
-
-        .menu-btn.open span:nth-child(3) {
-            transform: translateY(-10px) rotate(-45deg);
-        }
-
-        /* サイドメニュー本体 */
         .side-menu {
             position: fixed;
-            top: 0;
-            right: -100%;
-            width: 400px;
-            height: 100%;
-            background: rgba(10, 17, 31, 0.98);
-            backdrop-filter: blur(20px);
-            z-index: 2000;
-            padding: 140px 60px 60px;
-            transition: all 0.6s cubic-bezier(0.7, 0, 0.3, 1);
-            border-left: 1px solid rgba(197, 160, 89, 0.15);
-            display: flex;
-            flex-direction: column;
+            top: 0; right: -100%; width: 500px; height: 100vh;
+            background: rgba(5, 9, 17, 0.98);
+            backdrop-filter: blur(25px);
+            z-index: 9000;
+            padding: 160px 80px 80px;
+            transition: right 0.8s var(--ease-out-expo);
+            border-left: 1px solid rgba(197, 160, 89, 0.1);
         }
 
-        .side-menu.open {
-            right: 0;
+        .side-menu.open { right: 0; }
+
+        .side-menu-nav ul { list-style: none; }
+
+        .side-menu-nav ul li {
+            margin-bottom: 45px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s var(--ease-out-expo);
         }
 
-        .side-menu ul {
-            list-style: none;
-        }
+        .side-menu.open ul li { opacity: 1; transform: translateY(0); }
+        .side-menu.open ul li:nth-child(1) { transition-delay: 0.2s; }
+        .side-menu.open ul li:nth-child(2) { transition-delay: 0.3s; }
+        .side-menu.open ul li:nth-child(3) { transition-delay: 0.4s; }
+        .side-menu.open ul li:nth-child(4) { transition-delay: 0.5s; }
 
-        .side-menu ul li {
-            margin-bottom: 35px;
-            overflow: hidden;
-        }
-
-        .side-menu ul li a {
+        .side-menu-nav ul li a {
             color: var(--white);
             text-decoration: none;
-            font-size: 1.2rem;
-            letter-spacing: 0.15em;
+            font-size: 1.4rem;
+            letter-spacing: 0.2em;
+            font-weight: 200;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: color 0.3s ease;
         }
 
-        .side-menu ul li a:hover {
-            color: var(--gold);
-        }
-
-        .side-menu ul li a i {
-            font-size: 0.9rem;
-            transition: transform 0.3s ease;
-        }
+        .side-menu-nav ul li a:hover { color: var(--gold); }
 
         .submenu {
             max-height: 0;
             overflow: hidden;
-            padding-left: 25px;
-            transition: all 0.5s cubic-bezier(0.7, 0, 0.3, 1);
+            padding-left: 30px;
+            transition: all 0.6s var(--ease-out-expo);
             opacity: 0;
         }
 
         .submenu.show {
-            max-height: 300px;
-            margin-top: 20px;
+            max-height: 500px;
+            margin-top: 30px;
             opacity: 1;
         }
 
         .submenu li {
-            margin-bottom: 15px !important;
+            margin-bottom: 25px !important;
+            transform: none !important;
         }
 
         .submenu li a {
-            font-size: 1rem !important;
-            opacity: 0.7;
+            font-size: 1.1rem !important;
+            opacity: 0.6;
         }
 
-        /* メインビジュアル */
+        /* * ==========================================
+         * MAIN VISUAL
+         * ==========================================
+         */
         .mv {
             width: 100%;
             height: 100vh;
@@ -222,111 +246,161 @@
             justify-content: center;
             align-items: center;
             text-align: center;
+            overflow: hidden;
+        }
+
+        .mv-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
             background-size: cover;
             background-position: center;
-            background-repeat: no-repeat;
+            z-index: -1;
+            transform: scale(1.05);
+            transition: transform 10s linear;
         }
 
-        @media (min-width: 769px) {
-            .mv { background-image: url('mv_pc_bg.png'); }
-        }
-        @media (max-width: 768px) {
-            .mv { background-image: url('mv_sp_bg.png'); }
+        .mv.loaded .mv-bg { transform: scale(1); }
+
+        @media (min-width: 769px) { .mv-bg { background-image: url('mv_pc_bg.png'); } }
+        @media (max-width: 768px) { .mv-bg { background-image: url('mv_sp_bg.png'); } }
+
+        .mv-content {
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        .mv img {
-            height: 120px;
-            width: auto;
-            margin-bottom: 30px;
-            filter: drop-shadow(0 0 15px rgba(197, 160, 89, 0.3));
+        .mv-logo {
+            height: 140px;
+            margin-bottom: 40px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1.2s var(--ease-out-expo) 0.5s;
         }
+
+        .mv.loaded .mv-logo { opacity: 1; transform: translateY(0); }
 
         .mv-copy {
-            font-size: clamp(1.8rem, 6vw, 3.2rem);
-            letter-spacing: 0.4em;
+            font-size: clamp(1.1rem, 6.5vw, 3.8rem);
+            letter-spacing: 0.45em;
             color: var(--gold);
             font-weight: bold;
-            text-shadow: 0 0 30px rgba(0,0,0,0.6);
             white-space: nowrap;
-            margin-left: 0.4em;
+            text-shadow: 0 0 40px rgba(0,0,0,0.8);
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1.2s var(--ease-out-expo) 0.8s;
+            margin-left: 0.45em; /* センター寄せ補正 */
         }
 
-        /* メインコンテナ */
-        .container {
-            max-width: 1300px;
+        .mv.loaded .mv-copy { opacity: 1; transform: translateY(0); }
+
+        /* * ==========================================
+         * CONTENT SECTIONS
+         * ==========================================
+         */
+        .main-content {
+            position: relative;
+            z-index: 20;
+            max-width: 1500px;
             margin: 0 auto;
-            padding: 120px 40px;
+            padding: 180px 100px;
         }
 
-        /* 各セクション共通タイトル */
+        .section-header {
+            margin-bottom: 100px;
+            position: relative;
+        }
+
         .section-title {
+            font-size: 2.8rem;
             color: var(--gold);
-            margin-bottom: 60px;
-            font-size: 2rem;
-            letter-spacing: 0.25em;
-            border-bottom: 1px solid var(--gold);
+            letter-spacing: 0.3em;
+            font-weight: 200;
             display: inline-block;
-            padding-bottom: 10px;
-            font-weight: 300;
+            position: relative;
+            padding-bottom: 20px;
         }
 
-        /* CONCEPTセクション */
-        .concept-section {
-            margin-bottom: 150px;
+        .section-title::after {
+            content: "";
+            position: absolute;
+            bottom: 0; left: 0; width: 60%; height: 1px;
+            background: var(--gold);
+        }
+
+        .concept-body {
+            margin-bottom: 200px;
         }
 
         .concept-text {
-            font-size: 1.3rem;
-            line-height: 2.4;
-            letter-spacing: 0.1em;
+            font-size: 1.8rem;
+            line-height: 2.8;
+            letter-spacing: 0.15em;
             font-weight: 300;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1.2s var(--ease-out-expo);
         }
 
-        /* PROJECTセクション */
-        .project-section {
-            margin-bottom: 150px;
+        .concept-text.active { opacity: 1; transform: translateY(0); }
+
+        /* * ==========================================
+         * PROJECT CARDS (16:9 & VERTICAL TEXT)
+         * ==========================================
+         */
+        .project-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 150px;
         }
 
-        /* プロジェクトカード：16:9比率 */
         .project-card {
             position: relative;
             width: 100%;
             aspect-ratio: 16 / 9;
-            margin-bottom: 100px;
             display: flex;
-            overflow: hidden;
-            background-size: cover;
-            background-position: center;
             border-radius: 4px;
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
-            transition: transform 0.5s ease;
+            overflow: hidden;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.8);
+            opacity: 0;
+            transform: translateY(60px);
+            transition: all 1.2s var(--ease-out-expo);
         }
+
+        .project-card.active { opacity: 1; transform: translateY(0); }
 
         .project-card::before {
             content: "";
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             z-index: 1;
         }
 
-        .project-card.ganar { background-image: url('bg_ganar.png'); }
-        .project-card.ganar::before { background-color: var(--overlay-ganar); }
+        .card-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover;
+            background-position: center;
+            transition: transform 1.5s var(--ease-out-expo);
+        }
 
-        .project-card.goalink { background-image: url('bg_goalink.png'); }
-        .project-card.goalink::before { background-color: var(--overlay-goalink); }
+        .project-card:hover .card-bg { transform: scale(1.08); }
 
-        .project-card.travid { background-image: url('bg_travid.png'); }
-        .project-card.travid::before { background-color: var(--overlay-travid); }
+        /* 各プロジェクトカラー */
+        .card-ganar .card-bg { background-image: url('bg_ganar.png'); }
+        .card-ganar::before { background: var(--overlay-ganar); }
+        .card-goalink .card-bg { background-image: url('bg_goalink.png'); }
+        .card-goalink::before { background: var(--overlay-goalink); }
+        .card-travid .card-bg { background-image: url('bg_travid.png'); }
+        .card-travid::before { background: var(--overlay-travid); }
 
-        /* カード内メインコンテンツ */
-        .card-main {
+        .card-content-main {
             position: relative;
-            z-index: 2;
+            z-index: 10;
             flex: 1;
-            padding: 60px 80px;
+            padding: 80px 100px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -335,361 +409,428 @@
 
         .card-logo {
             max-height: 25%;
-            max-width: 320px;
+            max-width: 400px;
             object-fit: contain;
-            margin-bottom: 40px;
+            margin-bottom: 50px;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.2));
         }
 
         .card-description {
-            font-size: clamp(1rem, 2.5vw, 1.4rem);
-            line-height: 2;
-            margin-bottom: 50px;
-            white-space: pre-wrap;
+            font-size: clamp(1.1rem, 2.8vw, 1.6rem);
+            line-height: 2.2;
+            margin-bottom: 60px;
             font-weight: 400;
         }
 
-        .view-more-btn {
-            padding: 15px 50px;
+        .btn-viewmore {
+            padding: 18px 65px;
             border: 1px solid currentColor;
-            background: transparent;
             text-decoration: none;
-            font-size: 0.9rem;
-            letter-spacing: 0.3em;
+            font-size: 1.1rem;
+            letter-spacing: 0.35em;
             color: inherit;
-            transition: all 0.4s ease;
             position: relative;
+            overflow: hidden;
+            transition: all 0.4s;
         }
 
-        .view-more-btn:hover {
-            background: rgba(197, 160, 89, 0.2);
-            border-color: var(--gold);
-            color: var(--gold);
-            transform: translateX(10px);
+        .btn-viewmore::before {
+            content: "";
+            position: absolute;
+            top: 0; left: -100%; width: 100%; height: 100%;
+            background: rgba(255,255,255,0.1);
+            transition: left 0.4s;
         }
 
-        /* 縦書きテキスト：指定配置ルール */
-        .card-vertical-text {
+        .btn-viewmore:hover::before { left: 0; }
+        .btn-viewmore:hover { color: var(--gold); border-color: var(--gold); transform: translateX(10px); }
+
+        /* 縦書きパート：ご指定の改行と下寄せ */
+        .card-vertical-area {
             position: relative;
-            z-index: 2;
-            width: 120px;
+            z-index: 10;
+            width: 160px;
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
-            padding: 80px 0;
+            padding: 100px 0;
             writing-mode: vertical-rl;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             letter-spacing: 0.6em;
             border-left: 1px solid rgba(128, 128, 128, 0.2);
             font-weight: bold;
-            background: rgba(0,0,0,0.05);
+            background: rgba(0,0,0,0.02);
         }
 
-        /* テキスト色調整 */
-        .ganar, .goalink { color: var(--white); }
-        .travid { color: var(--black); }
+        /* 2行目を下寄せにするためのマージン */
+        .v-text-2 {
+            margin-top: auto;
+            padding-top: 60px;
+        }
 
-        /* NEWSセクション */
+        /* 文字色個別設定 */
+        .card-ganar, .card-goalink { color: var(--white); }
+        .card-travid { color: var(--black); }
+
+        /* * ==========================================
+         * NEWS & LINKS
+         * ==========================================
+         */
         .news-section {
-            margin: 120px 0;
-            padding: 100px 0;
+            margin-top: 150px;
+            padding-top: 150px;
             border-top: 1px solid rgba(197, 160, 89, 0.2);
         }
 
-        .news-list {
-            list-style: none;
-        }
+        .news-list { list-style: none; }
 
         .news-item {
-            padding: 35px 0;
+            padding: 50px 0;
             border-bottom: 1px solid rgba(197, 160, 89, 0.1);
             display: flex;
-            gap: 40px;
-            transition: all 0.3s ease;
+            gap: 60px;
+            transition: all 0.4s;
         }
 
-        .news-item:hover {
-            background: rgba(197, 160, 89, 0.02);
-            padding-left: 10px;
-        }
+        .news-item:hover { background: rgba(197, 160, 89, 0.03); padding-left: 20px; }
 
         .news-date {
             color: var(--gold);
             font-weight: bold;
-            width: 160px;
-            font-size: 1.1rem;
+            width: 220px;
+            font-size: 1.3rem;
         }
 
-        .news-content {
-            font-size: 1.1rem;
-            letter-spacing: 0.05em;
+        .news-label {
+            font-size: 0.9rem;
+            border: 1px solid var(--gold);
+            padding: 2px 12px;
+            margin-right: 15px;
+            vertical-align: middle;
         }
 
-        /* プロジェクトリンク */
-        .project-links {
-            padding: 100px 0;
+        .news-title {
+            font-size: 1.3rem;
+            font-weight: 300;
+        }
+
+        .link-grid {
             display: flex;
             justify-content: center;
-            gap: 40px;
+            gap: 50px;
+            margin-top: 150px;
             flex-wrap: wrap;
         }
 
-        .link-button {
-            padding: 22px 60px;
-            background: transparent;
+        .site-link-btn {
+            padding: 25px 80px;
             border: 1px solid var(--gold);
             color: var(--gold);
             text-decoration: none;
-            letter-spacing: 0.2em;
-            transition: all 0.4s ease;
-            font-size: 1rem;
+            letter-spacing: 0.4em;
+            transition: all 0.5s var(--ease-out-expo);
+            font-size: 1.2rem;
+            position: relative;
         }
 
-        .link-button:hover {
+        .site-link-btn:hover {
             background: var(--gold);
             color: var(--bg-navy);
-            box-shadow: 0 0 30px rgba(197, 160, 89, 0.4);
+            box-shadow: 0 0 50px rgba(197, 160, 89, 0.4);
+            transform: translateY(-5px);
         }
 
-        /* フッター */
+        /* * ==========================================
+         * FOOTER & PAGETOP
+         * ==========================================
+         */
         footer {
             background: #050911;
+            padding: 120px 80px;
             text-align: center;
-            padding: 80px 20px;
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.3);
-            letter-spacing: 0.2em;
             border-top: 1px solid rgba(197, 160, 89, 0.05);
         }
 
-        /* ページトップボタン */
-        .pagetop {
+        .footer-logo { height: 70px; margin-bottom: 50px; opacity: 0.5; }
+
+        .copyright {
+            color: rgba(255,255,255,0.3);
+            font-size: 1rem;
+            letter-spacing: 0.2em;
+        }
+
+        .pagetop-btn {
             position: fixed;
-            right: 40px;
-            bottom: 40px;
-            width: 70px;
-            height: 70px;
+            right: 60px;
+            bottom: 60px;
+            width: 90px;
+            height: 90px;
             background: var(--gold);
             color: var(--bg-navy);
+            border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             text-decoration: none;
-            border-radius: 50%;
-            z-index: 1000;
-            transition: all 0.4s ease;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            z-index: 4000;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+            transition: all 0.4s var(--ease-out-expo);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
         }
 
-        .pagetop:hover {
-            transform: translateY(-10px);
-            background: var(--white);
-        }
+        .pagetop-btn.visible { opacity: 1; visibility: visible; transform: translateY(0); }
+        .pagetop-btn:hover { background: var(--white); transform: scale(1.1); }
+        .pagetop-btn i { font-size: 1.8rem; }
 
-        /* レスポンシブ対応（スマホ・タブレット） */
+        /* * ==========================================
+         * RESPONSIVE DESIGN (SMARTPHONE)
+         * ==========================================
+         */
         @media (max-width: 1024px) {
-            .container { padding: 80px 30px; }
-            .card-main { padding: 40px 50px; }
-            .side-menu { width: 350px; }
+            header { padding: 0 40px; height: 100px; }
+            .main-content { padding: 120px 40px; }
+            .side-menu { width: 450px; }
         }
 
         @media (max-width: 768px) {
-            header { padding: 0 30px; height: 80px; }
-            .header-logo img { height: 40px; }
-            .side-menu { width: 100%; padding: 120px 40px 40px; }
+            header { padding: 0 25px; height: 85px; }
+            .header-logo img { height: 45px; }
             
-            .mv-copy { font-size: 1.8rem; }
-            
-            .project-card { 
-                margin-bottom: 60px;
-                aspect-ratio: 16 / 9; /* 強制維持 */
-            }
+            .side-menu { width: 100%; padding: 140px 40px 60px; }
+            .menu-btn { width: 50px; height: 50px; }
+            .menu-btn span { width: 35px; }
 
-            .card-main { padding: 4% 5%; }
-            .card-logo { max-width: 160px; margin-bottom: 15px; }
-            .card-description { font-size: 0.75rem; line-height: 1.6; margin-bottom: 15px; }
-            .view-more-btn { padding: 10px 25px; font-size: 0.75rem; }
+            .mv-logo { height: 100px; }
             
-            .card-vertical-text { 
-                width: 60px; 
-                padding: 30px 0; 
-                font-size: 1rem; 
+            .section-title { font-size: 2rem; margin-bottom: 50px; }
+            .concept-text { font-size: 1.2rem; line-height: 2.2; }
+
+            .project-grid { gap: 80px; }
+            .project-card { aspect-ratio: 16 / 9; } /* 強制維持 */
+
+            .card-content-main { padding: 5% 6%; }
+            .card-logo { max-width: 160px; margin-bottom: 15px; }
+            .card-description { font-size: 0.8rem; line-height: 1.6; margin-bottom: 15px; }
+            .btn-viewmore { padding: 10px 30px; font-size: 0.8rem; letter-spacing: 0.2em; }
+
+            .card-vertical-area { 
+                width: 70px; 
+                padding: 35px 0; 
+                font-size: 1.1rem; 
                 letter-spacing: 0.4em;
             }
+            .v-text-2 { padding-top: 30px; }
 
-            .news-item { flex-direction: column; gap: 8px; padding: 25px 0; }
-            .news-date { width: 100%; font-size: 1rem; }
-            .news-content { font-size: 1rem; }
-            
-            .project-links { gap: 20px; }
-            .link-button { width: 100%; text-align: center; padding: 18px; }
-            
-            .pagetop { right: 20px; bottom: 20px; width: 55px; height: 55px; }
-        }
+            .news-item { flex-direction: column; gap: 12px; padding: 35px 0; }
+            .news-date { width: 100%; font-size: 1.1rem; }
+            .news-title { font-size: 1.1rem; }
 
-        /* 2行目の縦書き文字用：下寄せ気味の調整 */
-        .card-vertical-text span.v-line-2 {
-            margin-top: 30px;
+            .link-grid { gap: 20px; margin-top: 80px; }
+            .site-link-btn { width: 100%; text-align: center; padding: 20px; font-size: 1rem; }
+
+            footer { padding: 80px 40px; }
+            .pagetop-btn { right: 25px; bottom: 25px; width: 65px; height: 65px; }
         }
 
     </style>
 </head>
 <body>
 
-    <div class="bg-pattern"></div>
-    <div class="gold-line"></div>
+    <div class="bg-layer">
+        <div class="bg-pattern"></div>
+        <div class="gold-line-container">
+            <div class="gold-line line-01"></div>
+            <div class="gold-line line-02"></div>
+        </div>
+    </div>
 
-    <header id="header">
-        <div class="header-logo">
+    <header id="mainHeader">
+        <div class="header-logo" onclick="window.scrollTo({top:0, behavior:'smooth'})">
             <img src="gold_hekionlogo.png" alt="HEKION">
         </div>
-        <button class="menu-btn" id="menuBtn">
-            <span></span>
-            <span></span>
-            <span></span>
+        <button class="menu-btn" id="menuBtn" aria-label="Menu">
+            <span></span><span></span><span></span>
         </button>
     </header>
 
     <nav class="side-menu" id="sideMenu">
-        <ul>
-            <li><a href="#">◯ TOP トップ</a></li>
-            <li><a href="#">◯ ABOUT HEKIONについて</a></li>
-            <li>
-                <a href="#" id="projectToggle">
-                    ◯ PROJECTS プロジェクト 
-                    <i class="fas fa-plus"></i>
-                </a>
-                <ul class="submenu" id="submenu">
-                    <li><a href="#">- GANAR</a></li>
-                    <li><a href="#">- Goalink</a></li>
-                    <li><a href="#">- TRAVID</a></li>
-                </ul>
-            </li>
-            <li><a href="#">◯ NEWS ニュース</a></li>
-        </ul>
+        <div class="side-menu-nav">
+            <ul>
+                <li><a href="#">◯ TOP <span style="font-size: 0.8rem; margin-left: 10px; opacity: 0.5;">トップ</span></a></li>
+                <li><a href="#">◯ ABOUT <span style="font-size: 0.8rem; margin-left: 10px; opacity: 0.5;">HEKIONについて</span></a></li>
+                <li>
+                    <a href="#" id="projectToggle">◯ PROJECTS <span style="font-size: 0.8rem; margin-left: 10px; opacity: 0.5;">プロジェクト</span> <i class="fas fa-plus" style="font-size: 1rem;"></i></a>
+                    <ul class="submenu" id="submenu">
+                        <li><a href="#">- GANAR</a></li>
+                        <li><a href="#">- Goalink</a></li>
+                        <li><a href="#">- TRAVID</a></li>
+                    </ul>
+                </li>
+                <li><a href="#">◯ NEWS <span style="font-size: 0.8rem; margin-left: 10px; opacity: 0.5;">ニュース</span></a></li>
+            </ul>
+        </div>
     </nav>
 
-    <div class="mv">
-        <img src="gold_hekionlogo.png" alt="HEKION">
-        <h2 class="mv-copy">発見、楽しさ、繋がり。</h2>
-    </div>
+    <section class="mv" id="home">
+        <div class="mv-bg"></div>
+        <div class="mv-content">
+            <img src="gold_hekionlogo.png" alt="HEKION Official" class="mv-logo">
+            <h1 class="mv-copy">発見、楽しさ、繋がり。</h1>
+        </div>
+    </section>
 
-    <main class="container">
+    <main class="main-content">
         
-        <section class="concept-section">
-            <h2 class="section-title">CONCEPT</h2>
-            <p class="concept-text">
+        <section class="concept-body">
+            <div class="section-header">
+                <h2 class="section-title">CONCEPT</h2>
+            </div>
+            <p class="concept-text scroll-reveal">
                 日常のなかの発見を楽しさに変え、<br>
                 そこから繋がりを生み出していく。
             </p>
         </section>
 
-        <section class="project-section">
-            <h2 class="section-title">PROJECT</h2>
+        <section class="project-body">
+            <div class="section-header">
+                <h2 class="section-title">PROJECT</h2>
+            </div>
             
-            <div class="project-card ganar">
-                <div class="card-main">
-                    <img src="ganarlogo.png" alt="GANAR" class="card-logo">
-                    <p class="card-description">勝ちにこだわる。<br>でも、楽しむことを忘れない。</p>
-                    <a href="#" class="view-more-btn">VIEW MORE</a>
+            <div class="project-grid">
+                
+                <div class="project-card card-ganar scroll-reveal">
+                    <div class="card-bg"></div>
+                    <div class="card-content-main">
+                        <img src="ganarlogo.png" alt="GANAR" class="card-logo">
+                        <p class="card-description">勝ちにこだわる。<br>でも、楽しむことを忘れない。</p>
+                        <a href="#" class="btn-viewmore">VIEW MORE</a>
+                    </div>
+                    <div class="card-vertical-area">
+                        <span class="v-text-1">楽しんだもん</span>
+                        <span class="v-text-2">勝ち</span>
+                    </div>
                 </div>
-                <div class="card-vertical-text">
-                    <span>楽しんだもん勝ち</span>
-                </div>
-            </div>
 
-            <div class="project-card goalink">
-                <div class="card-main">
-                    <img src="goalinklogo.png" alt="Goalink" class="card-logo">
-                    <p class="card-description">サッカーを、もっと近くに。<br>知る事で、好きになる。</p>
-                    <a href="#" class="view-more-btn">VIEW MORE</a>
+                <div class="project-card card-goalink scroll-reveal">
+                    <div class="card-bg"></div>
+                    <div class="card-content-main">
+                        <img src="goalinklogo.png" alt="Goalink" class="card-logo">
+                        <p class="card-description">サッカーを、もっと近くに。<br>知る事で、好きになる。</p>
+                        <a href="#" class="btn-viewmore">VIEW MORE</a>
+                    </div>
+                    <div class="card-vertical-area">
+                        <span class="v-text-1">サッカーと人を</span>
+                        <span class="v-text-2">つなぐ</span>
+                    </div>
                 </div>
-                <div class="card-vertical-text">
-                    <span>サッカーと人をつなぐ</span>
-                </div>
-            </div>
 
-            <div class="project-card travid">
-                <div class="card-main">
-                    <img src="travidlogo.png" alt="TRAVID" class="card-logo">
-                    <p class="card-description">旅の前も、旅のあとも。<br>楽しさは続いていく。</p>
-                    <a href="#" class="view-more-btn">VIEW MORE</a>
+                <div class="project-card card-travid scroll-reveal">
+                    <div class="card-bg"></div>
+                    <div class="card-content-main">
+                        <img src="travidlogo.png" alt="TRAVID" class="card-logo">
+                        <p class="card-description">旅の前も、旅のあとも。<br>楽しさは続いていく。</p>
+                        <a href="#" class="btn-viewmore">VIEW MORE</a>
+                    </div>
+                    <div class="card-vertical-area">
+                        <span class="v-text-1">旅の楽しさを、</span>
+                        <span class="v-text-2">カタチに</span>
+                    </div>
                 </div>
-                <div class="card-vertical-text">
-                    <span>旅の楽しさを、カタチに。</span>
-                </div>
-            </div>
 
+            </div>
         </section>
 
-        <section class="news-section">
-            <h2 class="section-title">NEWS</h2>
+        <section class="news-section scroll-reveal">
+            <div class="section-header">
+                <h2 class="section-title">NEWS</h2>
+            </div>
             <ul class="news-list">
                 <li class="news-item">
                     <span class="news-date">2026.01.14</span>
-                    <span class="news-content">WEBサイトをリニューアルしました。</span>
+                    <span class="news-title"><span class="news-label">INFO</span>WEBサイトをリニューアルしました。</span>
                 </li>
             </ul>
         </section>
 
-        <section class="project-links">
-            <a href="#" class="link-button">GANAR SITE</a>
-            <a href="#" class="link-button">Goalink SITE</a>
-            <a href="#" class="link-button">TRAVID SITE</a>
+        <section class="link-grid scroll-reveal">
+            <a href="#" class="site-link-btn">GANAR SITE</a>
+            <a href="#" class="site-link-btn">Goalink SITE</a>
+            <a href="#" class="site-link-btn">TRAVID SITE</a>
         </section>
 
     </main>
 
     <footer>
-        <p>&copy; 2026 HEKION. All Rights Reserved.</p>
+        <img src="gold_hekionlogo.png" alt="HEKION" class="footer-logo">
+        <p class="copyright">&copy; 2026 HEKION. All Rights Reserved.</p>
     </footer>
 
-    <a href="#" class="pagetop" id="pageTop">
+    <a href="#" class="pagetop-btn" id="pageTop">
         <i class="fas fa-chevron-up"></i>
     </a>
 
     <script>
-        const menuBtn = document.getElementById('menuBtn');
-        const sideMenu = document.getElementById('sideMenu');
-        const projectToggle = document.getElementById('projectToggle');
-        const submenu = document.getElementById('submenu');
-        const pageTop = document.getElementById('pageTop');
+        document.addEventListener('DOMContentLoaded', () => {
+            const mv = document.querySelector('.mv');
+            const menuBtn = document.getElementById('menuBtn');
+            const sideMenu = document.getElementById('sideMenu');
+            const projectToggle = document.getElementById('projectToggle');
+            const submenu = document.getElementById('submenu');
+            const header = document.getElementById('mainHeader');
+            const pageTop = document.getElementById('pageTop');
 
-        // サイドメニュー開閉
-        menuBtn.addEventListener('click', () => {
-            menuBtn.classList.toggle('open');
-            sideMenu.classList.toggle('open');
-            // メニューが開いているときはスクロールを止める
-            document.body.style.overflow = sideMenu.classList.contains('open') ? 'hidden' : '';
-        });
+            // MV読み込みアニメーション
+            setTimeout(() => mv.classList.add('loaded'), 500);
 
-        // アコーディオン（PROJECTS）
-        projectToggle.addEventListener('click', (e) => {
-            e.preventDefault();
-            const icon = projectToggle.querySelector('i');
-            submenu.classList.toggle('show');
-            
-            if (submenu.classList.contains('show')) {
-                icon.classList.replace('fa-plus', 'fa-minus');
-            } else {
-                icon.classList.replace('fa-minus', 'fa-plus');
-            }
-        });
-
-        // ページトップスクロール
-        pageTop.addEventListener('click', (e) => {
-            e.preventDefault();
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
+            // サイドメニュー開閉
+            menuBtn.addEventListener('click', () => {
+                menuBtn.classList.toggle('open');
+                sideMenu.classList.toggle('open');
+                document.body.style.overflow = sideMenu.classList.contains('open') ? 'hidden' : '';
             });
-        });
 
-        // スクロール時のヘッダー演出（必要に応じて透明度を微調整）
-        window.addEventListener('scroll', () => {
-            const header = document.getElementById('header');
-            if (window.scrollY > 100) {
-                // 指示により完全透明を維持。必要ならここで色を付けられます。
-            }
+            // アコーディオン
+            projectToggle.addEventListener('click', (e) => {
+                e.preventDefault();
+                const icon = projectToggle.querySelector('i');
+                submenu.classList.toggle('show');
+                icon.classList.toggle('fa-plus');
+                icon.classList.toggle('fa-minus');
+            });
+
+            // スクロールイベント
+            window.addEventListener('scroll', () => {
+                const st = window.pageYOffset;
+                
+                // ヘッダー変化
+                if (st > 100) {
+                    header.classList.add('scrolled');
+                    pageTop.classList.add('visible');
+                } else {
+                    header.classList.remove('scrolled');
+                    pageTop.classList.remove('visible');
+                }
+            });
+
+            // スクロールリビール演出
+            const revealElements = document.querySelectorAll('.scroll-reveal');
+            const revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, { threshold: 0.15 });
+
+            revealElements.forEach(el => revealObserver.observe(el));
+
+            // ページトップスクロール
+            pageTop.addEventListener('click', (e) => {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
         });
     </script>
 </body>

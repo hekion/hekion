@@ -6,831 +6,264 @@
     <title>HEKION Official | 発見、楽しさ、繋がり。</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* * ==========================================
-         * CORE SETTINGS & VARIABLES
-         * ==========================================
-         */
         :root {
             --bg-navy: #0a111f;
-            --bg-navy-bright: #0f1a2e;
             --gold: #c5a059;
-            --gold-bright: #e0c28d;
-            --gold-dark: #8e6d35;
             --white: #ffffff;
             --black: #000000;
             --overlay-ganar: rgba(135, 206, 235, 0.75);
             --overlay-goalink: rgba(0, 0, 0, 0.85);
             --overlay-travid: rgba(255, 255, 255, 0.95);
             --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
-            --ease-in-out-sine: cubic-bezier(0.445, 0.05, 0.55, 0.95);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            outline: none;
-        }
-
-        html {
-            font-size: 16px;
-            scroll-behavior: smooth;
-            -webkit-text-size-adjust: 100%;
-        }
-
+        /* Base Settings */
+        * { margin: 0; padding: 0; box-sizing: border-box; outline: none; }
+        html { font-size: 16px; scroll-behavior: smooth; }
         body {
             background-color: var(--bg-navy);
             color: var(--white);
-            font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+            font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", sans-serif;
             overflow-x: hidden;
             line-height: 2.0;
             -webkit-font-smoothing: antialiased;
-            letter-spacing: 0.05em;
         }
 
-        /* * ==========================================
-         * BACKGROUND ANIMATIONS (FLASHLIGHT & PATTERN)
-         * ==========================================
-         */
-        .bg-layer {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1;
-            pointer-events: none;
-        }
-
+        /* Background Effects */
+        .bg-layer { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
         .bg-pattern {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-image: 
-                radial-gradient(circle at 2px 2px, rgba(197, 160, 89, 0.08) 1.5px, transparent 0);
+            position: absolute; inset: 0;
+            background-image: radial-gradient(circle at 2px 2px, rgba(197, 160, 89, 0.08) 1.5px, transparent 0);
             background-size: 50px 50px;
-            opacity: 0.6;
         }
-
-        .gold-line-container {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            overflow: hidden;
-        }
-
         .gold-line {
-            position: absolute;
-            top: 50%; left: -150%; width: 300%; height: 1px;
-            background: linear-gradient(90deg, 
-                transparent 0%, 
-                rgba(197, 160, 89, 0) 20%, 
-                rgba(197, 160, 89, 0.8) 50%, 
-                rgba(197, 160, 89, 0) 80%, 
-                transparent 100%);
+            position: absolute; top: 50%; left: -150%; width: 300%; height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(197, 160, 89, 0.8), transparent);
             transform: rotate(-35deg);
-            z-index: -1;
         }
-
-        .line-01 { animation: flash-line-1 12s infinite var(--ease-in-out-sine); }
-        .line-02 { animation: flash-line-2 15s infinite var(--ease-in-out-sine); animation-delay: 2s; }
-
-        @keyframes flash-line-1 {
+        .line-01 { animation: flash-line 12s infinite cubic-bezier(0.45, 0.05, 0.55, 0.95); }
+        @keyframes flash-line {
             0% { transform: rotate(-35deg) translateY(-120vh); opacity: 0; }
-            20% { opacity: 0.4; }
-            50% { opacity: 0.1; }
-            80% { opacity: 0.4; }
+            50% { opacity: 0.4; }
             100% { transform: rotate(-35deg) translateY(120vh); opacity: 0; }
         }
 
-        @keyframes flash-line-2 {
-            0% { transform: rotate(-35deg) translateY(120vh); opacity: 0; }
-            100% { transform: rotate(-35deg) translateY(-120vh); opacity: 0; }
-        }
-
-        /* * ==========================================
-         * HEADER & NAVIGATION
-         * ==========================================
-         */
+        /* Header & Menu */
         header {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 120px;
+            position: fixed; top: 0; left: 0; width: 100%; height: 120px;
             display: flex; justify-content: space-between; align-items: center;
-            padding: 0 80px;
-            background: transparent;
-            z-index: 5000;
-            transition: transform 0.6s var(--ease-out-expo), background 0.4s;
+            padding: 0 80px; z-index: 5000; transition: all 0.6s var(--ease-out-expo);
         }
+        header.scrolled { height: 90px; background: rgba(10, 17, 31, 0.8); backdrop-filter: blur(10px); }
+        .header-logo img { height: 60px; transition: 0.3s; }
 
-        header.scrolled {
-            height: 90px;
-            background: rgba(10, 17, 31, 0.8);
-            backdrop-filter: blur(10px);
-        }
-
-        .header-logo {
-            cursor: pointer;
-            transition: opacity 0.3s;
-        }
-
-        .header-logo:hover { opacity: 0.8; }
-
-        .header-logo img {
-            height: 60px;
-            width: auto;
-            object-fit: contain;
-            filter: drop-shadow(0 0 10px rgba(197, 160, 89, 0.2));
-        }
-
-        /* メニューボタン：z-indexをサイドメニューより高く設定 */
         .menu-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            z-index: 9999;
-            width: 60px;
-            height: 60px;
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            background: none; border: none; cursor: pointer; z-index: 9999;
+            width: 60px; height: 60px; position: relative;
+            display: flex; justify-content: center; align-items: center;
         }
-
         .menu-btn span {
-            display: block;
-            position: absolute;
-            width: 40px;
-            height: 1px;
-            background: var(--gold);
-            transition: all 0.5s var(--ease-out-expo);
+            display: block; position: absolute; width: 40px; height: 1px;
+            background: var(--gold); transition: all 0.5s var(--ease-out-expo);
         }
-
         .menu-btn span:nth-child(1) { transform: translateY(-12px); }
         .menu-btn span:nth-child(2) { width: 30px; transform: translateX(5px); }
         .menu-btn span:nth-child(3) { transform: translateY(12px); }
-
-        .menu-btn.open span:nth-child(1) { transform: translateY(0) rotate(45deg); background: var(--gold); }
-        .menu-btn.open span:nth-child(2) { opacity: 0; transform: translateX(-20px); }
-        .menu-btn.open span:nth-child(3) { transform: translateY(0) rotate(-45deg); background: var(--gold); }
+        .menu-btn.open span:nth-child(1) { transform: rotate(45deg); }
+        .menu-btn.open span:nth-child(2) { opacity: 0; }
+        .menu-btn.open span:nth-child(3) { transform: rotate(-45deg); }
 
         .side-menu {
-            position: fixed;
-            top: 0; right: -100%; width: 500px; height: 100vh;
-            background: rgba(5, 9, 17, 0.98);
-            backdrop-filter: blur(25px);
-            z-index: 9000;
-            padding: 160px 80px 80px;
-            transition: right 0.8s var(--ease-out-expo);
+            position: fixed; top: 0; right: -100%; width: 500px; height: 100vh;
+            background: rgba(5, 9, 17, 0.98); backdrop-filter: blur(25px);
+            z-index: 9000; padding: 160px 80px; transition: right 0.8s var(--ease-out-expo);
             border-left: 1px solid rgba(197, 160, 89, 0.1);
         }
-
         .side-menu.open { right: 0; }
+        .side-menu ul { list-style: none; }
+        .side-menu li { margin-bottom: 45px; opacity: 0; transform: translateY(20px); transition: 0.6s var(--ease-out-expo); }
+        .side-menu.open li { opacity: 1; transform: translateY(0); }
+        .side-menu a { color: var(--white); text-decoration: none; font-size: 1.4rem; font-weight: 200; display: flex; justify-content: space-between; align-items: center; }
+        .side-menu a:hover { color: var(--gold); }
 
-        .side-menu-nav ul { list-style: none; }
+        .submenu { max-height: 0; overflow: hidden; padding-left: 30px; transition: 0.6s var(--ease-out-expo); opacity: 0; }
+        .submenu.show { max-height: 500px; margin-top: 30px; opacity: 1; }
+        .submenu li { margin-bottom: 25px !important; transform: none !important; }
+        .submenu a { font-size: 1.1rem !important; opacity: 0.6; }
 
-        .side-menu-nav ul li {
-            margin-bottom: 45px;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.6s var(--ease-out-expo);
-        }
-
-        .side-menu.open ul li { opacity: 1; transform: translateY(0); }
-        .side-menu.open ul li:nth-child(1) { transition-delay: 0.2s; }
-        .side-menu.open ul li:nth-child(2) { transition-delay: 0.3s; }
-        .side-menu.open ul li:nth-child(3) { transition-delay: 0.4s; }
-        .side-menu.open ul li:nth-child(4) { transition-delay: 0.5s; }
-
-        .side-menu-nav ul li a {
-            color: var(--white);
-            text-decoration: none;
-            font-size: 1.4rem;
-            letter-spacing: 0.2em;
-            font-weight: 200;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .side-menu-nav ul li a:hover { color: var(--gold); }
-
-        .submenu {
-            max-height: 0;
-            overflow: hidden;
-            padding-left: 30px;
-            transition: all 0.6s var(--ease-out-expo);
-            opacity: 0;
-        }
-
-        .submenu.show {
-            max-height: 500px;
-            margin-top: 30px;
-            opacity: 1;
-        }
-
-        .submenu li {
-            margin-bottom: 25px !important;
-            transform: none !important;
-        }
-
-        .submenu li a {
-            font-size: 1.1rem !important;
-            opacity: 0.6;
-        }
-
-        /* * ==========================================
-         * MAIN VISUAL
-         * ==========================================
-         */
-        .mv {
-            width: 100%;
-            height: 100vh;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            overflow: hidden;
-        }
-
-        .mv-bg {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-size: cover;
-            background-position: center;
-            z-index: -1;
-            transform: scale(1.05);
-            transition: transform 10s linear;
-        }
-
+        /* Main Visual */
+        .mv { width: 100%; height: 100vh; position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center; overflow: hidden; }
+        .mv-bg { position: absolute; inset: 0; background-size: cover; background-position: center; z-index: -1; transform: scale(1.05); transition: 10s linear; }
         .mv.loaded .mv-bg { transform: scale(1); }
-
         @media (min-width: 769px) { .mv-bg { background-image: url('mv_pc_bg.png'); } }
         @media (max-width: 768px) { .mv-bg { background-image: url('mv_sp_bg.png'); } }
 
-        .mv-content {
-            z-index: 10;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .mv-logo {
-            height: 140px;
-            margin-bottom: 40px;
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 1.2s var(--ease-out-expo) 0.5s;
-        }
-
+        .mv-logo { height: 140px; margin-bottom: 40px; opacity: 0; transform: translateY(30px); transition: 1.2s var(--ease-out-expo) 0.5s; }
         .mv.loaded .mv-logo { opacity: 1; transform: translateY(0); }
-
         .mv-copy {
-            font-size: clamp(1.1rem, 6.5vw, 3.8rem);
-            letter-spacing: 0.45em;
-            color: var(--gold);
-            font-weight: bold;
-            white-space: nowrap;
-            text-shadow: 0 0 40px rgba(0,0,0,0.8);
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 1.2s var(--ease-out-expo) 0.8s;
-            margin-left: 0.45em; /* センター寄せ補正 */
+            font-size: clamp(1.1rem, 6.5vw, 3.8rem); letter-spacing: 0.45em; color: var(--gold); font-weight: bold;
+            text-shadow: 0 0 40px rgba(0,0,0,0.8); opacity: 0; transform: translateY(30px);
+            transition: 1.2s var(--ease-out-expo) 0.8s; margin-left: 0.45em; white-space: nowrap;
         }
-
         .mv.loaded .mv-copy { opacity: 1; transform: translateY(0); }
 
-        /* * ==========================================
-         * CONTENT SECTIONS
-         * ==========================================
-         */
-        .main-content {
-            position: relative;
-            z-index: 20;
-            max-width: 1500px;
-            margin: 0 auto;
-            padding: 180px 100px;
-        }
+        /* Content Sections */
+        .main-content { max-width: 1500px; margin: 0 auto; padding: 180px 100px; position: relative; z-index: 20; }
+        .section-header { margin-bottom: 100px; }
+        .section-title { font-size: 2.8rem; color: var(--gold); letter-spacing: 0.3em; font-weight: 200; border-bottom: 1px solid var(--gold); padding-bottom: 20px; display: inline-block; }
+        .concept-body { margin-bottom: 200px; }
+        .concept-text { font-size: 1.8rem; line-height: 2.8; font-weight: 300; }
 
-        .section-header {
-            margin-bottom: 100px;
-            position: relative;
-        }
-
-        .section-title {
-            font-size: 2.8rem;
-            color: var(--gold);
-            letter-spacing: 0.3em;
-            font-weight: 200;
-            display: inline-block;
-            position: relative;
-            padding-bottom: 20px;
-        }
-
-        .section-title::after {
-            content: "";
-            position: absolute;
-            bottom: 0; left: 0; width: 60%; height: 1px;
-            background: var(--gold);
-        }
-
-        .concept-body {
-            margin-bottom: 200px;
-        }
-
-        .concept-text {
-            font-size: 1.8rem;
-            line-height: 2.8;
-            letter-spacing: 0.15em;
-            font-weight: 300;
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 1.2s var(--ease-out-expo);
-        }
-
-        .concept-text.active { opacity: 1; transform: translateY(0); }
-
-        /* * ==========================================
-         * PROJECT CARDS (16:9 & VERTICAL TEXT)
-         * ==========================================
-         */
-        .project-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 150px;
-        }
-
+        /* Project Cards */
+        .project-grid { display: flex; flex-direction: column; gap: 150px; }
         .project-card {
-            position: relative;
-            width: 100%;
-            aspect-ratio: 16 / 9;
-            display: flex;
-            border-radius: 4px;
-            overflow: hidden;
+            position: relative; width: 100%; aspect-ratio: 16 / 9; display: flex; border-radius: 4px; overflow: hidden;
             box-shadow: 0 40px 100px rgba(0,0,0,0.8);
-            opacity: 0;
-            transform: translateY(60px);
-            transition: all 1.2s var(--ease-out-expo);
         }
-
-        .project-card.active { opacity: 1; transform: translateY(0); }
-
-        .project-card::before {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 1;
-        }
-
-        .card-bg {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-size: cover;
-            background-position: center;
-            transition: transform 1.5s var(--ease-out-expo);
-        }
-
+        .project-card::before { content: ""; position: absolute; inset: 0; z-index: 1; }
+        .card-bg { position: absolute; inset: 0; background-size: cover; background-position: center; transition: 1.5s var(--ease-out-expo); }
         .project-card:hover .card-bg { transform: scale(1.08); }
 
-        /* 各プロジェクトカラー */
-        .card-ganar .card-bg { background-image: url('bg_ganar.png'); }
-        .card-ganar::before { background: var(--overlay-ganar); }
-        .card-goalink .card-bg { background-image: url('bg_goalink.png'); }
-        .card-goalink::before { background: var(--overlay-goalink); }
-        .card-travid .card-bg { background-image: url('bg_travid.png'); }
-        .card-travid::before { background: var(--overlay-travid); }
+        .card-ganar .card-bg { background-image: url('bg_ganar.png'); } .card-ganar::before { background: var(--overlay-ganar); }
+        .card-goalink .card-bg { background-image: url('bg_goalink.png'); } .card-goalink::before { background: var(--overlay-goalink); }
+        .card-travid .card-bg { background-image: url('bg_travid.png'); } .card-travid::before { background: var(--overlay-travid); }
 
-        .card-content-main {
-            position: relative;
-            z-index: 10;
-            flex: 1;
-            padding: 80px 100px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: flex-start;
-        }
-
-        .card-logo {
-            max-height: 25%;
-            max-width: 400px;
-            object-fit: contain;
-            margin-bottom: 50px;
-            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.2));
-        }
-
-        .card-description {
-            font-size: clamp(1.1rem, 2.8vw, 1.6rem);
-            line-height: 2.2;
-            margin-bottom: 60px;
-            font-weight: 400;
-        }
-
-        .btn-viewmore {
-            padding: 18px 65px;
-            border: 1px solid currentColor;
-            text-decoration: none;
-            font-size: 1.1rem;
-            letter-spacing: 0.35em;
-            color: inherit;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.4s;
-        }
-
-        .btn-viewmore::before {
-            content: "";
-            position: absolute;
-            top: 0; left: -100%; width: 100%; height: 100%;
-            background: rgba(255,255,255,0.1);
-            transition: left 0.4s;
-        }
-
-        .btn-viewmore:hover::before { left: 0; }
+        .card-content-main { position: relative; z-index: 10; flex: 1; padding: 80px 100px; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; }
+        .card-logo { max-height: 25%; max-width: 400px; margin-bottom: 50px; }
+        .card-description { font-size: clamp(1.1rem, 2.8vw, 1.6rem); line-height: 2.2; margin-bottom: 60px; }
+        .btn-viewmore { padding: 18px 65px; border: 1px solid currentColor; text-decoration: none; font-size: 1.1rem; letter-spacing: 0.35em; color: inherit; transition: 0.4s; }
         .btn-viewmore:hover { color: var(--gold); border-color: var(--gold); transform: translateX(10px); }
 
-        /* 縦書きパート：ご指定の改行と下寄せ */
+        /* Vertical Text Rule */
         .card-vertical-area {
-            position: relative;
-            z-index: 10;
-            width: 160px;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            padding: 100px 0;
-            writing-mode: vertical-rl;
-            font-size: 1.8rem;
-            letter-spacing: 0.6em;
-            border-left: 1px solid rgba(128, 128, 128, 0.2);
-            font-weight: bold;
-            background: rgba(0,0,0,0.02);
+            position: relative; z-index: 10; width: 160px; display: flex; flex-direction: column;
+            padding: 100px 0; writing-mode: vertical-rl; font-size: 1.8rem; letter-spacing: 0.6em;
+            border-left: 1px solid rgba(128, 128, 128, 0.2); font-weight: bold;
         }
+        .v-text-2 { margin-top: auto; padding-top: 60px; }
+        .card-ganar, .card-goalink { color: var(--white); } .card-travid { color: var(--black); }
 
-        /* 2行目を下寄せにするためのマージン */
-        .v-text-2 {
-            margin-top: auto;
-            padding-top: 60px;
-        }
+        /* News & Links */
+        .news-section { margin-top: 150px; padding-top: 150px; border-top: 1px solid rgba(197, 160, 89, 0.2); }
+        .news-item { padding: 50px 0; border-bottom: 1px solid rgba(197, 160, 89, 0.1); display: flex; gap: 60px; }
+        .news-date { color: var(--gold); font-weight: bold; width: 220px; font-size: 1.3rem; }
+        .news-label { font-size: 0.9rem; border: 1px solid var(--gold); padding: 2px 12px; margin-right: 15px; }
+        .news-title { font-size: 1.3rem; font-weight: 300; }
 
-        /* 文字色個別設定 */
-        .card-ganar, .card-goalink { color: var(--white); }
-        .card-travid { color: var(--black); }
+        .link-grid { display: flex; justify-content: center; gap: 50px; margin-top: 150px; flex-wrap: wrap; }
+        .site-link-btn { padding: 25px 80px; border: 1px solid var(--gold); color: var(--gold); text-decoration: none; letter-spacing: 0.4em; transition: 0.5s var(--ease-out-expo); font-size: 1.2rem; }
+        .site-link-btn:hover { background: var(--gold); color: var(--bg-navy); box-shadow: 0 0 50px rgba(197, 160, 89, 0.4); }
 
-        /* * ==========================================
-         * NEWS & LINKS
-         * ==========================================
-         */
-        .news-section {
-            margin-top: 150px;
-            padding-top: 150px;
-            border-top: 1px solid rgba(197, 160, 89, 0.2);
-        }
-
-        .news-list { list-style: none; }
-
-        .news-item {
-            padding: 50px 0;
-            border-bottom: 1px solid rgba(197, 160, 89, 0.1);
-            display: flex;
-            gap: 60px;
-            transition: all 0.4s;
-        }
-
-        .news-item:hover { background: rgba(197, 160, 89, 0.03); padding-left: 20px; }
-
-        .news-date {
-            color: var(--gold);
-            font-weight: bold;
-            width: 220px;
-            font-size: 1.3rem;
-        }
-
-        .news-label {
-            font-size: 0.9rem;
-            border: 1px solid var(--gold);
-            padding: 2px 12px;
-            margin-right: 15px;
-            vertical-align: middle;
-        }
-
-        .news-title {
-            font-size: 1.3rem;
-            font-weight: 300;
-        }
-
-        .link-grid {
-            display: flex;
-            justify-content: center;
-            gap: 50px;
-            margin-top: 150px;
-            flex-wrap: wrap;
-        }
-
-        .site-link-btn {
-            padding: 25px 80px;
-            border: 1px solid var(--gold);
-            color: var(--gold);
-            text-decoration: none;
-            letter-spacing: 0.4em;
-            transition: all 0.5s var(--ease-out-expo);
-            font-size: 1.2rem;
-            position: relative;
-        }
-
-        .site-link-btn:hover {
-            background: var(--gold);
-            color: var(--bg-navy);
-            box-shadow: 0 0 50px rgba(197, 160, 89, 0.4);
-            transform: translateY(-5px);
-        }
-
-        /* * ==========================================
-         * FOOTER & PAGETOP
-         * ==========================================
-         */
-        footer {
-            background: #050911;
-            padding: 120px 80px;
-            text-align: center;
-            border-top: 1px solid rgba(197, 160, 89, 0.05);
-        }
-
+        /* Footer & Top */
+        footer { background: #050911; padding: 120px 80px; text-align: center; }
         .footer-logo { height: 70px; margin-bottom: 50px; opacity: 0.5; }
-
-        .copyright {
-            color: rgba(255,255,255,0.3);
-            font-size: 1rem;
-            letter-spacing: 0.2em;
-        }
+        .copyright { color: rgba(255,255,255,0.3); font-size: 1rem; }
 
         .pagetop-btn {
-            position: fixed;
-            right: 60px;
-            bottom: 60px;
-            width: 90px;
-            height: 90px;
-            background: var(--gold);
-            color: var(--bg-navy);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-decoration: none;
-            z-index: 4000;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
-            transition: all 0.4s var(--ease-out-expo);
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(20px);
+            position: fixed; right: 60px; bottom: 60px; width: 90px; height: 90px; background: var(--gold);
+            border-radius: 50%; display: flex; justify-content: center; align-items: center; z-index: 4000;
+            transition: 0.4s; opacity: 0; visibility: hidden; text-decoration: none; color: var(--bg-navy);
         }
+        .pagetop-btn.visible { opacity: 1; visibility: visible; }
 
-        .pagetop-btn.visible { opacity: 1; visibility: visible; transform: translateY(0); }
-        .pagetop-btn:hover { background: var(--white); transform: scale(1.1); }
-        .pagetop-btn i { font-size: 1.8rem; }
+        /* Animation Classes */
+        .scroll-reveal { opacity: 0; transform: translateY(40px); transition: 1.2s var(--ease-out-expo); }
+        .scroll-reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* * ==========================================
-         * RESPONSIVE DESIGN (SMARTPHONE)
-         * ==========================================
-         */
-        @media (max-width: 1024px) {
-            header { padding: 0 40px; height: 100px; }
-            .main-content { padding: 120px 40px; }
-            .side-menu { width: 450px; }
-        }
-
+        /* Responsive Smartphone */
         @media (max-width: 768px) {
-            header { padding: 0 25px; height: 85px; }
-            .header-logo img { height: 45px; }
-            
-            .side-menu { width: 100%; padding: 140px 40px 60px; }
-            .menu-btn { width: 50px; height: 50px; }
-            .menu-btn span { width: 35px; }
-
-            .mv-logo { height: 100px; }
-            
-            .section-title { font-size: 2rem; margin-bottom: 50px; }
-            .concept-text { font-size: 1.2rem; line-height: 2.2; }
-
-            .project-grid { gap: 80px; }
-            .project-card { aspect-ratio: 16 / 9; } /* 強制維持 */
-
-            .card-content-main { padding: 5% 6%; }
-            .card-logo { max-width: 160px; margin-bottom: 15px; }
-            .card-description { font-size: 0.8rem; line-height: 1.6; margin-bottom: 15px; }
-            .btn-viewmore { padding: 10px 30px; font-size: 0.8rem; letter-spacing: 0.2em; }
-
-            .card-vertical-area { 
-                width: 70px; 
-                padding: 35px 0; 
-                font-size: 1.1rem; 
-                letter-spacing: 0.4em;
-            }
+            header { padding: 0 25px; height: 85px; } .header-logo img { height: 45px; }
+            .side-menu { width: 100%; padding: 140px 40px; }
+            .main-content { padding: 120px 40px; }
+            .section-title { font-size: 2rem; }
+            .concept-text { font-size: 1.2rem; }
+            .card-content-main { padding: 5% 6%; } .card-logo { max-width: 160px; } .card-description { font-size: 0.8rem; }
+            .btn-viewmore { padding: 10px 30px; font-size: 0.8rem; }
+            .card-vertical-area { width: 70px; padding: 35px 0; font-size: 1.1rem; letter-spacing: 0.4em; }
             .v-text-2 { padding-top: 30px; }
-
-            .news-item { flex-direction: column; gap: 12px; padding: 35px 0; }
-            .news-date { width: 100%; font-size: 1.1rem; }
-            .news-title { font-size: 1.1rem; }
-
-            .link-grid { gap: 20px; margin-top: 80px; }
-            .site-link-btn { width: 100%; text-align: center; padding: 20px; font-size: 1rem; }
-
-            footer { padding: 80px 40px; }
+            .news-item { flex-direction: column; gap: 12px; } .news-date { width: 100%; }
+            .site-link-btn { width: 100%; text-align: center; padding: 20px; }
             .pagetop-btn { right: 25px; bottom: 25px; width: 65px; height: 65px; }
         }
-
     </style>
 </head>
 <body>
-
-    <div class="bg-layer">
-        <div class="bg-pattern"></div>
-        <div class="gold-line-container">
-            <div class="gold-line line-01"></div>
-            <div class="gold-line line-02"></div>
-        </div>
-    </div>
+    <div class="bg-layer"><div class="bg-pattern"></div><div class="gold-line line-01"></div></div>
 
     <header id="mainHeader">
-        <div class="header-logo" onclick="window.scrollTo({top:0, behavior:'smooth'})">
-            <img src="gold_hekionlogo.png" alt="HEKION">
-        </div>
-        <button class="menu-btn" id="menuBtn" aria-label="Menu">
-            <span></span><span></span><span></span>
-        </button>
+        <div class="header-logo" onclick="window.scrollTo({top:0, behavior:'smooth'})"><img src="gold_hekionlogo.png" alt="HEKION"></div>
+        <button class="menu-btn" id="menuBtn"><span></span><span></span><span></span></button>
     </header>
 
     <nav class="side-menu" id="sideMenu">
-        <div class="side-menu-nav">
-            <ul>
-                <li><a href="#">◯ TOP <span style="font-size: 0.8rem; margin-left: 10px; opacity: 0.5;">トップ</span></a></li>
-                <li><a href="#">◯ ABOUT <span style="font-size: 0.8rem; margin-left: 10px; opacity: 0.5;">HEKIONについて</span></a></li>
-                <li>
-                    <a href="#" id="projectToggle">◯ PROJECTS <span style="font-size: 0.8rem; margin-left: 10px; opacity: 0.5;">プロジェクト</span> <i class="fas fa-plus" style="font-size: 1rem;"></i></a>
-                    <ul class="submenu" id="submenu">
-                        <li><a href="#">- GANAR</a></li>
-                        <li><a href="#">- Goalink</a></li>
-                        <li><a href="#">- TRAVID</a></li>
-                    </ul>
-                </li>
-                <li><a href="#">◯ NEWS <span style="font-size: 0.8rem; margin-left: 10px; opacity: 0.5;">ニュース</span></a></li>
-            </ul>
-        </div>
+        <ul>
+            <li><a href="#">◯ TOP <small style="opacity:0.5; margin-left:10px;">トップ</small></a></li>
+            <li><a href="#">◯ ABOUT <small style="opacity:0.5; margin-left:10px;">HEKIONについて</small></a></li>
+            <li>
+                <a href="#" id="projectToggle">◯ PROJECTS <small style="opacity:0.5; margin-left:10px;">プロジェクト</small> <i class="fas fa-plus"></i></a>
+                <ul class="submenu" id="submenu"><li><a href="#">- GANAR</a></li><li><a href="#">- Goalink</a></li><li><a href="#">- TRAVID</a></li></ul>
+            </li>
+            <li><a href="#">◯ NEWS <small style="opacity:0.5; margin-left:10px;">ニュース</small></a></li>
+        </ul>
     </nav>
 
-    <section class="mv" id="home">
-        <div class="mv-bg"></div>
-        <div class="mv-content">
-            <img src="gold_hekionlogo.png" alt="HEKION Official" class="mv-logo">
-            <h1 class="mv-copy">発見、楽しさ、繋がり。</h1>
-        </div>
-    </section>
+    <section class="mv"><div class="mv-bg"></div><div class="mv-content"><img src="gold_hekionlogo.png" class="mv-logo"><h1 class="mv-copy">発見、楽しさ、繋がり。</h1></div></section>
 
     <main class="main-content">
-        
-        <section class="concept-body">
-            <div class="section-header">
-                <h2 class="section-title">CONCEPT</h2>
-            </div>
-            <p class="concept-text scroll-reveal">
-                日常のなかの発見を楽しさに変え、<br>
-                そこから繋がりを生み出していく。
-            </p>
+        <section class="concept-body scroll-reveal">
+            <h2 class="section-title">CONCEPT</h2>
+            <p class="concept-text">日常のなかの発見を楽しさに変え、<br>そこから繋がりを生み出していく。</p>
         </section>
 
-        <section class="project-body">
-            <div class="section-header">
-                <h2 class="section-title">PROJECT</h2>
-            </div>
-            
-            <div class="project-grid">
-                
-                <div class="project-card card-ganar scroll-reveal">
-                    <div class="card-bg"></div>
-                    <div class="card-content-main">
-                        <img src="ganarlogo.png" alt="GANAR" class="card-logo">
-                        <p class="card-description">勝ちにこだわる。<br>でも、楽しむことを忘れない。</p>
-                        <a href="#" class="btn-viewmore">VIEW MORE</a>
-                    </div>
-                    <div class="card-vertical-area">
-                        <span class="v-text-1">楽しんだもん</span>
-                        <span class="v-text-2">勝ち</span>
-                    </div>
-                </div>
-
-                <div class="project-card card-goalink scroll-reveal">
-                    <div class="card-bg"></div>
-                    <div class="card-content-main">
-                        <img src="goalinklogo.png" alt="Goalink" class="card-logo">
-                        <p class="card-description">サッカーを、もっと近くに。<br>知る事で、好きになる。</p>
-                        <a href="#" class="btn-viewmore">VIEW MORE</a>
-                    </div>
-                    <div class="card-vertical-area">
-                        <span class="v-text-1">サッカーと人を</span>
-                        <span class="v-text-2">つなぐ</span>
-                    </div>
-                </div>
-
-                <div class="project-card card-travid scroll-reveal">
-                    <div class="card-bg"></div>
-                    <div class="card-content-main">
-                        <img src="travidlogo.png" alt="TRAVID" class="card-logo">
-                        <p class="card-description">旅の前も、旅のあとも。<br>楽しさは続いていく。</p>
-                        <a href="#" class="btn-viewmore">VIEW MORE</a>
-                    </div>
-                    <div class="card-vertical-area">
-                        <span class="v-text-1">旅の楽しさを、</span>
-                        <span class="v-text-2">カタチに</span>
-                    </div>
-                </div>
-
-            </div>
+        <section class="project-grid">
+            <h2 class="section-title scroll-reveal">PROJECT</h2>
+            <div class="project-card card-ganar scroll-reveal"><div class="card-bg"></div><div class="card-content-main"><img src="ganarlogo.png" class="card-logo"><p class="card-description">勝ちにこだわる。<br>でも、楽しむことを忘れない。</p><a href="#" class="btn-viewmore">VIEW MORE</a></div><div class="card-vertical-area"><span>楽しんだもん</span><span class="v-text-2">勝ち</span></div></div>
+            <div class="project-card card-goalink scroll-reveal"><div class="card-bg"></div><div class="card-content-main"><img src="goalinklogo.png" class="card-logo"><p class="card-description">サッカーを、もっと近くに。<br>知る事で、好きになる。</p><a href="#" class="btn-viewmore">VIEW MORE</a></div><div class="card-vertical-area"><span>サッカーと人を</span><span class="v-text-2">つなぐ</span></div></div>
+            <div class="project-card card-travid scroll-reveal"><div class="card-bg"></div><div class="card-content-main"><img src="travidlogo.png" class="card-logo"><p class="card-description">旅の前も、旅のあとも。<br>楽しさは続いていく。</p><a href="#" class="btn-viewmore">VIEW MORE</a></div><div class="card-vertical-area"><span>旅の楽しさを、</span><span class="v-text-2">カタチに</span></div></div>
         </section>
 
         <section class="news-section scroll-reveal">
-            <div class="section-header">
-                <h2 class="section-title">NEWS</h2>
-            </div>
-            <ul class="news-list">
-                <li class="news-item">
-                    <span class="news-date">2026.01.14</span>
-                    <span class="news-title"><span class="news-label">INFO</span>WEBサイトをリニューアルしました。</span>
-                </li>
-            </ul>
+            <h2 class="section-title">NEWS</h2>
+            <ul class="news-list"><li class="news-item"><span class="news-date">2026.01.14</span><span class="news-title"><span class="news-label">INFO</span>WEBサイトをリニューアルしました。</span></li></ul>
         </section>
 
         <section class="link-grid scroll-reveal">
-            <a href="#" class="site-link-btn">GANAR SITE</a>
-            <a href="#" class="site-link-btn">Goalink SITE</a>
-            <a href="#" class="site-link-btn">TRAVID SITE</a>
+            <a href="#" class="site-link-btn">GANAR SITE</a><a href="#" class="site-link-btn">Goalink SITE</a><a href="#" class="site-link-btn">TRAVID SITE</a>
         </section>
-
     </main>
 
-    <footer>
-        <img src="gold_hekionlogo.png" alt="HEKION" class="footer-logo">
-        <p class="copyright">&copy; 2026 HEKION. All Rights Reserved.</p>
-    </footer>
-
-    <a href="#" class="pagetop-btn" id="pageTop">
-        <i class="fas fa-chevron-up"></i>
-    </a>
+    <footer><img src="gold_hekionlogo.png" class="footer-logo"><p class="copyright">&copy; 2026 HEKION. All Rights Reserved.</p></footer>
+    <a href="#" class="pagetop-btn" id="pageTop"><i class="fas fa-chevron-up"></i></a>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const mv = document.querySelector('.mv');
-            const menuBtn = document.getElementById('menuBtn');
-            const sideMenu = document.getElementById('sideMenu');
-            const projectToggle = document.getElementById('projectToggle');
-            const submenu = document.getElementById('submenu');
-            const header = document.getElementById('mainHeader');
-            const pageTop = document.getElementById('pageTop');
+            const $ = id => document.getElementById(id);
+            const menuBtn = $('menuBtn'), sideMenu = $('sideMenu'), projectToggle = $('projectToggle'), submenu = $('submenu'), pageTop = $('pageTop'), header = $('mainHeader');
 
-            // MV読み込みアニメーション
-            setTimeout(() => mv.classList.add('loaded'), 500);
+            setTimeout(() => document.querySelector('.mv').classList.add('loaded'), 500);
 
-            // サイドメニュー開閉
-            menuBtn.addEventListener('click', () => {
-                menuBtn.classList.toggle('open');
-                sideMenu.classList.toggle('open');
+            menuBtn.onclick = () => {
+                menuBtn.classList.toggle('open'); sideMenu.classList.toggle('open');
                 document.body.style.overflow = sideMenu.classList.contains('open') ? 'hidden' : '';
-            });
+            };
 
-            // アコーディオン
-            projectToggle.addEventListener('click', (e) => {
-                e.preventDefault();
-                const icon = projectToggle.querySelector('i');
-                submenu.classList.toggle('show');
-                icon.classList.toggle('fa-plus');
-                icon.classList.toggle('fa-minus');
-            });
+            projectToggle.onclick = (e) => {
+                e.preventDefault(); submenu.classList.toggle('show');
+                projectToggle.querySelector('i').classList.toggle('fa-plus');
+                projectToggle.querySelector('i').classList.toggle('fa-minus');
+            };
 
-            // スクロールイベント
-            window.addEventListener('scroll', () => {
-                const st = window.pageYOffset;
-                
-                // ヘッダー変化
-                if (st > 100) {
-                    header.classList.add('scrolled');
-                    pageTop.classList.add('visible');
-                } else {
-                    header.classList.remove('scrolled');
-                    pageTop.classList.remove('visible');
-                }
-            });
+            window.onscroll = () => {
+                header.classList.toggle('scrolled', window.pageYOffset > 100);
+                pageTop.classList.toggle('visible', window.pageYOffset > 100);
+            };
 
-            // スクロールリビール演出
-            const revealElements = document.querySelectorAll('.scroll-reveal');
-            const revealObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('active');
-                    }
-                });
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
             }, { threshold: 0.15 });
+            document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
 
-            revealElements.forEach(el => revealObserver.observe(el));
-
-            // ページトップスクロール
-            pageTop.addEventListener('click', (e) => {
-                e.preventDefault();
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            });
+            pageTop.onclick = e => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); };
         });
     </script>
 </body>

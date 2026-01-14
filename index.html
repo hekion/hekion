@@ -90,7 +90,12 @@
 
         /* Content Area */
         .main-content { max-width: 1200px; margin: 0 auto; padding: 60px 25px; }
-        .section-title { font-size: 1.8rem; color: var(--gold); letter-spacing: 0.2em; border-bottom: 1px solid var(--gold); padding-bottom: 5px; display: inline-block; font-weight: 200; margin-bottom: 30px; }
+        .section-title { 
+            font-size: 1.8rem; color: var(--gold); letter-spacing: 0.2em; 
+            border-bottom: 1px solid var(--gold); padding-bottom: 5px; 
+            display: table; /* 文字幅に合わせるための修正 */
+            font-weight: 200; margin-bottom: 30px; 
+        }
         .concept-body { margin-bottom: 80px; }
         .concept-text { font-size: 1.3rem; line-height: 2; font-weight: 300; }
 
@@ -210,13 +215,13 @@
         </section>
 
         <section class="project-grid">
-            <h2 class="section-title">PROJECT</h2>
+            <div><h2 class="section-title">PROJECT</h2></div>
             
             <div class="project-card card-ganar">
                 <div class="card-bg"></div>
                 <div class="card-inner">
                     <img src="ganarlogo.png" class="card-logo">
-                    <p class="card-desc">勝ちにこだわる。<br>でも、楽しむことを忘れない。</p>
+                    <p class="card-desc">勝ちにこだわる。<br>でも, 楽しむことを忘れない。</p>
                     <a href="ganar.html" class="btn-viewmore">VIEW MORE</a>
                 </div>
                 <div class="card-side"><span>楽しんだもん勝ち</span></div>
@@ -330,3 +335,4 @@
     </script>
 </body>
 </html>
+

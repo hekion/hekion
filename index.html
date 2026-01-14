@@ -114,15 +114,16 @@
         .btn-viewmore:hover { background: rgba(255, 255, 255, 0.1); }
 
         /* PC版 縦書き：1列・改行なし */
-        .card-side { position: relative; z-index: 10; width: 120px; display: flex; flex-direction: column; padding: 60px 0; writing-mode: vertical-rl; font-size: 1.6rem; letter-spacing: 0.4em; border-left: 1px solid rgba(128, 128, 128, 0.2); font-weight: bold; }
-        .card-side span { white-space: nowrap; display: block; }
+        .card-side { position: relative; z-index: 10; width: 120px; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 60px 0; writing-mode: vertical-rl; font-size: 1.6rem; letter-spacing: 0.4em; border-left: 1px solid rgba(128, 128, 128, 0.2); font-weight: bold; }
+        .card-side span { white-space: nowrap; display: flex; flex-direction: column; justify-content: space-between; height: 100%; }
         
         .card-ganar, .card-goalink { color: var(--white); } .card-travid { color: var(--black); }
 
         /* News */
         .news-section { margin-top: 80px; }
-        .news-item { padding: 20px 0; border-bottom: 1px solid rgba(197, 160, 89, 0.1); display: flex; gap: 20px; cursor: pointer; }
+        .news-item { padding: 20px 0; border-bottom: 1px solid rgba(197, 160, 89, 0.1); display: flex; gap: 20px; cursor: pointer; align-items: center; }
         .news-date { color: var(--gold); font-weight: bold; font-size: 0.95rem; }
+        .news-tag { background: var(--gold); color: var(--bg-navy); font-size: 0.7rem; padding: 2px 10px; font-weight: bold; border-radius: 2px; text-transform: uppercase; }
         .news-btn-area { margin-top: 30px; }
         .btn-news-more { width: 160px; height: 40px; display: flex; justify-content: center; align-items: center; border: 1px solid var(--gold); color: var(--gold); text-decoration: none; font-size: 0.8rem; }
 
@@ -221,7 +222,7 @@
                     <p class="card-desc">サッカーを、もっと近くに。<br>知る事で、好きになる。</p>
                     <a href="#" class="btn-viewmore">VIEW MORE</a>
                 </div>
-                <div class="card-side"><span>サッカーと人をつなぐ</span></div>
+                <div class="card-side"><span>サッカーと人を<br>つなぐ</span></div>
             </div>
 
             <div class="project-card card-travid">
@@ -231,7 +232,7 @@
                     <p class="card-desc">旅の前も、旅のあとも。<br>楽しさは続いていく。</p>
                     <a href="#" class="btn-viewmore">VIEW MORE</a>
                 </div>
-                <div class="card-side"><span>旅の楽しさを、カタチに</span></div>
+                <div class="card-side"><span>旅の楽しさを、<br>カタチに</span></div>
             </div>
         </section>
 
@@ -291,6 +292,7 @@
                     const html = `
                         <div class="news-item" onclick="location.href='newspage.html?id=${item.id}'">
                             <span class="news-date">${item.date}</span>
+                            <span class="news-tag">${item.tag}</span>
                             <span class="news-text">${item.title}</span>
                         </div>
                     `;

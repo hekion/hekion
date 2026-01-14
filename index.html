@@ -113,7 +113,6 @@
         .btn-viewmore { width: 220px; height: 56px; display: flex; justify-content: center; align-items: center; border: 1px solid currentColor; text-decoration: none; font-size: 1rem; letter-spacing: 0.25em; color: inherit; transition: 0.3s; }
         .btn-viewmore:hover { background: rgba(255, 255, 255, 0.1); }
 
-        /* PC版 縦書き */
         .card-side { position: relative; z-index: 10; width: 120px; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 60px 0; writing-mode: vertical-rl; font-size: 1.6rem; letter-spacing: 0.4em; border-left: 1px solid rgba(128, 128, 128, 0.2); font-weight: bold; }
         .card-side span { white-space: nowrap; display: flex; flex-direction: column; justify-content: flex-end; height: 100%; }
         
@@ -159,7 +158,7 @@
             .card-desc { font-size: 0.8rem; margin-bottom: 20px; }
             .btn-viewmore { width: 140px; height: 40px; font-size: 0.75rem; }
             .card-side { width: 50px; font-size: 0.85rem; padding: 20px 0; }
-            .card-side span { white-space: normal; justify-content: center; } /* スマホは中央で良い場合 */
+            .card-side span { white-space: normal; }
             .footer-site-links { flex-direction: column; align-items: center; }
             .footer-link-box { width: 100%; max-width: 320px; height: 85px; }
             .pagetop { right: 20px; bottom: 20px; width: 50px; height: 50px; }
@@ -170,7 +169,7 @@
     <div class="bg-layer"><div class="bg-pattern"></div></div>
 
     <header id="header">
-        <div class="header-logo"><img src="gold_hekionlogo.png" alt="HEKION"></div>
+        <div class="header-logo" onclick="location.href='index.html'"><img src="gold_hekionlogo.png" alt="HEKION"></div>
         <button class="menu-open-btn" id="openBtn"><span></span><span></span><span></span></button>
     </header>
 
@@ -178,13 +177,13 @@
         <button class="menu-close-btn" id="closeBtn"><i class="fas fa-times"></i></button>
         <ul>
             <li><a href="index.html">TOP<small>トップ</small></a></li>
-            <li><a href="#">ABOUT<small>HEKIONについて</small></a></li>
+            <li><a href="about.html">ABOUT<small>HEKIONについて</small></a></li>
             <li>
                 <a href="#" id="toggleProjects">PROJECTS<small>事業紹介</small> <i class="fas fa-chevron-down"></i></a>
                 <ul class="side-submenu" id="subMenu">
-                    <li><a href="#">- GANAR</a></li>
-                    <li><a href="#">- Goalink</a></li>
-                    <li><a href="#">- TRAVID</a></li>
+                    <li><a href="ganar.html">- GANAR</a></li>
+                    <li><a href="goalink.html">- Goalink</a></li>
+                    <li><a href="travid.html">- TRAVID</a></li>
                 </ul>
             </li>
             <li><a href="news.html">NEWS<small>ニュース</small></a></li>
@@ -211,7 +210,7 @@
                 <div class="card-inner">
                     <img src="ganarlogo.png" class="card-logo">
                     <p class="card-desc">勝ちにこだわる。<br>でも、楽しむことを忘れない。</p>
-                    <a href="#" class="btn-viewmore">VIEW MORE</a>
+                    <a href="ganar.html" class="btn-viewmore">VIEW MORE</a>
                 </div>
                 <div class="card-side"><span>楽しんだもん勝ち</span></div>
             </div>
@@ -221,7 +220,7 @@
                 <div class="card-inner">
                     <img src="goalinklogo.png" class="card-logo">
                     <p class="card-desc">サッカーを、もっと近くに。<br>知る事で、好きになる。</p>
-                    <a href="#" class="btn-viewmore">VIEW MORE</a>
+                    <a href="goalink.html" class="btn-viewmore">VIEW MORE</a>
                 </div>
                 <div class="card-side"><span>サッカーと人を<br>つなぐ</span></div>
             </div>
@@ -231,7 +230,7 @@
                 <div class="card-inner">
                     <img src="travidlogo.png" class="card-logo">
                     <p class="card-desc">旅の前も、旅のあとも。<br>楽しさは続いていく。</p>
-                    <a href="#" class="btn-viewmore">VIEW MORE</a>
+                    <a href="travid.html" class="btn-viewmore">VIEW MORE</a>
                 </div>
                 <div class="card-side"><span>旅の楽しさを、<br>カタチに</span></div>
             </div>
@@ -248,9 +247,9 @@
 
     <footer>
         <div class="footer-site-links">
-            <a href="#" class="footer-link-box"><img src="gold_ganarlogo.png" alt="GANAR"></a>
-            <a href="#" class="footer-link-box"><img src="gold_goalinklogo.png" alt="Goalink"></a>
-            <a href="#" class="footer-link-box"><img src="gold_travidlogo.png" alt="TRAVID"></a>
+            <a href="https://hekion.github.io/ganar/index.html" class="footer-link-box" target="_blank" rel="noopener noreferrer"><img src="gold_ganarlogo.png" alt="GANAR"></a>
+            <a href="https://hekion.github.io/goalinkjp/index.html" class="footer-link-box" target="_blank" rel="noopener noreferrer"><img src="gold_goalinklogo.png" alt="Goalink"></a>
+            <a href="https://note.com/travid_" class="footer-link-box" target="_blank" rel="noopener noreferrer"><img src="gold_travidlogo.png" alt="TRAVID"></a>
         </div>
         <img src="gold_hekionlogo.png" class="footer-logo">
         <p class="copyright">&copy; 2026 HEKION. All Rights Reserved.</p>
@@ -271,7 +270,6 @@
             fetchNews();
         };
 
-        // GASからニュースを取得
         async function fetchNews() {
             const endpoint = "https://script.google.com/macros/s/AKfycbxsimQpAMn1nBVO2Kp5tqby_KeX-8Tk3Me8WVokGIVbaUmF2EdtmXCXdtXSskSYsAf1/exec";
             const container = document.getElementById('news-container');
@@ -286,7 +284,6 @@
                     return;
                 }
                 
-                // 最新3件を表示
                 const latestThree = data.slice(0, 3);
                 
                 latestThree.forEach(item => {

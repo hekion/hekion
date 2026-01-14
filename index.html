@@ -11,7 +11,6 @@
             --gold: #c5a059;
             --white: #ffffff;
             --black: #000000;
-            --ganar-blue: #87ceeb; /* 水色 */
         }
 
         * {
@@ -19,7 +18,7 @@
             padding: 0;
             box-sizing: border-box;
         }
-　
+
         body {
             background-color: var(--bg-navy);
             color: var(--white);
@@ -27,16 +26,14 @@
             overflow-x: hidden;
         }
 
-        /* 背景演出：麻の葉模様と閃光 */
+        /* 背景演出 */
         .bg-pattern {
-            fixed: fixed;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: 
-                radial-gradient(circle at 2px 2px, rgba(197, 160, 89, 0.05) 1px, transparent 0);
+            background-image: radial-gradient(circle at 2px 2px, rgba(197, 160, 89, 0.05) 1px, transparent 0);
             background-size: 40px 40px;
             z-index: -1;
         }
@@ -86,53 +83,100 @@
             cursor: pointer;
         }
 
-        /* メインコンテンツ */
-        main {
-            padding-top: 120px;
+        /* メインビジュアル (MV) */
+        .mv {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
         }
 
+        @media (min-width: 769px) { .mv { background-image: url('mv_pc_bg.png'); } }
+        @media (max-width: 768px) { .mv { background-image: url('mv_sp_bg.png'); } }
+
+        .mv-copy {
+            font-size: 2.5rem;
+            letter-spacing: 0.3em;
+            margin-top: 20px;
+            font-weight: 300;
+            color: var(--white);
+            text-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+
+        /* メインコンテンツ */
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 80px 20px;
+        }
+
+        /* 各セクションタイトル共通 */
+        .section-title {
+            color: var(--gold);
+            margin-bottom: 50px;
+            font-size: 1.8rem;
+            letter-spacing: 0.2em;
+            border-bottom: 1px solid var(--gold);
+            display: inline-block;
         }
 
         .concept-section {
-            text-align: center;
-            margin-bottom: 100px;
+            text-align: left;
+            margin-bottom: 120px;
         }
 
-        .concept-title {
-            font-size: 2rem;
-            color: var(--gold);
-            margin-bottom: 20px;
-            letter-spacing: 0.2em;
+        .concept-text {
+            font-size: 1.2rem;
+            line-height: 2;
+            letter-spacing: 0.1em;
+            white-space: pre-wrap;
         }
 
-        /* プロジェクトセクション (16:9) */
+        /* プロジェクトセクション */
         .project-section {
-            margin-bottom: 80px;
+            margin-bottom: 120px;
         }
 
         .project-card {
             position: relative;
             width: 100%;
-            aspect-ratio: 16 / 9; /* 16:9固定 */
-            margin-bottom: 40px;
+            aspect-ratio: 16 / 9;
+            margin-bottom: 60px;
             display: flex;
             overflow: hidden;
             border-radius: 4px;
-            color: var(--black);
+            background-size: cover;
+            background-position: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
-        /* プロジェクト別の色設定 */
-        .project-card.ganar { background-color: var(--ganar-blue); color: var(--white); }
-        .project-card.goalink { background-color: var(--black); color: var(--white); }
-        .project-card.travid { background-color: var(--white); color: var(--black); }
+        .project-card::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 1;
+        }
+
+        .project-card.ganar { background-image: url('bg_ganar.png'); }
+        .project-card.ganar::before { background-color: rgba(135, 206, 235, 0.7); }
+
+        .project-card.goalink { background-image: url('bg_goalink.png'); }
+        .project-card.goalink::before { background-color: rgba(0, 0, 0, 0.8); }
+
+        .project-card.travid { background-image: url('bg_travid.png'); }
+        .project-card.travid::before { background-color: rgba(255, 255, 255, 0.9); }
 
         .card-main {
+            position: relative;
+            z-index: 2;
             flex: 1;
-            padding: 40px;
+            padding: 60px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -140,90 +184,88 @@
         }
 
         .card-logo {
-            height: 60px;
-            margin-bottom: 20px;
+            height: 70px;
+            margin-bottom: 30px;
+            object-fit: contain;
         }
 
         .card-description {
-            max-width: 60%;
-            margin-bottom: 30px;
-            line-height: 1.8;
-            font-size: 1rem;
+            max-width: 500px;
+            margin-bottom: 40px;
+            line-height: 2;
+            font-size: 1.1rem;
+            white-space: pre-wrap;
         }
 
+        .ganar .card-description, .goalink .card-description { color: var(--white); }
+        .travid .card-description { color: var(--black); }
+
         .view-more-btn {
-            padding: 12px 30px;
+            padding: 12px 40px;
             border: 1px solid currentColor;
             background: transparent;
             color: inherit;
             text-decoration: none;
             font-size: 0.9rem;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.2em;
             transition: 0.3s;
         }
 
         .view-more-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(197, 160, 89, 0.2);
+            border-color: var(--gold);
+            color: var(--gold);
         }
 
-        /* 縦書き文言エリア (共通) */
         .card-vertical-text {
+            position: relative;
+            z-index: 2;
             width: 100px;
             display: flex;
             align-items: center;
             justify-content: center;
             writing-mode: vertical-rl;
-            font-size: 1.2rem;
-            letter-spacing: 0.5em;
+            font-size: 1.3rem;
+            letter-spacing: 0.6em;
             border-left: 1px solid rgba(128, 128, 128, 0.3);
             font-weight: bold;
         }
+        .ganar .card-vertical-text, .goalink .card-vertical-text { color: var(--white); }
+        .travid .card-vertical-text { color: var(--black); }
 
-        /* NEWSセクション */
+        /* NEWS */
         .news-section {
             margin: 100px 0;
-            padding: 60px 0;
-            background: rgba(255, 255, 255, 0.03);
+            padding: 80px 0;
+            border-top: 1px solid rgba(197, 160, 89, 0.3);
         }
 
-        .section-title {
-            color: var(--gold);
-            margin-bottom: 40px;
-            font-size: 1.5rem;
-            border-bottom: 1px solid var(--gold);
-            display: inline-block;
-        }
-
-        .news-list {
-            list-style: none;
-        }
-
+        .news-list { list-style: none; }
         .news-item {
-            padding: 20px 0;
-            border-bottom: 1px solid rgba(197, 160, 89, 0.2);
+            padding: 25px 0;
+            border-bottom: 1px solid rgba(197, 160, 89, 0.15);
             display: flex;
-            gap: 20px;
+            gap: 30px;
         }
+        .news-date { color: var(--gold); font-weight: bold; width: 150px; }
 
-        .news-date { color: var(--gold); width: 120px; }
-
-        /* プロジェクトリンクエリア */
+        /* Links */
         .project-links {
-            padding: 60px 0;
-            text-align: center;
+            padding: 80px 0;
             display: flex;
             justify-content: center;
-            gap: 20px;
+            gap: 30px;
             flex-wrap: wrap;
         }
 
         .link-button {
-            padding: 15px 40px;
+            padding: 18px 50px;
             background: transparent;
             border: 1px solid var(--gold);
             color: var(--gold);
             text-decoration: none;
-            transition: 0.3s;
+            letter-spacing: 0.1em;
+            transition: 0.4s;
         }
 
         .link-button:hover {
@@ -231,21 +273,23 @@
             color: var(--bg-navy);
         }
 
-        /* フッター */
+        /* Footer */
         footer {
+            background: #050911;
             text-align: center;
-            padding: 40px 0;
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.5);
+            padding: 60px 0;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.4);
+            letter-spacing: 0.1em;
         }
 
-        /* ページトップボタン */
+        /* Page Top */
         .pagetop {
             position: fixed;
-            right: 20px;
-            bottom: 20px;
-            width: 50px;
-            height: 50px;
+            right: 30px;
+            bottom: 30px;
+            width: 60px;
+            height: 60px;
             background: var(--gold);
             color: var(--bg-navy);
             display: flex;
@@ -256,11 +300,12 @@
             z-index: 999;
         }
 
-        /* スマホ対応 */
         @media (max-width: 768px) {
-            .card-description { max-width: 100%; }
-            .card-vertical-text { font-size: 1rem; width: 60px; }
-            .card-main { padding: 20px; }
+            header { padding: 0 20px; }
+            .card-main { padding: 30px; }
+            .card-description { font-size: 0.9rem; }
+            .card-vertical-text { font-size: 1.1rem; width: 60px; }
+            .news-item { flex-direction: column; gap: 5px; }
             .project-card { aspect-ratio: 16 / 9; }
         }
     </style>
@@ -272,45 +317,55 @@
 
     <header>
         <div class="header-logo">
-            <img src="logo_hekion.png" alt="HEKION">
+            <img src="gold_hekionlogo.png" alt="HEKION">
         </div>
         <button class="menu-btn"><i class="fas fa-bars"></i></button>
     </header>
 
+    <div class="mv">
+        <img src="gold_hekionlogo.png" alt="HEKION" style="height: 80px;">
+        <h2 class="mv-copy">発見、楽しさ、繋がり。</h2>
+    </div>
+
     <main class="container">
         
         <section class="concept-section">
-            <h1 class="concept-title">発見、楽しさ、繋がり。</h1>
-            <p>HEKIONは新しい価値を創造し続けるプロジェクトチームです。</p>
+            <h2 class="section-title">CONCEPT</h2>
+            <p class="concept-text">日常のなかの発見を楽しさに変え、
+そこから繋がりを生み出していく。</p>
         </section>
 
         <section class="project-section">
+            <h2 class="section-title">PROJECT</h2>
             
             <div class="project-card ganar">
                 <div class="card-main">
-                    <img src="logo_ganar.png" alt="GANAR" class="card-logo">
-                    <p class="card-description">勝利を掴むための、情熱的なスポーツコミュニティの構築。</p>
+                    <img src="ganarlogo.png" alt="GANAR" class="card-logo">
+                    <p class="card-description">勝ちにこだわる。
+でも、楽しむことを忘れない。</p>
                     <a href="#" class="view-more-btn">VIEW MORE</a>
                 </div>
-                <div class="card-vertical-text">勝利への渇望</div>
+                <div class="card-vertical-text">楽しんだもん勝ち</div>
             </div>
 
             <div class="project-card goalink">
                 <div class="card-main">
-                    <img src="logo_goalink.png" alt="Goalink" class="card-logo">
-                    <p class="card-description">目標と絆を繋ぐ、新しいビジネス・ネットワーキング。</p>
+                    <img src="goalinklogo.png" alt="Goalink" class="card-logo">
+                    <p class="card-description">サッカーを、もっと近くに。
+知る事で、好きになる。</p>
                     <a href="#" class="view-more-btn">VIEW MORE</a>
                 </div>
-                <div class="card-vertical-text">繋がる目的</div>
+                <div class="card-vertical-text">サッカーと人をつなぐ</div>
             </div>
 
             <div class="project-card travid">
                 <div class="card-main">
-                    <img src="logo_travid.png" alt="TRAVID" class="card-logo">
-                    <p class="card-description">旅を通じた新しいアイデンティティの発見をサポート。</p>
+                    <img src="travidlogo.png" alt="TRAVID" class="card-logo">
+                    <p class="card-description">旅の前も、旅のあとも。
+楽しさは続いていく。</p>
                     <a href="#" class="view-more-btn">VIEW MORE</a>
                 </div>
-                <div class="card-vertical-text">新しい自分へ</div>
+                <div class="card-vertical-text">旅の楽しさを、カタチに。</div>
             </div>
 
         </section>
@@ -321,10 +376,6 @@
                 <li class="news-item">
                     <span class="news-date">2026.01.14</span>
                     <span class="news-content">WEBサイトをリニューアルしました。</span>
-                </li>
-                <li class="news-item">
-                    <span class="news-date">2026.01.01</span>
-                    <span class="news-content">新規プロジェクト「Goalink」がスタート。</span>
                 </li>
             </ul>
         </section>

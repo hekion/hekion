@@ -25,7 +25,7 @@
             color: var(--white);
             font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", sans-serif;
             overflow-x: hidden;
-            line-height: 2.0;
+            line-height: 1.8;
             -webkit-font-smoothing: antialiased;
         }
 
@@ -50,76 +50,87 @@
 
         /* Header & Menu */
         header {
-            position: fixed; top: 0; left: 0; width: 100%; height: 120px;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100px;
             display: flex; justify-content: space-between; align-items: center;
-            padding: 0 80px; z-index: 5000; transition: all 0.6s var(--ease-out-expo);
+            padding: 0 60px; z-index: 5000; transition: all 0.6s var(--ease-out-expo);
         }
-        header.scrolled { height: 90px; background: rgba(10, 17, 31, 0.8); backdrop-filter: blur(10px); }
-        .header-logo img { height: 60px; transition: 0.3s; }
+        header.scrolled { height: 70px; background: rgba(10, 17, 31, 0.85); backdrop-filter: blur(10px); }
+        .header-logo img { height: 50px; transition: 0.3s; }
 
         .menu-btn {
             background: none; border: none; cursor: pointer; z-index: 9999;
-            width: 60px; height: 60px; position: relative;
+            width: 50px; height: 50px; position: relative;
             display: flex; justify-content: center; align-items: center;
         }
         .menu-btn span {
-            display: block; position: absolute; width: 40px; height: 2px;
+            display: block; position: absolute; width: 35px; height: 2px;
             background: var(--gold); transition: all 0.5s var(--ease-out-expo);
         }
-        .menu-btn span:nth-child(1) { transform: translateY(-12px); }
-        .menu-btn span:nth-child(2) { width: 30px; transform: translateX(5px); }
-        .menu-btn span:nth-child(3) { transform: translateY(12px); }
+        .menu-btn span:nth-child(1) { transform: translateY(-10px); }
+        .menu-btn span:nth-child(2) { width: 25px; transform: translateX(5px); }
+        .menu-btn span:nth-child(3) { transform: translateY(10px); }
         
         .menu-btn.open span:nth-child(1) { transform: translateY(0) rotate(45deg); }
         .menu-btn.open span:nth-child(2) { opacity: 0; }
         .menu-btn.open span:nth-child(3) { transform: translateY(0) rotate(-45deg); }
 
         .side-menu {
-            position: fixed; top: 0; right: -100%; width: 450px; height: 100vh;
+            position: fixed; top: 0; right: -100%; width: 400px; height: 100vh;
             background: rgba(5, 9, 17, 0.98); backdrop-filter: blur(25px);
-            z-index: 9000; padding: 160px 60px; transition: right 0.8s var(--ease-out-expo);
+            z-index: 9000; padding: 120px 50px; transition: right 0.8s var(--ease-out-expo);
             border-left: 1px solid rgba(197, 160, 89, 0.1);
         }
         .side-menu.open { right: 0; }
         .side-menu ul { list-style: none; }
-        .side-menu li { margin-bottom: 35px; opacity: 0; transform: translateY(20px); transition: 0.6s var(--ease-out-expo); }
+        .side-menu li { margin-bottom: 30px; opacity: 0; transform: translateY(15px); transition: 0.6s var(--ease-out-expo); }
         .side-menu.open li { opacity: 1; transform: translateY(0); }
-        .side-menu a { color: var(--white); text-decoration: none; font-size: 1.1rem; font-weight: 300; display: flex; justify-content: space-between; align-items: center; white-space: nowrap; }
+        .side-menu a { color: var(--white); text-decoration: none; font-size: 1rem; font-weight: 300; display: flex; justify-content: space-between; align-items: center; }
         .side-menu a:hover { color: var(--gold); }
 
         .submenu { max-height: 0; overflow: hidden; padding-left: 20px; transition: 0.6s var(--ease-out-expo); opacity: 0; }
-        .submenu.show { max-height: 500px; margin-top: 20px; opacity: 1; }
-        .submenu li { margin-bottom: 15px !important; transform: none !important; }
-        .submenu a { font-size: 0.95rem !important; opacity: 0.6; }
+        .submenu.show { max-height: 300px; margin-top: 15px; opacity: 1; }
+        .submenu li { margin-bottom: 12px !important; }
+        .submenu a { font-size: 0.9rem !important; opacity: 0.6; }
 
         /* Main Visual */
-        .mv { width: 100%; height: 100vh; position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center; overflow: hidden; }
+        .mv { width: 100%; height: 100vh; position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center; overflow: hidden; padding: 0 15px; }
         .mv-bg { position: absolute; inset: 0; background-size: cover; background-position: center; z-index: -1; transform: scale(1.05); transition: 10s linear; }
         .mv.loaded .mv-bg { transform: scale(1); }
         @media (min-width: 769px) { .mv-bg { background-image: url('mv_pc_bg.png'); } }
         @media (max-width: 768px) { .mv-bg { background-image: url('mv_sp_bg.png'); } }
 
-        .mv-logo { height: 140px; margin-bottom: 40px; opacity: 0; transform: translateY(30px); transition: 1.2s var(--ease-out-expo) 0.5s; }
+        .mv-logo { height: 120px; margin-bottom: 30px; opacity: 0; transform: translateY(20px); transition: 1.2s var(--ease-out-expo) 0.5s; }
         .mv.loaded .mv-logo { opacity: 1; transform: translateY(0); }
+        
+        /* コンセプト文：絶対に改行させず、画面内に収める */
         .mv-copy {
-            font-size: clamp(1.1rem, 6.5vw, 3.8rem); letter-spacing: 0.45em; color: var(--gold); font-weight: bold;
-            text-shadow: 0 0 40px rgba(0,0,0,0.8); opacity: 0; transform: translateY(30px);
-            transition: 1.2s var(--ease-out-expo) 0.8s; margin-left: 0.45em; white-space: nowrap;
+            font-size: clamp(1.1rem, 7.5vw, 3.2rem); 
+            letter-spacing: 0.45em; 
+            color: var(--gold); 
+            font-weight: bold;
+            text-shadow: 0 0 30px rgba(0,0,0,0.8); 
+            opacity: 0; 
+            transform: translateY(20px);
+            transition: 1.2s var(--ease-out-expo) 0.8s; 
+            text-align: center; 
+            white-space: nowrap; /* 絶対に改行しない */
+            margin-left: 0.45em; /* 中央揃えの補正 */
         }
         .mv.loaded .mv-copy { opacity: 1; transform: translateY(0); }
 
-        /* Content Sections */
-        .main-content { max-width: 1500px; margin: 0 auto; padding: 180px 100px; position: relative; z-index: 20; }
-        .section-header { margin-bottom: 100px; }
-        .section-title { font-size: 2.8rem; color: var(--gold); letter-spacing: 0.3em; font-weight: 200; border-bottom: 1px solid var(--gold); padding-bottom: 20px; display: inline-block; }
-        .concept-body { margin-bottom: 200px; }
-        .concept-text { font-size: 1.8rem; line-height: 2.8; font-weight: 300; }
+        /* Content Sections & Margins */
+        .main-content { max-width: 1400px; margin: 0 auto; padding: 80px 80px; position: relative; z-index: 20; }
+        .section-header { margin-bottom: 30px; }
+        .section-title { font-size: 2.2rem; color: var(--gold); letter-spacing: 0.2em; font-weight: 200; border-bottom: 1px solid var(--gold); padding-bottom: 8px; display: inline-block; }
+        
+        .concept-body { margin-bottom: 100px; }
+        .concept-text { font-size: 1.5rem; line-height: 2.2; font-weight: 300; }
 
         /* Project Cards */
-        .project-grid { display: flex; flex-direction: column; gap: 150px; }
+        .project-grid { display: flex; flex-direction: column; gap: 70px; }
         .project-card {
             position: relative; width: 100%; aspect-ratio: 16 / 9; display: flex; border-radius: 4px; overflow: hidden;
-            box-shadow: 0 40px 100px rgba(0,0,0,0.8);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
         }
         .project-card::before { content: ""; position: absolute; inset: 0; z-index: 1; }
         .card-bg { position: absolute; inset: 0; background-size: cover; background-position: center; transition: 1.5s var(--ease-out-expo); }
@@ -129,70 +140,70 @@
         .card-goalink .card-bg { background-image: url('bg_goalink.png'); } .card-goalink::before { background: var(--overlay-goalink); }
         .card-travid .card-bg { background-image: url('bg_travid.png'); } .card-travid::before { background: var(--overlay-travid); }
 
-        .card-content-main { position: relative; z-index: 10; flex: 1; padding: 60px 80px; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; }
-        .card-logo { max-height: 25%; max-width: 350px; margin-bottom: 40px; }
-        .card-description { font-size: clamp(1rem, 2.5vw, 1.4rem); line-height: 2.0; margin-bottom: 40px; }
+        .card-content-main { position: relative; z-index: 10; flex: 1; padding: 40px 60px; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; }
+        .card-logo { max-height: 20%; max-width: 300px; margin-bottom: 30px; }
+        .card-description { font-size: clamp(0.95rem, 2vw, 1.25rem); line-height: 1.8; margin-bottom: 30px; }
         
+        /* ボタン中央揃えの厳密指定 */
         .btn-viewmore { 
-            width: 240px; height: 60px; display: flex; justify-content: center; align-items: center;
-            border: 1px solid currentColor; text-decoration: none; font-size: 1rem; letter-spacing: 0.3em; 
-            color: inherit; transition: 0.4s; position: relative;
+            width: 200px; height: 50px; display: flex; justify-content: center; align-items: center; text-align: center;
+            border: 1px solid currentColor; text-decoration: none; font-size: 0.9rem; letter-spacing: 0.2em; 
+            color: inherit; transition: 0.4s; line-height: 1;
         }
-        .btn-viewmore:hover { color: var(--gold); border-color: var(--gold); transform: translateX(10px); }
+        .btn-viewmore:hover { color: var(--gold); border-color: var(--gold); transform: translateX(8px); }
 
-        /* Vertical Text Rule */
+        /* Vertical Text */
         .card-vertical-area {
-            position: relative; z-index: 10; width: 140px; display: flex; flex-direction: column;
-            padding: 80px 0; writing-mode: vertical-rl; font-size: clamp(1rem, 2vw, 1.5rem); 
-            letter-spacing: 0.6em; border-left: 1px solid rgba(128, 128, 128, 0.2); font-weight: bold;
+            position: relative; z-index: 10; width: 100px; display: flex; flex-direction: column;
+            padding: 50px 0; writing-mode: vertical-rl; font-size: clamp(0.9rem, 1.5vw, 1.2rem); 
+            letter-spacing: 0.5em; border-left: 1px solid rgba(128, 128, 128, 0.2); font-weight: bold;
         }
-        .card-vertical-area span { white-space: nowrap; } /* 勝手に改行させない */
-        .v-text-2 { margin-top: auto; padding-top: 40px; }
+        .card-vertical-area span { white-space: nowrap; }
+        .v-text-2 { margin-top: auto; padding-top: 30px; }
         .card-ganar, .card-goalink { color: var(--white); } .card-travid { color: var(--black); }
 
         /* News & Links */
-        .news-section { margin-top: 150px; padding-top: 150px; border-top: 1px solid rgba(197, 160, 89, 0.2); }
-        .news-item { padding: 50px 0; border-bottom: 1px solid rgba(197, 160, 89, 0.1); display: flex; gap: 60px; }
-        .news-date { color: var(--gold); font-weight: bold; width: 220px; font-size: 1.3rem; }
-        .news-label { font-size: 0.9rem; border: 1px solid var(--gold); padding: 2px 12px; margin-right: 15px; }
-        .news-title { font-size: 1.3rem; font-weight: 300; }
+        .news-section { margin-top: 80px; padding-top: 60px; border-top: 1px solid rgba(197, 160, 89, 0.1); }
+        .news-item { padding: 30px 0; border-bottom: 1px solid rgba(197, 160, 89, 0.05); display: flex; gap: 40px; }
+        .news-date { color: var(--gold); font-weight: bold; width: 180px; font-size: 1.1rem; }
+        .news-label { font-size: 0.8rem; border: 1px solid var(--gold); padding: 1px 10px; margin-right: 10px; }
+        .news-title { font-size: 1.1rem; font-weight: 300; }
 
-        .link-grid { display: flex; justify-content: center; gap: 50px; margin-top: 150px; flex-wrap: wrap; }
-        .site-link-btn { padding: 25px 80px; border: 1px solid var(--gold); color: var(--gold); text-decoration: none; letter-spacing: 0.4em; transition: 0.5s var(--ease-out-expo); font-size: 1.2rem; }
-        .site-link-btn:hover { background: var(--gold); color: var(--bg-navy); box-shadow: 0 0 50px rgba(197, 160, 89, 0.4); }
+        .link-grid { display: flex; justify-content: center; gap: 30px; margin-top: 80px; flex-wrap: wrap; }
+        .site-link-btn { padding: 20px 60px; border: 1px solid var(--gold); color: var(--gold); text-decoration: none; letter-spacing: 0.3em; transition: 0.5s var(--ease-out-expo); font-size: 1.1rem; }
+        .site-link-btn:hover { background: var(--gold); color: var(--bg-navy); box-shadow: 0 0 30px rgba(197, 160, 89, 0.3); }
 
         /* Footer & Top */
-        footer { background: #050911; padding: 120px 80px; text-align: center; }
-        .footer-logo { height: 70px; margin-bottom: 50px; opacity: 0.5; }
-        .copyright { color: rgba(255,255,255,0.3); font-size: 1rem; }
+        footer { background: #050911; padding: 60px 40px; text-align: center; }
+        .footer-logo { height: 50px; margin-bottom: 30px; opacity: 0.5; }
+        .copyright { color: rgba(255,255,255,0.3); font-size: 0.9rem; }
 
         .pagetop-btn {
-            position: fixed; right: 60px; bottom: 60px; width: 90px; height: 90px; background: var(--gold);
+            position: fixed; right: 40px; bottom: 40px; width: 70px; height: 70px; background: var(--gold);
             border-radius: 50%; display: flex; justify-content: center; align-items: center; z-index: 4000;
             transition: 0.4s; opacity: 0; visibility: hidden; text-decoration: none; color: var(--bg-navy);
         }
         .pagetop-btn.visible { opacity: 1; visibility: visible; }
 
-        /* Animation Classes */
-        .scroll-reveal { opacity: 0; transform: translateY(40px); transition: 1.2s var(--ease-out-expo); }
+        /* Animation */
+        .scroll-reveal { opacity: 0; transform: translateY(30px); transition: 1.2s var(--ease-out-expo); }
         .scroll-reveal.active { opacity: 1; transform: translateY(0); }
 
         /* Responsive Smartphone */
         @media (max-width: 768px) {
-            header { padding: 0 25px; height: 85px; } .header-logo img { height: 45px; }
-            .side-menu { width: 100%; padding: 120px 30px; }
-            .side-menu a { font-size: 1rem; }
-            .main-content { padding: 100px 30px; }
-            .section-title { font-size: 1.8rem; }
-            .concept-text { font-size: 1.1rem; }
-            .card-content-main { padding: 5% 6%; } .card-logo { max-width: 140px; margin-bottom: 20px; } 
-            .card-description { font-size: 0.75rem; margin-bottom: 20px; }
-            .btn-viewmore { width: 160px; height: 45px; font-size: 0.7rem; }
-            .card-vertical-area { width: 60px; padding: 30px 0; font-size: 0.9rem; }
-            .v-text-2 { padding-top: 20px; }
-            .news-item { flex-direction: column; gap: 10px; } .news-date { width: 100%; font-size: 1rem; }
-            .site-link-btn { width: 100%; text-align: center; padding: 20px; font-size: 1rem; }
-            .pagetop-btn { right: 25px; bottom: 25px; width: 60px; height: 60px; }
+            header { padding: 0 20px; height: 70px; } .header-logo img { height: 40px; }
+            .side-menu { width: 100%; padding: 100px 30px; }
+            .main-content { padding: 50px 20px; }
+            .section-title { font-size: 1.6rem; }
+            .concept-text { font-size: 1.05rem; line-height: 2.0; }
+            .project-grid { gap: 40px; }
+            .card-content-main { padding: 20px 20px; } .card-logo { max-width: 120px; margin-bottom: 15px; } 
+            .card-description { font-size: 0.7rem; margin-bottom: 15px; }
+            .btn-viewmore { width: 150px; height: 40px; font-size: 0.7rem; }
+            .card-vertical-area { width: 50px; padding: 20px 0; font-size: 0.85rem; }
+            .news-item { flex-direction: column; gap: 8px; padding: 20px 0; } .news-date { width: 100%; font-size: 0.95rem; }
+            .site-link-btn { width: 100%; text-align: center; padding: 18px; font-size: 0.9rem; }
+            .pagetop-btn { right: 20px; bottom: 20px; width: 55px; height: 55px; }
         }
     </style>
 </head>
@@ -206,13 +217,13 @@
 
     <nav class="side-menu" id="sideMenu">
         <ul>
-            <li><a href="#">◯ TOP <small style="opacity:0.5; margin-left:10px;">トップ</small></a></li>
-            <li><a href="#">◯ ABOUT <small style="opacity:0.5; margin-left:10px;">HEKIONについて</small></a></li>
+            <li><a href="#">◯ TOP <small style="opacity:0.5; margin-left:8px;">トップ</small></a></li>
+            <li><a href="#">◯ ABOUT <small style="opacity:0.5; margin-left:8px;">HEKIONについて</small></a></li>
             <li>
-                <a href="#" id="projectToggle">◯ PROJECTS <small style="opacity:0.5; margin-left:10px;">プロジェクト</small> <i class="fas fa-plus"></i></a>
+                <a href="#" id="projectToggle">◯ PROJECTS <small style="opacity:0.5; margin-left:8px;">プロジェクト</small> <i class="fas fa-plus"></i></a>
                 <ul class="submenu" id="submenu"><li><a href="#">- GANAR</a></li><li><a href="#">- Goalink</a></li><li><a href="#">- TRAVID</a></li></ul>
             </li>
-            <li><a href="#">◯ NEWS <small style="opacity:0.5; margin-left:10px;">ニュース</small></a></li>
+            <li><a href="#">◯ NEWS <small style="opacity:0.5; margin-left:8px;">ニュース</small></a></li>
         </ul>
     </nav>
 
@@ -225,9 +236,14 @@
         </section>
 
         <section class="project-grid">
-            <h2 class="section-title scroll-reveal">PROJECT</h2>
+            <div class="section-header scroll-reveal">
+                <h2 class="section-title">PROJECT</h2>
+            </div>
+            
             <div class="project-card card-ganar scroll-reveal"><div class="card-bg"></div><div class="card-content-main"><img src="ganarlogo.png" class="card-logo"><p class="card-description">勝ちにこだわる。<br>でも、楽しむことを忘れない。</p><a href="#" class="btn-viewmore">VIEW MORE</a></div><div class="card-vertical-area"><span>楽しんだもん</span><span class="v-text-2">勝ち</span></div></div>
+            
             <div class="project-card card-goalink scroll-reveal"><div class="card-bg"></div><div class="card-content-main"><img src="goalinklogo.png" class="card-logo"><p class="card-description">サッカーを、もっと近くに。<br>知る事で、好きになる。</p><a href="#" class="btn-viewmore">VIEW MORE</a></div><div class="card-vertical-area"><span>サッカーと人を</span><span class="v-text-2">つなぐ</span></div></div>
+            
             <div class="project-card card-travid scroll-reveal"><div class="card-bg"></div><div class="card-content-main"><img src="travidlogo.png" class="card-logo"><p class="card-description">旅の前も、旅のあとも。<br>楽しさは続いていく。</p><a href="#" class="btn-viewmore">VIEW MORE</a></div><div class="card-vertical-area"><span>旅の楽しさを、</span><span class="v-text-2">カタチに</span></div></div>
         </section>
 
@@ -252,8 +268,7 @@
             setTimeout(() => document.querySelector('.mv').classList.add('loaded'), 500);
 
             menuBtn.onclick = () => {
-                menuBtn.classList.toggle('open'); 
-                sideMenu.classList.toggle('open');
+                menuBtn.classList.toggle('open'); sideMenu.classList.toggle('open');
                 document.body.style.overflow = sideMenu.classList.contains('open') ? 'hidden' : '';
             };
 
@@ -264,13 +279,13 @@
             };
 
             window.onscroll = () => {
-                header.classList.toggle('scrolled', window.pageYOffset > 100);
+                header.classList.toggle('scrolled', window.pageYOffset > 50);
                 pageTop.classList.toggle('visible', window.pageYOffset > 100);
             };
 
             const observer = new IntersectionObserver(entries => {
                 entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
-            }, { threshold: 0.15 });
+            }, { threshold: 0.1 });
             document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
 
             pageTop.onclick = e => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); };

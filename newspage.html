@@ -163,7 +163,6 @@
                 const response = await fetch(endpoint);
                 const data = await response.json();
                 
-                // 文字列か数値かに関わらず一致を確認
                 const item = data.find(news => String(news.id) === String(id));
 
                 if (item) {
@@ -173,7 +172,7 @@
                             <span class="news-detail-tag">${item.tag}</span>
                         </div>
                         <h1 class="news-detail-title">${item.title}</h1>
-                        <div class="news-detail-body">${item.content}</div>
+                        <div class="news-detail-body">${item.content || '本文はありません'}</div>
                         <div class="back-btn-area">
                             <a href="news.html" class="btn-back"><i class="fas fa-arrow-left"></i> BACK TO LIST</a>
                         </div>
@@ -186,7 +185,6 @@
             }
         }
 
-        // Side Menu Logic
         const openBtn = document.getElementById('openBtn');
         const closeBtn = document.getElementById('closeBtn');
         const sideNav = document.getElementById('sideNav');

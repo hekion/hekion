@@ -8,16 +8,17 @@
         :root {
             --bg-navy: #0a111f;
             --accent-gold: #c5a059;
-            --text-white: #e0e0e0;
+            --card-bg: rgba(18, 26, 43, 0.9);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             background-color: var(--bg-navy);
-            color: var(--text-white);
+            color: #fff;
             font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
             overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
         }
 
         /* 背景グリッド（固定） */
@@ -31,6 +32,13 @@
             opacity: 0.3; z-index: -1;
         }
 
+        /* 金の閃光（背景装飾） */
+        .gold-line {
+            position: absolute; width: 100%; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+            opacity: 0.2; pointer-events: none; z-index: 0;
+        }
+
         /* メニューボタン */
         .menu-trigger {
             position: fixed; top: 40px; right: 40px;
@@ -39,73 +47,67 @@
         }
         .line { height: 1px; background: var(--accent-gold); transition: 0.4s; width: 100%; }
         .line-2 { width: 70%; }
-        .menu-trigger.active .line-1 { transform: translateY(9px) rotate(45deg); }
-        .menu-trigger.active .line-2 { opacity: 0; }
-        .menu-trigger.active .line-3 { transform: translateY(-9px) rotate(-45deg); }
 
-        .side-menu {
-            position: fixed; right: 0; top: 0; width: 300px; height: 100vh;
-            background: rgba(10, 17, 31, 0.98); z-index: 1500;
-            display: flex; flex-direction: column; justify-content: center;
-            padding-left: 50px; gap: 25px; transform: translateX(100%);
-            transition: 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-        }
-        .side-menu.open { transform: translateX(0); }
-        .menu-item { text-decoration: none; color: var(--accent-gold); font-size: 0.85rem; letter-spacing: 0.2em; }
-
-        /* セクション設定 */
+        /* セクション共通 */
         section {
             width: 100%; min-height: 100vh;
             display: flex; align-items: center; justify-content: center;
-            position: relative; overflow: hidden;
+            position: relative; padding: 80px 0;
         }
 
-        /* 背景画像 */
-        .visual-container { position: absolute; inset: 0; z-index: 1; }
-        .img-bg { width: 100%; height: 100%; object-fit: cover; opacity: 0.3; }
+        /* TOP */
+        #top { text-align: center; }
+        .top-logo { width: clamp(250px, 45vw, 500px); }
 
-        /* 左右からのスライド演出用 */
-        .reveal-box {
-            position: relative; z-index: 10; width: 90%; text-align: center;
-            opacity: 0; transition: all 1.5s cubic-bezier(0.23, 1, 0.32, 1);
+        /* プロジェクトカードの構造 */
+        .project-card-wrap {
+            display: flex; align-items: center; justify-content: center;
+            width: 90%; max-width: 1100px;
+            gap: 40px;
+            opacity: 0; transition: all 1.2s cubic-bezier(0.23, 1, 0.32, 1);
         }
-        .reveal-left { transform: translateX(-150px); }
-        .reveal-right { transform: translateX(150px); }
-        .reveal-box.active { opacity: 1; transform: translateX(0); }
 
-        /* 縦書きの言葉（絶対表示） */
-        .vertical-text {
-            writing-mode: vertical-rl;
-            position: absolute; right: 5%; top: 50%; transform: translateY(-50%);
-            letter-spacing: 0.6em; color: var(--accent-gold);
-            font-size: 1.1rem; z-index: 100; font-weight: bold;
-            opacity: 0; transition: 1.5s;
+        /* 左右のスライド演出 */
+        .slide-from-left { transform: translateX(-150px); }
+        .slide-from-right { transform: translateX(150px); }
+        .project-card-wrap.active { opacity: 1; transform: translateX(0); }
+
+        /* カード本体 */
+        .card-body {
+            flex: 1; background: var(--card-bg);
+            border: 1px solid rgba(197, 160, 89, 0.2);
+            padding: 50px; position: relative;
+            overflow: hidden; display: flex; flex-direction: column; align-items: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
-        .vertical-text.active { opacity: 0.8; }
+        .card-bg-img {
+            position: absolute; inset: 0; width: 100%; height: 100%;
+            object-fit: cover; opacity: 0.15; z-index: 0;
+        }
 
-        .brand-logo { width: clamp(220px, 30vw, 400px); margin-bottom: 25px; }
-        .desc-text { font-size: 1rem; margin: 20px auto 40px; max-width: 500px; line-height: 2.4; letter-spacing: 0.15em; }
+        .brand-logo { width: clamp(200px, 25vw, 320px); position: relative; z-index: 2; margin-bottom: 30px; }
+        .desc-text { font-size: 1rem; color: #eee; margin-bottom: 40px; line-height: 2.2; letter-spacing: 0.1em; position: relative; z-index: 2; text-align: center; }
         .btn-link {
-            display: inline-block; padding: 15px 50px; border: 1px solid var(--accent-gold);
-            color: var(--accent-gold); text-decoration: none; font-size: 0.8rem;
-            letter-spacing: 0.2em; transition: 0.4s; background: rgba(0,0,0,0.5);
+            position: relative; z-index: 2;
+            display: inline-block; padding: 14px 45px; border: 1px solid var(--accent-gold);
+            color: var(--accent-gold); text-decoration: none; font-size: 0.75rem; letter-spacing: 0.2em;
+            transition: 0.4s; background: rgba(10, 17, 31, 0.6);
         }
         .btn-link:hover { background: var(--accent-gold); color: #000; }
 
-        /* 閃光（金線） */
-        .gold-line {
-            position: absolute; width: 100%; height: 1px;
-            background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
-            opacity: 0.2; pointer-events: none; z-index: 5;
+        /* 縦書き（カードのすぐ横に配置） */
+        .vertical-text {
+            writing-mode: vertical-rl;
+            letter-spacing: 0.6em; color: var(--accent-gold);
+            font-size: 1.1rem; font-weight: bold;
+            height: fit-content; line-height: 1;
         }
 
-        /* フッターエリア */
-        .site-footer {
-            padding: 100px 0 40px; text-align: center; width: 100%;
-        }
+        /* プロジェクトアーカイブ（最後） */
+        .archive-section { flex-direction: column; text-align: center; }
         .footer-links {
             display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
-            max-width: 900px; margin: 0 auto 80px; padding: 0 20px;
+            width: 100%; max-width: 900px; margin: 40px auto 100px;
         }
         .tile {
             aspect-ratio: 16/9; border: 1px solid rgba(197, 160, 89, 0.3);
@@ -113,13 +115,19 @@
             background: rgba(255,255,255,0.03); text-decoration: none;
         }
         .tile img { width: 60%; opacity: 0.5; transition: 0.4s; }
-        .tile:hover { border-color: var(--accent-gold); }
-        .tile:hover img { opacity: 1; transform: scale(1.1); }
+        .tile:hover { border-color: var(--accent-gold); background: rgba(197, 160, 89, 0.1); }
+        .tile:hover img { opacity: 1; transform: scale(1.05); }
+
+        /* フッター（最後のみ） */
+        .site-footer {
+            padding-bottom: 40px; text-align: center; width: 100%;
+        }
         .copyright { font-size: 0.7rem; letter-spacing: 0.4em; opacity: 0.3; }
 
         @media (max-width: 768px) {
+            .project-card-wrap { flex-direction: column; }
             .vertical-text { display: none; }
-            .footer-links { grid-template-columns: 1fr; }
+            .footer-links { grid-template-columns: 1fr; width: 80%; }
         }
     </style>
 </head>
@@ -133,97 +141,76 @@
         <span class="line line-3"></span>
     </div>
 
-    <nav class="side-menu" id="sideMenu">
-        <a href="index.html" class="menu-item">TOP</a>
-        <a href="about.html" class="menu-item">ABOUT</a>
-        <a href="ganar.html" class="menu-item">GANAR</a>
-        <a href="goalink.html" class="menu-item">Goalink</a>
-        <a href="travid.html" class="menu-item">TRAVID</a>
-    </nav>
-
     <section id="top">
-        <div class="visual-container">
-            <img src="mv_pc_bg.png" class="img-bg">
-        </div>
-        <div class="gold-line" style="top:40%; transform: rotate(-15deg);"></div>
-        <div class="reveal-box active">
+        <div class="gold-line" style="top:45%; transform: rotate(-10deg);"></div>
+        <div class="top-content">
             <p style="color:var(--accent-gold); letter-spacing:0.5em; font-size:0.8rem; margin-bottom:20px;">発見、楽しさ、繋がり。</p>
-            <img src="gold_hekionlogo.png" style="width: clamp(280px, 45vw, 500px);">
-        </div>
-    </section>
-
-    <section id="about">
-        <div class="gold-line" style="top:50%; transform: rotate(10deg);"></div>
-        <div class="reveal-box reveal-right">
-            <p style="font-size: clamp(1.1rem, 2.5vw, 1.4rem); letter-spacing: 0.4em; line-height: 3;">
-                日常のなかの発見を楽しさに変え、<br>
-                そこから繋がりを生み出していく。
-            </p>
+            <img src="gold_hekionlogo.png" class="top-logo">
         </div>
     </section>
 
     <section id="ganar">
-        <div class="visual-container"><img src="bg_ganar.png" class="img-bg"></div>
-        <div class="reveal-box reveal-left">
-            <img src="ganarlogo.png" class="brand-logo">
-            <p class="desc-text">勝ちにこだわる。<br>でも、楽しむことを忘れない。</p>
-            <a href="ganar.html" class="btn-link">PROJECT DISCOVER</a>
+        <div class="gold-line" style="top:30%; transform: rotate(5deg);"></div>
+        <div class="project-card-wrap slide-from-left">
+            <div class="card-body">
+                <img src="bg_ganar.png" class="card-bg-img">
+                <img src="ganarlogo.png" class="brand-logo">
+                <p class="desc-text">勝ちにこだわる。<br>でも、楽しむことを忘れない。</p>
+                <a href="ganar.html" class="btn-link">PROJECT DISCOVER</a>
+            </div>
+            <div class="vertical-text">楽しんだもん勝ち</div>
         </div>
-        <div class="vertical-text">楽しんだもん勝ち</div>
     </section>
 
     <section id="goalink">
-        <div class="visual-container"><img src="bg_goalink.png" class="img-bg"></div>
-        <div class="reveal-box reveal-right">
-            <img src="goalinklogo.png" class="brand-logo">
-            <p class="desc-text">サッカーを、もっと近くに。<br>知ることで、好きになる。</p>
-            <a href="goalink.html" class="btn-link">VIEW THEORY</a>
+        <div class="gold-line" style="top:60%; transform: rotate(-8deg);"></div>
+        <div class="project-card-wrap slide-from-right">
+            <div class="vertical-text">サッカーと人をつなぐ</div>
+            <div class="card-body">
+                <img src="bg_goalink.png" class="card-bg-img">
+                <img src="goalinklogo.png" class="brand-logo">
+                <p class="desc-text">サッカーを、もっと近くに。<br>知ることで、好きになる。</p>
+                <a href="goalink.html" class="btn-link">VIEW THEORY</a>
+            </div>
         </div>
-        <div class="vertical-text">サッカーと人をつなぐ</div>
     </section>
 
     <section id="travid">
-        <div class="visual-container"><img src="bg_travid.png" class="img-bg"></div>
-        <div class="reveal-box reveal-left">
-            <img src="travidlogo.png" class="brand-logo">
-            <p class="desc-text">旅の前も、旅のあとも。<br>楽しさを、カタチにする。</p>
-            <a href="travid.html" class="btn-link">EXPLORE JOURNEY</a>
+        <div class="gold-line" style="top:40%; transform: rotate(12deg);"></div>
+        <div class="project-card-wrap slide-from-left">
+            <div class="card-body">
+                <img src="bg_travid.png" class="card-bg-img">
+                <img src="travidlogo.png" class="brand-logo">
+                <p class="desc-text">旅の前も、旅のあとも。<br>楽しさを、カタチにする。</p>
+                <a href="travid.html" class="btn-link">EXPLORE JOURNEY</a>
+            </div>
+            <div class="vertical-text">旅の楽しさをカタチに</div>
         </div>
-        <div class="vertical-text">旅の楽しさをカタチに</div>
     </section>
 
-    <footer class="site-footer">
-        <h3 style="color:var(--accent-gold); letter-spacing:0.5em; font-size:0.9rem; margin-bottom:50px;">PROJECT ARCHIVE</h3>
+    <section class="archive-section">
+        <h3 style="color:var(--accent-gold); letter-spacing:0.5em; font-size:0.9rem;">PROJECT ARCHIVE</h3>
         <div class="footer-links">
             <a href="ganar.html" class="tile"><img src="gold_ganarlogo.png"></a>
             <a href="goalink.html" class="tile"><img src="gold_goalinklogo.png"></a>
             <a href="travid.html" class="tile"><img src="gold_travidlogo.png"></a>
         </div>
-        <p class="copyright">© 2026 HEKION. ALL RIGHTS RESERVED.</p>
-    </footer>
+        <footer class="site-footer">
+            <p class="copyright">© 2026 HEKION. ALL RIGHTS RESERVED.</p>
+        </footer>
+    </section>
 
     <script>
-        // メニュー開閉
-        const menuBtn = document.getElementById('menuBtn');
-        const sideMenu = document.getElementById('sideMenu');
-        menuBtn.addEventListener('click', () => {
-            menuBtn.classList.toggle('active');
-            sideMenu.classList.toggle('open');
-        });
-
-        // 左右からのスライド演出 & 縦書き表示の制御
+        // スライド演出の制御
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('active');
-                    // このセクション内の縦書きも表示
-                    const vText = entry.target.parentElement.querySelector('.vertical-text');
-                    if(vText) vText.classList.add('active');
                 }
             });
-        }, { threshold: 0.2 });
+        }, { threshold: 0.1 });
 
-        document.querySelectorAll('.reveal-box').forEach(box => observer.observe(box));
+        document.querySelectorAll('.project-card-wrap').forEach(el => observer.observe(el));
     </script>
 </body>
 </html>

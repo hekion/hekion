@@ -52,7 +52,7 @@
         }
         .menu-open-btn span { display: block; width: 100%; height: 2px; background: var(--gold); transition: 0.3s; }
 
-        /* Side Menu - 指示箇所のみ修正 */
+        /* Side Menu */
         .side-nav {
             position: fixed; top: 0; right: -100%; width: 100%; max-width: 400px; height: 100vh;
             background: #050911; z-index: 9000; transition: right 0.6s var(--ease-out-expo);
@@ -68,12 +68,9 @@
         .side-nav li { margin-bottom: 25px; }
         .side-nav a { 
             color: var(--white); text-decoration: none; font-size: 0.95rem; 
-            display: flex; align-items: center; justify-content: flex-start; /* 日本語が英語の後ろに続く設定 */
+            display: flex; align-items: center; justify-content: flex-start;
         }
-        .side-nav small { 
-            color: var(--gold); opacity: 0.6; margin-left: 15px; 
-            font-size: 0.75rem; 
-        }
+        .side-nav small { color: var(--gold); opacity: 0.6; margin-left: 15px; font-size: 0.75rem; }
         .side-submenu { padding: 15px 0 0 20px; display: none; }
         .side-submenu.open { display: block; }
         .side-nav a i { margin-left: 10px; font-size: 0.8rem; }
@@ -97,8 +94,8 @@
         .concept-body { margin-bottom: 80px; }
         .concept-text { font-size: 1.3rem; line-height: 2; font-weight: 300; }
 
-        /* Project Cards */
-        .project-grid { display: flex; flex-direction: column; gap: 60px; }
+        /* Project Cards - PC版向けに拡大・統一 */
+        .project-grid { display: flex; flex-direction: column; gap: 80px; }
         .project-card { position: relative; width: 100%; aspect-ratio: 16 / 9; display: flex; border-radius: 4px; overflow: hidden; }
         .card-bg { position: absolute; inset: 0; background-size: cover; background-position: center; z-index: 1; }
         .card-ganar .card-bg { background-image: url('bg_ganar.png'); }
@@ -110,13 +107,16 @@
         .card-goalink::before { background: var(--overlay-goalink); }
         .card-travid::before { background: var(--overlay-travid); }
 
-        .card-inner { position: relative; z-index: 10; flex: 1; padding: 40px; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; }
-        .card-logo { height: 65px; width: auto; max-width: 60%; object-fit: contain; margin-bottom: 25px; }
-        .card-desc { font-size: 1rem; margin-bottom: 25px; line-height: 1.7; height: auto; }
-        .btn-viewmore { width: 180px; height: 48px; display: flex; justify-content: center; align-items: center; border: 1px solid currentColor; text-decoration: none; font-size: 0.85rem; letter-spacing: 0.2em; color: inherit; }
-        
-        .card-side { position: relative; z-index: 10; width: 80px; display: flex; flex-direction: column; padding: 40px 0; writing-mode: vertical-rl; font-size: 1.1rem; letter-spacing: 0.5em; border-left: 1px solid rgba(128, 128, 128, 0.2); font-weight: bold; }
-        .card-side span { white-space: nowrap; }
+        /* PC版でインナー要素を拡大 */
+        .card-inner { position: relative; z-index: 10; flex: 1; padding: 80px; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; }
+        .card-logo { height: 100px; width: auto; max-width: 70%; object-fit: contain; margin-bottom: 35px; }
+        .card-desc { font-size: 1.25rem; margin-bottom: 40px; line-height: 1.8; font-weight: 400; }
+        .btn-viewmore { width: 220px; height: 56px; display: flex; justify-content: center; align-items: center; border: 1px solid currentColor; text-decoration: none; font-size: 1rem; letter-spacing: 0.25em; color: inherit; transition: 0.3s; }
+        .btn-viewmore:hover { background: rgba(255, 255, 255, 0.1); }
+
+        /* PC版 縦書き：1列・文字拡大 */
+        .card-side { position: relative; z-index: 10; width: 120px; display: flex; flex-direction: column; padding: 60px 0; writing-mode: vertical-rl; font-size: 1.6rem; letter-spacing: 0.4em; border-left: 1px solid rgba(128, 128, 128, 0.2); font-weight: bold; }
+        .card-side span { white-space: nowrap; display: block; }
         .v-btm { margin-top: auto; padding-top: 20px; }
         
         .card-ganar, .card-goalink { color: var(--white); } .card-travid { color: var(--black); }
@@ -152,6 +152,7 @@
 
         @media (max-width: 768px) {
             .main-content { padding: 40px 20px; }
+            .project-grid { gap: 60px; }
             .card-inner { padding: 25px; }
             .card-logo { height: 45px; margin-bottom: 15px; }
             .card-desc { font-size: 0.8rem; margin-bottom: 20px; }
@@ -202,6 +203,7 @@
 
         <section class="project-grid">
             <h2 class="section-title">PROJECT</h2>
+            
             <div class="project-card card-ganar">
                 <div class="card-bg"></div>
                 <div class="card-inner">
@@ -211,6 +213,7 @@
                 </div>
                 <div class="card-side"><span>楽しんだもん</span><span class="v-btm">勝ち</span></div>
             </div>
+
             <div class="project-card card-goalink">
                 <div class="card-bg"></div>
                 <div class="card-inner">
@@ -220,6 +223,7 @@
                 </div>
                 <div class="card-side"><span>サッカーと人を</span><span class="v-btm">つなぐ</span></div>
             </div>
+
             <div class="project-card card-travid">
                 <div class="card-bg"></div>
                 <div class="card-inner">

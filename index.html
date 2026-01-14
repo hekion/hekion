@@ -121,9 +121,11 @@
 
         /* News */
         .news-section { margin-top: 80px; }
-        .news-item { padding: 20px 0; border-bottom: 1px solid rgba(197, 160, 89, 0.1); display: flex; gap: 20px; cursor: pointer; align-items: center; }
+        .news-item { padding: 20px 0; border-bottom: 1px solid rgba(197, 160, 89, 0.1); cursor: pointer; display: flex; flex-direction: column; gap: 8px; }
+        .news-meta { display: flex; align-items: center; gap: 15px; }
         .news-date { color: var(--gold); font-weight: bold; font-size: 0.95rem; }
         .news-tag { background: var(--gold); color: var(--bg-navy); font-size: 0.7rem; padding: 2px 10px; font-weight: bold; border-radius: 2px; text-transform: uppercase; }
+        .news-text { font-size: 1rem; }
         .news-btn-area { margin-top: 30px; }
         .btn-news-more { width: 160px; height: 40px; display: flex; justify-content: center; align-items: center; border: 1px solid var(--gold); color: var(--gold); text-decoration: none; font-size: 0.8rem; }
 
@@ -291,8 +293,10 @@
                 latestThree.forEach(item => {
                     const html = `
                         <div class="news-item" onclick="location.href='newspage.html?id=${item.id}'">
-                            <span class="news-date">${item.date}</span>
-                            <span class="news-tag">${item.tag}</span>
+                            <div class="news-meta">
+                                <span class="news-date">${item.date}</span>
+                                <span class="news-tag">${item.tag}</span>
+                            </div>
                             <span class="news-text">${item.title}</span>
                         </div>
                     `;

@@ -282,7 +282,7 @@
 
         // GASからニュースを取得し表示する関数（最新3件）
         async function fetchNews() {
-            const endpoint = "YOUR_GAS_WEB_APP_URL"; // デプロイしたGASのURLをここに貼り付け
+            const endpoint = "https://script.google.com/macros/s/AKfycbxsimQpAMn1nBVO2Kp5tqby_KeX-8Tk3Me8WVokGIVbaUmF2EdtmXCXdtXSskSYsAf1/exec";
             const container = document.getElementById('news-container');
             
             try {
@@ -290,7 +290,7 @@
                 const data = await response.json();
                 
                 container.innerHTML = '';
-                if (data.length === 0) {
+                if (!data || data.length === 0) {
                     container.innerHTML = '<p>現在ニュースはありません。</p>';
                     return;
                 }

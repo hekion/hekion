@@ -3,258 +3,345 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HEKION | 発見、楽しさ、繋がり。</title>
+    <title>HEKION Official</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
             --bg-navy: #0a111f;
-            --accent-gold: #c5a059;
-            --text-white: #e0e0e0;
-            --card-white: #ffffff;
-            --text-black: #1a1a1a;
+            --gold: #c5a059;
+            --white: #ffffff;
+            --black: #000000;
+            --ganar-blue: #87ceeb; /* 水色 */
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         body {
             background-color: var(--bg-navy);
-            color: var(--text-white);
-            font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+            color: var(--white);
+            font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
             overflow-x: hidden;
         }
 
+        /* 背景演出：麻の葉模様と閃光 */
         .bg-pattern {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            fixed: fixed;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background-image: 
-                linear-gradient(30deg, #121a2b 12%, transparent 12.5%, transparent 87%, #121a2b 87.5%, #121a2b),
-                linear-gradient(150deg, #121a2b 12%, transparent 12.5%, transparent 87%, #121a2b 87.5%, #121a2b),
-                linear-gradient(60deg, #161e2e 25%, transparent 25.5%, transparent 75%, #161e2e 75%, #161e2e);
-            background-size: 80px 140px;
-            opacity: 0.3; z-index: -1;
+                radial-gradient(circle at 2px 2px, rgba(197, 160, 89, 0.05) 1px, transparent 0);
+            background-size: 40px 40px;
+            z-index: -1;
         }
 
         .gold-line {
-            position: absolute; width: 100%; height: 1px;
-            background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
-            opacity: 0.2; pointer-events: none; z-index: 1;
+            position: fixed;
+            top: 50%;
+            left: -100%;
+            width: 200%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            transform: rotate(-35deg);
+            animation: flash-line 8s infinite linear;
+            z-index: -1;
         }
 
-        .menu-trigger {
-            position: fixed; top: 40px; right: 40px;
-            width: 40px; height: 40px; z-index: 2000; cursor: pointer;
-            display: flex; flex-direction: column; justify-content: center; align-items: flex-end; gap: 8px;
-        }
-        .line { height: 1px; background: var(--accent-gold); transition: 0.4s; width: 100%; }
-        .line-2 { width: 70%; }
-        .menu-trigger.active .line-1 { transform: translateY(9px) rotate(45deg); }
-        .menu-trigger.active .line-2 { opacity: 0; }
-        .menu-trigger.active .line-3 { transform: translateY(-9px) rotate(-45deg); }
-
-        .side-menu {
-            position: fixed; right: 0; top: 0; width: 300px; height: 100vh;
-            background: rgba(10, 17, 31, 0.98); backdrop-filter: blur(15px);
-            z-index: 1500; display: flex; flex-direction: column; justify-content: center;
-            padding-left: 50px; gap: 25px; transform: translateX(100%);
-            transition: 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-            border-left: 1px solid rgba(197, 160, 89, 0.2);
-        }
-        .side-menu.open { transform: translateX(0); }
-        .menu-item { text-decoration: none; color: var(--accent-gold); font-size: 0.85rem; letter-spacing: 0.2em; opacity: 0.7; transition: 0.4s; }
-        .menu-item:hover { opacity: 1; }
-
-        section { width: 100%; min-height: 100vh; display: flex; align-items: center; justify-content: center; position: relative; }
-
-        .mv-visual { position: absolute; inset: 0; z-index: 0; }
-        .mv-visual img { width: 100%; height: 100%; object-fit: cover; opacity: 0.4; }
-        .top-content { z-index: 10; text-align: center; }
-        .top-logo { width: clamp(280px, 50vw, 520px); }
-
-        .concept-text {
-            font-size: clamp(1.1rem, 2.5vw, 1.4rem); letter-spacing: 0.4em; line-height: 3;
-            text-align: center; z-index: 10;
+        @keyframes flash-line {
+            0% { transform: rotate(-35deg) translateY(-100vh); opacity: 0; }
+            50% { opacity: 0.3; }
+            100% { transform: rotate(-35deg) translateY(100vh); opacity: 0; }
         }
 
-        .project-section { padding: 100px 0; }
-        .project-container {
-            display: flex; align-items: stretch; justify-content: center;
-            width: 90%; max-width: 900px; gap: 40px;
-            opacity: 0; transition: all 1.2s ease-out;
-            z-index: 10;
+        /* 透過追従ヘッダー */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            background: rgba(10, 17, 31, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
         }
-        .slide-left { transform: translateX(-50px); }
-        .slide-right { transform: translateX(50px); }
-        .project-container.active { opacity: 1; transform: translateX(0); }
+
+        .header-logo img {
+            height: 40px;
+        }
+
+        .menu-btn {
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        /* メインコンテンツ */
+        main {
+            padding-top: 120px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .concept-section {
+            text-align: center;
+            margin-bottom: 100px;
+        }
+
+        .concept-title {
+            font-size: 2rem;
+            color: var(--gold);
+            margin-bottom: 20px;
+            letter-spacing: 0.2em;
+        }
+
+        /* プロジェクトセクション (16:9) */
+        .project-section {
+            margin-bottom: 80px;
+        }
+
+        .project-card {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16 / 9; /* 16:9固定 */
+            margin-bottom: 40px;
+            display: flex;
+            overflow: hidden;
+            border-radius: 4px;
+            color: var(--black);
+        }
+
+        /* プロジェクト別の色設定 */
+        .project-card.ganar { background-color: var(--ganar-blue); color: var(--white); }
+        .project-card.goalink { background-color: var(--black); color: var(--white); }
+        .project-card.travid { background-color: var(--white); color: var(--black); }
 
         .card-main {
-            width: 500px; background: var(--card-white);
-            display: flex; flex-direction: column;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
-            padding: 60px 40px;
+            flex: 1;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
         }
 
-        .card-inner {
-            display: flex; flex-direction: column; align-items: center; text-align: center;
+        .card-logo {
+            height: 60px;
+            margin-bottom: 20px;
         }
-        .brand-logo-img { width: 240px; margin-bottom: 40px; height: auto; display: block; }
-        .desc {
-            font-size: 1.1rem; line-height: 2.2; font-weight: bold; margin-bottom: 40px; color: var(--text-black);
-        }
-        .btn-discover {
-            display: inline-block; padding: 14px 50px; border: 1px solid #1a1a1a;
-            text-decoration: none; color: #1a1a1a; font-size: 0.8rem; letter-spacing: 0.1em;
-            transition: 0.3s; font-weight: bold;
-        }
-        .btn-discover:hover { background: #1a1a1a; color: #fff; }
 
-        /* 縦書きの修正 */
-        .vertical-label {
-            writing-mode: vertical-rl;
-            -webkit-writing-mode: vertical-rl;
-            letter-spacing: 0.6em;
-            color: var(--accent-gold);
-            font-size: 1.4rem;
-            font-weight: bold;
-            white-space: nowrap;
-            height: auto;
+        .card-description {
+            max-width: 60%;
+            margin-bottom: 30px;
+            line-height: 1.8;
+            font-size: 1rem;
+        }
+
+        .view-more-btn {
+            padding: 12px 30px;
+            border: 1px solid currentColor;
+            background: transparent;
+            color: inherit;
+            text-decoration: none;
+            font-size: 0.9rem;
+            letter-spacing: 0.1em;
+            transition: 0.3s;
+        }
+
+        .view-more-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* 縦書き文言エリア (共通) */
+        .card-vertical-text {
+            width: 100px;
             display: flex;
             align-items: center;
+            justify-content: center;
+            writing-mode: vertical-rl;
+            font-size: 1.2rem;
+            letter-spacing: 0.5em;
+            border-left: 1px solid rgba(128, 128, 128, 0.3);
+            font-weight: bold;
         }
 
-        .archive-area { flex-direction: column; min-height: 80vh; }
-        .footer-links {
-            display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
-            width: 100%; max-width: 900px; margin: 40px auto 80px;
+        /* NEWSセクション */
+        .news-section {
+            margin: 100px 0;
+            padding: 60px 0;
+            background: rgba(255, 255, 255, 0.03);
         }
-        .tile {
-            aspect-ratio: 16/9; border: 1px solid rgba(197, 160, 89, 0.2);
-            display: flex; align-items: center; justify-content: center;
-            background: rgba(255,255,255,0.03); text-decoration: none; transition: 0.4s;
-        }
-        .tile img { width: 60%; opacity: 0.5; }
-        .tile:hover { border-color: var(--accent-gold); background: rgba(197, 160, 89, 0.1); }
-        
-        footer { width: 100%; padding: 40px 0; text-align: center; }
-        .copyright { font-size: 0.7rem; letter-spacing: 0.4em; opacity: 0.3; }
 
+        .section-title {
+            color: var(--gold);
+            margin-bottom: 40px;
+            font-size: 1.5rem;
+            border-bottom: 1px solid var(--gold);
+            display: inline-block;
+        }
+
+        .news-list {
+            list-style: none;
+        }
+
+        .news-item {
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(197, 160, 89, 0.2);
+            display: flex;
+            gap: 20px;
+        }
+
+        .news-date { color: var(--gold); width: 120px; }
+
+        /* プロジェクトリンクエリア */
+        .project-links {
+            padding: 60px 0;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .link-button {
+            padding: 15px 40px;
+            background: transparent;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .link-button:hover {
+            background: var(--gold);
+            color: var(--bg-navy);
+        }
+
+        /* フッター */
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* ページトップボタン */
+        .pagetop {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            width: 50px;
+            height: 50px;
+            background: var(--gold);
+            color: var(--bg-navy);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            border-radius: 50%;
+            z-index: 999;
+        }
+
+        /* スマホ対応 */
         @media (max-width: 768px) {
-            .project-container { flex-direction: column; align-items: center; }
-            .card-main { width: 100%; padding: 40px 20px; }
-            .vertical-label { writing-mode: horizontal-tb; -webkit-writing-mode: horizontal-tb; padding: 0; order: -1; margin-bottom: 20px; }
-            .side-menu { width: 100%; }
+            .card-description { max-width: 100%; }
+            .card-vertical-text { font-size: 1rem; width: 60px; }
+            .card-main { padding: 20px; }
+            .project-card { aspect-ratio: 16 / 9; }
         }
     </style>
 </head>
 <body>
 
     <div class="bg-pattern"></div>
+    <div class="gold-line"></div>
 
-    <div class="menu-trigger" id="menuBtn">
-        <span class="line line-1"></span>
-        <span class="line line-2"></span>
-        <span class="line line-3"></span>
-    </div>
-
-    <nav class="side-menu" id="sideMenu">
-        <a href="#top" class="menu-item">TOP</a>
-        <a href="#concept" class="menu-item">ABOUT</a>
-        <a href="#ganar" class="menu-item">GANAR</a>
-        <a href="#goalink" class="menu-item">Goalink</a>
-        <a href="#travid" class="menu-item">TRAVID</a>
-    </nav>
-
-    <section id="top">
-        <div class="mv-visual">
-            <picture>
-                <source media="(max-width: 768px)" srcset="mv_sp_bg.png">
-                <img src="mv_pc_bg.png">
-            </picture>
+    <header>
+        <div class="header-logo">
+            <img src="logo_hekion.png" alt="HEKION">
         </div>
-        <div class="gold-line" style="top:40%; transform: rotate(-12deg);"></div>
-        <div class="top-content">
-            <p style="color:var(--accent-gold); letter-spacing:0.5em; font-size:0.8rem; margin-bottom:20px;">発見、楽しさ、繋がり。</p>
-            <img src="gold_hekionlogo.png" class="top-logo">
-        </div>
-    </section>
+        <button class="menu-btn"><i class="fas fa-bars"></i></button>
+    </header>
 
-    <section id="concept">
-        <div class="gold-line" style="top:55%; transform: rotate(8deg);"></div>
-        <p class="concept-text">
-            日常のなかの発見を楽しさに変え、<br>
-            そこから繋がりを生み出していく。
-        </p>
-    </section>
-
-    <section id="ganar" class="project-section">
-        <div class="gold-line" style="top:30%; transform: rotate(-5deg);"></div>
-        <div class="project-container slide-left">
-            <div class="card-main">
-                <div class="card-inner">
-                    <img src="ganarlogo.png" class="brand-logo-img" alt="GANAR">
-                    <p class="desc">勝ちにこだわる。<br>でも、楽しむことを忘れない。</p>
-                    <a href="ganar.html" class="btn-discover">PROJECT DISCOVER</a>
-                </div>
-            </div>
-            <div class="vertical-label">楽しんだもん勝ち</div>
-        </div>
-    </section>
-
-    <section id="goalink" class="project-section">
-        <div class="gold-line" style="top:65%; transform: rotate(10deg);"></div>
-        <div class="project-container slide-right">
-            <div class="card-main">
-                <div class="card-inner">
-                    <img src="goalinklogo.png" class="brand-logo-img" alt="Goalink">
-                    <p class="desc">サッカーを、もっと近くに。<br>知ることで、好きになる。</p>
-                    <a href="goalink.html" class="btn-discover">PROJECT DISCOVER</a>
-                </div>
-            </div>
-            <div class="vertical-label">サッカーと人をつなぐ</div>
-        </div>
-    </section>
-
-    <section id="travid" class="project-section">
-        <div class="gold-line" style="top:40%; transform: rotate(-8deg);"></div>
-        <div class="project-container slide-left">
-            <div class="card-main">
-                <div class="card-inner">
-                    <img src="travidlogo.png" class="brand-logo-img" alt="TRAVID">
-                    <p class="desc">旅の前も、旅のあとも。<br>楽しさを、カタチにする。</p>
-                    <a href="travid.html" class="btn-discover">PROJECT DISCOVER</a>
-                </div>
-            </div>
-            <div class="vertical-label">旅の楽しさをカタチに</div>
-        </div>
-    </section>
-
-    <section class="archive-area">
-        <h3 style="color:var(--accent-gold); letter-spacing:0.5em; font-size:0.9rem;">PROJECT ARCHIVE</h3>
-        <div class="footer-links">
-            <a href="ganar.html" class="tile"><img src="gold_ganarlogo.png"></a>
-            <a href="goalink.html" class="tile"><img src="gold_goalinklogo.png"></a>
-            <a href="travid.html" class="tile"><img src="gold_travidlogo.png"></a>
-        </div>
-        <footer>
-            <p class="copyright">© 2026 HEKION. ALL RIGHTS RESERVED.</p>
-        </footer>
-    </section>
-
-    <script>
-        const menuBtn = document.getElementById('menuBtn');
-        const sideMenu = document.getElementById('sideMenu');
+    <main class="container">
         
-        menuBtn.addEventListener('click', () => {
-            menuBtn.classList.toggle('active');
-            sideMenu.classList.toggle('open');
-        });
+        <section class="concept-section">
+            <h1 class="concept-title">発見、楽しさ、繋がり。</h1>
+            <p>HEKIONは新しい価値を創造し続けるプロジェクトチームです。</p>
+        </section>
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                }
-            });
-        }, { threshold: 0.15 });
+        <section class="project-section">
+            
+            <div class="project-card ganar">
+                <div class="card-main">
+                    <img src="logo_ganar.png" alt="GANAR" class="card-logo">
+                    <p class="card-description">勝利を掴むための、情熱的なスポーツコミュニティの構築。</p>
+                    <a href="#" class="view-more-btn">VIEW MORE</a>
+                </div>
+                <div class="card-vertical-text">勝利への渇望</div>
+            </div>
 
-        document.querySelectorAll('.project-container').forEach(el => observer.observe(el));
-    </script>
+            <div class="project-card goalink">
+                <div class="card-main">
+                    <img src="logo_goalink.png" alt="Goalink" class="card-logo">
+                    <p class="card-description">目標と絆を繋ぐ、新しいビジネス・ネットワーキング。</p>
+                    <a href="#" class="view-more-btn">VIEW MORE</a>
+                </div>
+                <div class="card-vertical-text">繋がる目的</div>
+            </div>
+
+            <div class="project-card travid">
+                <div class="card-main">
+                    <img src="logo_travid.png" alt="TRAVID" class="card-logo">
+                    <p class="card-description">旅を通じた新しいアイデンティティの発見をサポート。</p>
+                    <a href="#" class="view-more-btn">VIEW MORE</a>
+                </div>
+                <div class="card-vertical-text">新しい自分へ</div>
+            </div>
+
+        </section>
+
+        <section class="news-section">
+            <h2 class="section-title">NEWS</h2>
+            <ul class="news-list">
+                <li class="news-item">
+                    <span class="news-date">2026.01.14</span>
+                    <span class="news-content">WEBサイトをリニューアルしました。</span>
+                </li>
+                <li class="news-item">
+                    <span class="news-date">2026.01.01</span>
+                    <span class="news-content">新規プロジェクト「Goalink」がスタート。</span>
+                </li>
+            </ul>
+        </section>
+
+        <section class="project-links">
+            <a href="#" class="link-button">GANAR SITE</a>
+            <a href="#" class="link-button">Goalink SITE</a>
+            <a href="#" class="link-button">TRAVID SITE</a>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2026 HEKION. All Rights Reserved.</p>
+    </footer>
+
+    <a href="#" class="pagetop"><i class="fas fa-chevron-up"></i></a>
+
 </body>
 </html>

@@ -94,7 +94,7 @@
         .concept-body { margin-bottom: 80px; }
         .concept-text { font-size: 1.3rem; line-height: 2; font-weight: 300; }
 
-        /* Project Cards - PC版向けに拡大・統一 */
+        /* Project Cards */
         .project-grid { display: flex; flex-direction: column; gap: 80px; }
         .project-card { position: relative; width: 100%; aspect-ratio: 16 / 9; display: flex; border-radius: 4px; overflow: hidden; }
         .card-bg { position: absolute; inset: 0; background-size: cover; background-position: center; z-index: 1; }
@@ -107,17 +107,15 @@
         .card-goalink::before { background: var(--overlay-goalink); }
         .card-travid::before { background: var(--overlay-travid); }
 
-        /* PC版でインナー要素を拡大 */
         .card-inner { position: relative; z-index: 10; flex: 1; padding: 80px; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; }
         .card-logo { height: 100px; width: auto; max-width: 70%; object-fit: contain; margin-bottom: 35px; }
         .card-desc { font-size: 1.25rem; margin-bottom: 40px; line-height: 1.8; font-weight: 400; }
         .btn-viewmore { width: 220px; height: 56px; display: flex; justify-content: center; align-items: center; border: 1px solid currentColor; text-decoration: none; font-size: 1rem; letter-spacing: 0.25em; color: inherit; transition: 0.3s; }
         .btn-viewmore:hover { background: rgba(255, 255, 255, 0.1); }
 
-        /* PC版 縦書き：1列・文字拡大 */
+        /* PC版 縦書き：1列・改行なし */
         .card-side { position: relative; z-index: 10; width: 120px; display: flex; flex-direction: column; padding: 60px 0; writing-mode: vertical-rl; font-size: 1.6rem; letter-spacing: 0.4em; border-left: 1px solid rgba(128, 128, 128, 0.2); font-weight: bold; }
         .card-side span { white-space: nowrap; display: block; }
-        .v-btm { margin-top: auto; padding-top: 20px; }
         
         .card-ganar, .card-goalink { color: var(--white); } .card-travid { color: var(--black); }
 
@@ -211,7 +209,7 @@
                     <p class="card-desc">勝ちにこだわる。<br>でも、楽しむことを忘れない。</p>
                     <a href="#" class="btn-viewmore">VIEW MORE</a>
                 </div>
-                <div class="card-side"><span>楽しんだもん</span><span class="v-btm">勝ち</span></div>
+                <div class="card-side"><span>楽しんだもん勝ち</span></div>
             </div>
 
             <div class="project-card card-goalink">
@@ -221,7 +219,7 @@
                     <p class="card-desc">サッカーを、もっと近くに。<br>知る事で、好きになる。</p>
                     <a href="#" class="btn-viewmore">VIEW MORE</a>
                 </div>
-                <div class="card-side"><span>サッカーと人を</span><span class="v-btm">つなぐ</span></div>
+                <div class="card-side"><span>サッカーと人をつなぐ</span></div>
             </div>
 
             <div class="project-card card-travid">
@@ -231,7 +229,7 @@
                     <p class="card-desc">旅の前も、旅のあとも。<br>楽しさは続いていく。</p>
                     <a href="#" class="btn-viewmore">VIEW MORE</a>
                 </div>
-                <div class="card-side"><span>旅の楽しさを、</span><span class="v-btm">カタチに</span></div>
+                <div class="card-side"><span>旅の楽しさを、カタチに</span></div>
             </div>
         </section>
 

@@ -22,7 +22,6 @@
             overflow-x: hidden;
         }
 
-        /* 背景：麻の葉グリッド */
         .bg-pattern {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-image: 
@@ -33,14 +32,12 @@
             opacity: 0.3; z-index: -1;
         }
 
-        /* 閃光 */
         .gold-line {
             position: absolute; width: 100%; height: 1px;
             background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
             opacity: 0.2; pointer-events: none; z-index: 1;
         }
 
-        /* サイドメニューボタン */
         .menu-trigger {
             position: fixed; top: 40px; right: 40px;
             width: 40px; height: 40px; z-index: 2000; cursor: pointer;
@@ -52,7 +49,6 @@
         .menu-trigger.active .line-2 { opacity: 0; }
         .menu-trigger.active .line-3 { transform: translateY(-9px) rotate(-45deg); }
 
-        /* サイドメニュー本体 */
         .side-menu {
             position: fixed; right: 0; top: 0; width: 300px; height: 100vh;
             background: rgba(10, 17, 31, 0.98); backdrop-filter: blur(15px);
@@ -67,22 +63,19 @@
 
         section { width: 100%; min-height: 100vh; display: flex; align-items: center; justify-content: center; position: relative; }
 
-        /* MV */
         .mv-visual { position: absolute; inset: 0; z-index: 0; }
         .mv-visual img { width: 100%; height: 100%; object-fit: cover; opacity: 0.4; }
         .top-content { z-index: 10; text-align: center; }
         .top-logo { width: clamp(280px, 50vw, 520px); }
 
-        /* コンセプト */
         .concept-text {
             font-size: clamp(1.1rem, 2.5vw, 1.4rem); letter-spacing: 0.4em; line-height: 3;
             text-align: center; z-index: 10;
         }
 
-        /* プロジェクトカード構成 */
         .project-section { padding: 100px 0; }
         .project-container {
-            display: flex; align-items: flex-start; justify-content: center;
+            display: flex; align-items: stretch; justify-content: center;
             width: 90%; max-width: 900px; gap: 40px;
             opacity: 0; transition: all 1.2s ease-out;
             z-index: 10;
@@ -91,7 +84,6 @@
         .slide-right { transform: translateX(50px); }
         .project-container.active { opacity: 1; transform: translateX(0); }
 
-        /* カード本体 */
         .card-main {
             width: 500px; background: var(--card-white);
             display: flex; flex-direction: column;
@@ -113,13 +105,20 @@
         }
         .btn-discover:hover { background: #1a1a1a; color: #fff; }
 
-        /* 縦書き */
+        /* 縦書きの修正 */
         .vertical-label {
-            writing-mode: vertical-rl; letter-spacing: 0.6em; color: var(--accent-gold);
-            font-size: 1.4rem; font-weight: bold; padding-top: 20px; white-space: nowrap;
+            writing-mode: vertical-rl;
+            -webkit-writing-mode: vertical-rl;
+            letter-spacing: 0.6em;
+            color: var(--accent-gold);
+            font-size: 1.4rem;
+            font-weight: bold;
+            white-space: nowrap;
+            height: auto;
+            display: flex;
+            align-items: center;
         }
 
-        /* アーカイブ & フッター */
         .archive-area { flex-direction: column; min-height: 80vh; }
         .footer-links {
             display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
@@ -139,7 +138,7 @@
         @media (max-width: 768px) {
             .project-container { flex-direction: column; align-items: center; }
             .card-main { width: 100%; padding: 40px 20px; }
-            .vertical-label { writing-mode: horizontal-tb; padding: 0; order: -1; margin-bottom: 20px; }
+            .vertical-label { writing-mode: horizontal-tb; -webkit-writing-mode: horizontal-tb; padding: 0; order: -1; margin-bottom: 20px; }
             .side-menu { width: 100%; }
         }
     </style>

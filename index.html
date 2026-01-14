@@ -3,303 +3,227 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HEKION - 統合ブランド公式サイト</title>
+    <title>HEKION | 発見、楽しさ、繋がり。</title>
     <style>
         :root {
-            --navy: #001a3d;
-            --gold: #d4af37;
-            --white: #ffffff;
+            --bg-navy: #0a111f;
+            --accent-gold: #c5a059;
+            --text-white: #e0e0e0;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            background-color: var(--navy);
-            color: var(--white);
-            font-family: "Yu Mincho", "MS Mincho", serif;
+            background-color: var(--bg-navy);
+            color: var(--text-white);
+            font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
             overflow-x: hidden;
-            scroll-behavior: smooth;
         }
 
-        /* ヘッダー */
-        .header {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 80px;
-            z-index: 1000;
-            padding: 0 4%;
-            display: flex;
-            align-items: center;
-            transition: background 0.4s ease;
+        /* 背景グリッド（固定） */
+        .bg-pattern {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                linear-gradient(30deg, #121a2b 12%, transparent 12.5%, transparent 87%, #121a2b 87.5%, #121a2b),
+                linear-gradient(150deg, #121a2b 12%, transparent 12.5%, transparent 87%, #121a2b 87.5%, #121a2b),
+                linear-gradient(60deg, #161e2e 25%, transparent 25.5%, transparent 75%, #161e2e 75%, #161e2e);
+            background-size: 80px 140px;
+            opacity: 0.3; z-index: -1;
         }
 
-        .header-inner {
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        /* メニューボタン */
+        .menu-trigger {
+            position: fixed; top: 40px; right: 40px;
+            width: 40px; height: 40px; z-index: 2000; cursor: pointer;
+            display: flex; flex-direction: column; justify-content: center; align-items: flex-end; gap: 8px;
         }
+        .line { height: 1px; background: var(--accent-gold); transition: 0.4s; width: 100%; }
+        .line-2 { width: 70%; }
+        .menu-trigger.active .line-1 { transform: translateY(9px) rotate(45deg); }
+        .menu-trigger.active .line-2 { opacity: 0; }
+        .menu-trigger.active .line-3 { transform: translateY(-9px) rotate(-45deg); }
 
-        .logo img { height: 45px; }
-
-        /* ハンバーガーボタン */
-        .menu-btn {
-            background: none; border: none; cursor: pointer;
-            width: 35px; height: 35px;
-            position: relative; z-index: 1100;
+        .side-menu {
+            position: fixed; right: 0; top: 0; width: 300px; height: 100vh;
+            background: rgba(10, 17, 31, 0.98); z-index: 1500;
+            display: flex; flex-direction: column; justify-content: center;
+            padding-left: 50px; gap: 25px; transform: translateX(100%);
+            transition: 0.6s cubic-bezier(0.23, 1, 0.32, 1);
         }
-
-        .menu-btn span {
-            display: block; width: 100%; height: 1.5px;
-            background-color: var(--gold);
-            position: absolute; left: 0;
-            transition: all 0.4s ease;
-        }
-
-        .menu-btn span:nth-child(1) { top: 8px; }
-        .menu-btn span:nth-child(2) { top: 17px; }
-        .menu-btn span:nth-child(3) { top: 26px; }
-
-        .menu-btn.active span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
-        .menu-btn.active span:nth-child(2) { opacity: 0; }
-        .menu-btn.active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
-
-        /* 全画面メニュー */
-        .nav {
-            position: fixed; top: 0; right: -100%;
-            width: 100%; height: 100vh;
-            background: rgba(0, 26, 61, 0.98);
-            z-index: 1050; transition: 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-            display: flex; justify-content: center; align-items: center;
-        }
-
-        .nav.active { right: 0; }
-        .nav ul { list-style: none; text-align: center; }
-        .nav ul li { margin: 25px 0; }
-        .nav ul li a {
-            color: var(--gold); text-decoration: none;
-            font-size: 1.8rem; letter-spacing: 0.3em;
-        }
+        .side-menu.open { transform: translateX(0); }
+        .menu-item { text-decoration: none; color: var(--accent-gold); font-size: 0.85rem; letter-spacing: 0.2em; }
 
         /* セクション設定 */
-        .section {
+        section {
             width: 100%; min-height: 100vh;
-            display: flex; flex-direction: column;
-            justify-content: center; align-items: center;
-            position: relative;
+            display: flex; align-items: center; justify-content: center;
+            position: relative; overflow: hidden;
         }
 
-        /* メインビジュアル */
-        .mv { overflow: hidden; }
-        .mv-img { width: 100%; height: 100vh; object-fit: cover; }
-        .mv-copy {
-            position: absolute; right: 8%; top: 50%;
-            transform: translateY(-50%);
+        /* 背景画像 */
+        .visual-container { position: absolute; inset: 0; z-index: 1; }
+        .img-bg { width: 100%; height: 100%; object-fit: cover; opacity: 0.3; }
+
+        /* 左右からのスライド演出用 */
+        .reveal-box {
+            position: relative; z-index: 10; width: 90%; text-align: center;
+            opacity: 0; transition: all 1.5s cubic-bezier(0.23, 1, 0.32, 1);
         }
+        .reveal-left { transform: translateX(-150px); }
+        .reveal-right { transform: translateX(150px); }
+        .reveal-box.active { opacity: 1; transform: translateX(0); }
+
+        /* 縦書きの言葉（絶対表示） */
         .vertical-text {
-            writing-mode: vertical-rl; font-size: 2.8rem;
-            color: var(--gold); letter-spacing: 0.6em;
-            text-shadow: 0 0 15px rgba(0,0,0,0.5);
+            writing-mode: vertical-rl;
+            position: absolute; right: 5%; top: 50%; transform: translateY(-50%);
+            letter-spacing: 0.6em; color: var(--accent-gold);
+            font-size: 1.1rem; z-index: 100; font-weight: bold;
+            opacity: 0; transition: 1.5s;
+        }
+        .vertical-text.active { opacity: 0.8; }
+
+        .brand-logo { width: clamp(220px, 30vw, 400px); margin-bottom: 25px; }
+        .desc-text { font-size: 1rem; margin: 20px auto 40px; max-width: 500px; line-height: 2.4; letter-spacing: 0.15em; }
+        .btn-link {
+            display: inline-block; padding: 15px 50px; border: 1px solid var(--accent-gold);
+            color: var(--accent-gold); text-decoration: none; font-size: 0.8rem;
+            letter-spacing: 0.2em; transition: 0.4s; background: rgba(0,0,0,0.5);
+        }
+        .btn-link:hover { background: var(--accent-gold); color: #000; }
+
+        /* 閃光（金線） */
+        .gold-line {
+            position: absolute; width: 100%; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+            opacity: 0.2; pointer-events: none; z-index: 5;
         }
 
-        /* ブランド共通 */
-        .brand-sec {
-            background-size: cover; background-position: center;
-            background-attachment: fixed;
-            padding: 100px 5%;
+        /* フッターエリア */
+        .site-footer {
+            padding: 100px 0 40px; text-align: center; width: 100%;
         }
-
-        .brand-overlay {
-            position: absolute; top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0, 26, 61, 0.6);
+        .footer-links {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+            max-width: 900px; margin: 0 auto 80px; padding: 0 20px;
         }
-
-        .brand-inner {
-            position: relative; z-index: 1; text-align: center;
+        .tile {
+            aspect-ratio: 16/9; border: 1px solid rgba(197, 160, 89, 0.3);
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(255,255,255,0.03); text-decoration: none;
         }
+        .tile img { width: 60%; opacity: 0.5; transition: 0.4s; }
+        .tile:hover { border-color: var(--accent-gold); }
+        .tile:hover img { opacity: 1; transform: scale(1.1); }
+        .copyright { font-size: 0.7rem; letter-spacing: 0.4em; opacity: 0.3; }
 
-        .brand-logo { max-width: 250px; margin-bottom: 20px; }
-        .brand-theme { color: var(--gold); font-size: 1.5rem; margin-bottom: 15px; letter-spacing: 0.2em; }
-        .brand-concept { font-size: 1.1rem; letter-spacing: 0.1em; margin-bottom: 30px; }
-
-        .gold-text { color: var(--gold); letter-spacing: 0.4em; margin-bottom: 2rem; font-size: 2rem; }
-
-        /* ボタンデザイン */
-        .view-more {
-            display: inline-block; padding: 12px 50px;
-            border: 1px solid var(--gold); color: var(--gold);
-            text-decoration: none; letter-spacing: 0.2em;
-            transition: 0.4s;
-        }
-        .view-more:hover { background: var(--gold); color: var(--navy); }
-
-        /* お知らせ・コンセプト */
-        .concept-sec, .news-sec { padding: 120px 5%; text-align: center; background: var(--navy); }
-        .concept-text { font-size: 1.2rem; line-height: 2.5; }
-
-        .news-list { list-style: none; max-width: 800px; margin: 0 auto; text-align: left; }
-        .news-list li { border-bottom: 1px solid rgba(212, 175, 55, 0.3); padding: 15px 0; display: flex; align-items: center; }
-        .news-list .date { color: var(--gold); margin-right: 20px; font-family: sans-serif; }
-        .news-list .label { background: var(--gold); color: var(--navy); padding: 2px 8px; font-size: 0.7rem; margin-right: 15px; }
-
-        /* フッター */
-        .footer { padding: 80px 5%; background: #000c1a; text-align: center; border-top: 1px solid #002a5e; }
-        .footer-brand-logos img { height: 25px; margin: 10px 20px; opacity: 0.6; }
-        .copyright { margin-top: 40px; font-size: 0.75rem; color: rgba(212, 175, 55, 0.5); }
-
-        /* フェードイン演出 */
-        .fade-in {
-            opacity: 0; transform: translateY(30px);
-            transition: 1.2s cubic-bezier(0.33, 1, 0.68, 1);
-        }
-        .fade-in.visible { opacity: 1; transform: translateY(0); }
-
-        @media (max-width: 767px) {
-            .vertical-text { font-size: 1.8rem; }
-            .brand-logo { max-width: 180px; }
-            .news-list li { flex-direction: column; align-items: flex-start; }
-            .news-list .date { margin-bottom: 5px; }
+        @media (max-width: 768px) {
+            .vertical-text { display: none; }
+            .footer-links { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
-    <header class="header" id="header">
-        <div class="header-inner">
-            <h1 class="logo">
-                <img src="gold_hekionlogo.png" alt="HEKION">
-            </h1>
-            <button class="menu-btn" id="menu-btn">
-                <span></span><span></span><span></span>
-            </button>
-        </div>
-    </header>
+    <div class="bg-pattern"></div>
+    
+    <div class="menu-trigger" id="menuBtn">
+        <span class="line line-1"></span>
+        <span class="line line-2"></span>
+        <span class="line line-3"></span>
+    </div>
 
-    <nav class="nav" id="nav">
-        <ul>
-            <li><a href="#main">TOP</a></li>
-            <li><a href="#concept">CONCEPT</a></li>
-            <li><a href="#ganar">GANAR</a></li>
-            <li><a href="#goalink">GOALINK</a></li>
-            <li><a href="#travid">TRAVID</a></li>
-            <li><a href="#news">NEWS</a></li>
-        </ul>
+    <nav class="side-menu" id="sideMenu">
+        <a href="index.html" class="menu-item">TOP</a>
+        <a href="about.html" class="menu-item">ABOUT</a>
+        <a href="ganar.html" class="menu-item">GANAR</a>
+        <a href="goalink.html" class="menu-item">Goalink</a>
+        <a href="travid.html" class="menu-item">TRAVID</a>
     </nav>
 
-    <main>
-        <section id="main" class="section mv">
-            <picture>
-                <source media="(max-width: 767px)" srcset="mv_sp_bg.png">
-                <img src="mv_pc_bg.png" alt="HEKION Main Visual" class="mv-img">
-            </picture>
-            <div class="mv-copy">
-                <h2 class="vertical-text">発見、楽しさ、繋がり。</h2>
-            </div>
-        </section>
-
-        <section id="concept" class="section concept-sec">
-            <div class="content fade-in">
-                <h2 class="gold-text">HEKION</h2>
-                <p class="concept-text">
-                    日常のなかの発見を楽しさに変え、<br>
-                    そこから繋がりを生み出していく。
-                </p>
-            </div>
-        </section>
-
-        <section id="ganar" class="section brand-sec" style="background-image: url('bg_ganar.png');">
-            <div class="brand-overlay"></div>
-            <div class="brand-inner fade-in">
-                <img src="gold_ganarlogo.png" alt="GANAR" class="brand-logo">
-                <h3 class="brand-theme">楽しんだもん勝ち</h3>
-                <p class="brand-concept">勝ちにこだわる。でも、楽しむことを忘れない。</p>
-                <a href="ganar-detail.html" class="view-more">VIEW MORE</a>
-            </div>
-        </section>
-
-        <section id="goalink" class="section brand-sec" style="background-image: url('bg_goalink.png');">
-            <div class="brand-overlay"></div>
-            <div class="brand-inner fade-in">
-                <img src="gold_goalinklogo.png" alt="Goalink" class="brand-logo">
-                <h3 class="brand-theme">サッカーと人をつなぐ</h3>
-                <p class="brand-concept">サッカーを、もっと近くに。知る事で、好きになる。</p>
-                <a href="goalink-detail.html" class="view-more">VIEW MORE</a>
-            </div>
-        </section>
-
-        <section id="travid" class="section brand-sec" style="background-image: url('bg_travid.png');">
-            <div class="brand-overlay"></div>
-            <div class="brand-inner fade-in">
-                <img src="gold_travidlogo.png" alt="TRAVID" class="brand-logo">
-                <h3 class="brand-theme">旅の楽しさを、カタチに。</h3>
-                <p class="brand-concept">旅の前も、旅のあとも。楽しさは続いていく。</p>
-                <a href="travid-detail.html" class="view-more">VIEW MORE</a>
-            </div>
-        </section>
-
-        <section id="news" class="section news-sec">
-            <div class="content fade-in">
-                <h2 class="gold-text">NEWS</h2>
-                <ul class="news-list">
-                    <li><span class="date">2026.01.14</span><span class="label">HEKION</span>統合ブランドサイトを公開しました</li>
-                    <li><span class="date">2026.01.10</span><span class="label">GANAR</span>新規メンバー募集開始</li>
-                </ul>
-            </div>
-        </section>
-    </main>
-
-    <footer class="footer">
-        <div class="footer-inner">
-            <div class="footer-brand-logos">
-                <img src="ganarlogo.png" alt="GANAR">
-                <img src="goalinklogo.png" alt="Goalink">
-                <img src="travidlogo.png" alt="TRAVID">
-            </div>
-            <p class="copyright">&copy; 2026 HEKION All Rights Reserved.</p>
+    <section id="top">
+        <div class="visual-container">
+            <img src="mv_pc_bg.png" class="img-bg">
         </div>
+        <div class="gold-line" style="top:40%; transform: rotate(-15deg);"></div>
+        <div class="reveal-box active">
+            <p style="color:var(--accent-gold); letter-spacing:0.5em; font-size:0.8rem; margin-bottom:20px;">発見、楽しさ、繋がり。</p>
+            <img src="gold_hekionlogo.png" style="width: clamp(280px, 45vw, 500px);">
+        </div>
+    </section>
+
+    <section id="about">
+        <div class="gold-line" style="top:50%; transform: rotate(10deg);"></div>
+        <div class="reveal-box reveal-right">
+            <p style="font-size: clamp(1.1rem, 2.5vw, 1.4rem); letter-spacing: 0.4em; line-height: 3;">
+                日常のなかの発見を楽しさに変え、<br>
+                そこから繋がりを生み出していく。
+            </p>
+        </div>
+    </section>
+
+    <section id="ganar">
+        <div class="visual-container"><img src="bg_ganar.png" class="img-bg"></div>
+        <div class="reveal-box reveal-left">
+            <img src="ganarlogo.png" class="brand-logo">
+            <p class="desc-text">勝ちにこだわる。<br>でも、楽しむことを忘れない。</p>
+            <a href="ganar.html" class="btn-link">PROJECT DISCOVER</a>
+        </div>
+        <div class="vertical-text">楽しんだもん勝ち</div>
+    </section>
+
+    <section id="goalink">
+        <div class="visual-container"><img src="bg_goalink.png" class="img-bg"></div>
+        <div class="reveal-box reveal-right">
+            <img src="goalinklogo.png" class="brand-logo">
+            <p class="desc-text">サッカーを、もっと近くに。<br>知ることで、好きになる。</p>
+            <a href="goalink.html" class="btn-link">VIEW THEORY</a>
+        </div>
+        <div class="vertical-text">サッカーと人をつなぐ</div>
+    </section>
+
+    <section id="travid">
+        <div class="visual-container"><img src="bg_travid.png" class="img-bg"></div>
+        <div class="reveal-box reveal-left">
+            <img src="travidlogo.png" class="brand-logo">
+            <p class="desc-text">旅の前も、旅のあとも。<br>楽しさを、カタチにする。</p>
+            <a href="travid.html" class="btn-link">EXPLORE JOURNEY</a>
+        </div>
+        <div class="vertical-text">旅の楽しさをカタチに</div>
+    </section>
+
+    <footer class="site-footer">
+        <h3 style="color:var(--accent-gold); letter-spacing:0.5em; font-size:0.9rem; margin-bottom:50px;">PROJECT ARCHIVE</h3>
+        <div class="footer-links">
+            <a href="ganar.html" class="tile"><img src="gold_ganarlogo.png"></a>
+            <a href="goalink.html" class="tile"><img src="gold_goalinklogo.png"></a>
+            <a href="travid.html" class="tile"><img src="gold_travidlogo.png"></a>
+        </div>
+        <p class="copyright">© 2026 HEKION. ALL RIGHTS RESERVED.</p>
     </footer>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const menuBtn = document.getElementById('menu-btn');
-            const nav = document.getElementById('nav');
-            const header = document.getElementById('header');
+        // メニュー開閉
+        const menuBtn = document.getElementById('menuBtn');
+        const sideMenu = document.getElementById('sideMenu');
+        menuBtn.addEventListener('click', () => {
+            menuBtn.classList.toggle('active');
+            sideMenu.classList.toggle('open');
+        });
 
-            menuBtn.addEventListener('click', () => {
-                menuBtn.classList.toggle('active');
-                nav.classList.toggle('active');
-            });
-
-            nav.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', () => {
-                    menuBtn.classList.remove('active');
-                    nav.classList.remove('active');
-                });
-            });
-
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 100) {
-                    header.style.background = 'rgba(0, 26, 61, 0.9)';
-                } else {
-                    header.style.background = 'transparent';
+        // 左右からのスライド演出 & 縦書き表示の制御
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    // このセクション内の縦書きも表示
+                    const vText = entry.target.parentElement.querySelector('.vertical-text');
+                    if(vText) vText.classList.add('active');
                 }
             });
+        }, { threshold: 0.2 });
 
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                    }
-                });
-            }, { threshold: 0.15 });
-
-            document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-        });
+        document.querySelectorAll('.reveal-box').forEach(box => observer.observe(box));
     </script>
 </body>
 </html>

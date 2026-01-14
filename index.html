@@ -26,13 +26,10 @@
             overflow-x: hidden;
         }
 
-        /* 背景演出 */
+        /* 背景演出：維持 */
         .bg-pattern {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             background-image: radial-gradient(circle at 2px 2px, rgba(197, 160, 89, 0.05) 1px, transparent 0);
             background-size: 40px 40px;
             z-index: -1;
@@ -56,34 +53,95 @@
             100% { transform: rotate(-35deg) translateY(100vh); opacity: 0; }
         }
 
-        /* 透過追従ヘッダー */
+        /* ヘッダー：完全透明・追従 */
         header {
             position: fixed;
             top: 0;
             width: 100%;
-            height: 80px;
+            height: 100px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 0 40px;
-            background: rgba(10, 17, 31, 0.8);
-            backdrop-filter: blur(5px);
+            background: transparent; /* 完全透明 */
             z-index: 1000;
         }
 
         .header-logo img {
-            height: 40px;
+            height: 50px;
         }
 
+        /* サイドメニューボタン：金色・アニメーション */
         .menu-btn {
             background: none;
             border: none;
-            color: var(--white);
-            font-size: 24px;
             cursor: pointer;
+            z-index: 2000;
+            width: 40px;
+            height: 40px;
+            position: relative;
         }
 
-        /* メインビジュアル (MV) */
+        .menu-btn span {
+            display: block;
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: var(--gold);
+            transition: 0.3s;
+        }
+
+        .menu-btn span:nth-child(1) { top: 10px; }
+        .menu-btn span:nth-child(2) { top: 20px; }
+        .menu-btn span:nth-child(3) { top: 30px; }
+
+        .menu-btn.open span:nth-child(1) { transform: translateY(10px) rotate(45deg); }
+        .menu-btn.open span:nth-child(2) { opacity: 0; }
+        .menu-btn.open span:nth-child(3) { transform: translateY(-10px) rotate(-45deg); }
+
+        /* サイドメニュー本体 */
+        .side-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 350px;
+            height: 100%;
+            background: rgba(10, 17, 31, 0.98);
+            backdrop-filter: blur(10px);
+            z-index: 1500;
+            padding: 120px 40px;
+            transition: 0.5s cubic-bezier(0.7, 0, 0.3, 1);
+            border-left: 1px solid rgba(197, 160, 89, 0.2);
+        }
+
+        .side-menu.open { right: 0; }
+
+        .side-menu ul { list-style: none; }
+        .side-menu ul li { margin-bottom: 30px; }
+        .side-menu ul li a {
+            color: var(--white);
+            text-decoration: none;
+            font-size: 1.1rem;
+            letter-spacing: 0.1em;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .side-menu ul li a:hover { color: var(--gold); }
+
+        .submenu {
+            max-height: 0;
+            overflow: hidden;
+            padding-left: 20px;
+            transition: 0.3s ease-out;
+        }
+
+        .submenu.show { max-height: 200px; margin-top: 15px; }
+        .submenu li { margin-bottom: 15px !important; }
+        .submenu li a { font-size: 0.95rem !important; opacity: 0.8; }
+
+        /* MV */
         .mv {
             width: 100%;
             height: 100vh;
@@ -94,29 +152,15 @@
             text-align: center;
             background-size: cover;
             background-position: center;
-            background-repeat: no-repeat;
         }
-
         @media (min-width: 769px) { .mv { background-image: url('mv_pc_bg.png'); } }
         @media (max-width: 768px) { .mv { background-image: url('mv_sp_bg.png'); } }
 
-        .mv-copy {
-            font-size: 2.5rem;
-            letter-spacing: 0.3em;
-            margin-top: 20px;
-            font-weight: 300;
-            color: var(--white);
-            text-shadow: 0 0 20px rgba(0,0,0,0.5);
-        }
+        .mv-copy { font-size: 2.5rem; letter-spacing: 0.3em; margin-top: 20px; text-shadow: 0 0 20px rgba(0,0,0,0.5); font-weight: 300; }
 
-        /* メインコンテンツ */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 80px 20px;
-        }
+        /* コンテンツエリア */
+        .container { max-width: 1200px; margin: 0 auto; padding: 100px 20px; }
 
-        /* 各セクションタイトル共通 */
         .section-title {
             color: var(--gold);
             margin-bottom: 50px;
@@ -126,34 +170,21 @@
             display: inline-block;
         }
 
-        .concept-section {
-            text-align: left;
-            margin-bottom: 120px;
-        }
+        .concept-section { margin-bottom: 120px; }
+        .concept-text { font-size: 1.2rem; line-height: 2.2; letter-spacing: 0.1em; }
 
-        .concept-text {
-            font-size: 1.2rem;
-            line-height: 2;
-            letter-spacing: 0.1em;
-            white-space: pre-wrap;
-        }
-
-        /* プロジェクトセクション */
-        .project-section {
-            margin-bottom: 120px;
-        }
-
+        /* プロジェクトカード (16:9) */
         .project-card {
             position: relative;
             width: 100%;
             aspect-ratio: 16 / 9;
-            margin-bottom: 60px;
+            margin-bottom: 80px;
             display: flex;
             overflow: hidden;
-            border-radius: 4px;
             background-size: cover;
             background-position: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border-radius: 4px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
         }
 
         .project-card::before {
@@ -164,19 +195,17 @@
         }
 
         .project-card.ganar { background-image: url('bg_ganar.png'); }
-        .project-card.ganar::before { background-color: rgba(135, 206, 235, 0.7); }
-
+        .project-card.ganar::before { background-color: rgba(135, 206, 235, 0.75); }
         .project-card.goalink { background-image: url('bg_goalink.png'); }
-        .project-card.goalink::before { background-color: rgba(0, 0, 0, 0.8); }
-
+        .project-card.goalink::before { background-color: rgba(0, 0, 0, 0.85); }
         .project-card.travid { background-image: url('bg_travid.png'); }
-        .project-card.travid::before { background-color: rgba(255, 255, 255, 0.9); }
+        .project-card.travid::before { background-color: rgba(255, 255, 255, 0.95); }
 
         .card-main {
             position: relative;
             z-index: 2;
             flex: 1;
-            padding: 60px;
+            padding: 6% 8%;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -184,129 +213,77 @@
         }
 
         .card-logo {
-            height: 70px;
-            margin-bottom: 30px;
+            max-height: 25%;
+            max-width: 280px;
             object-fit: contain;
+            margin-bottom: 30px;
         }
 
         .card-description {
-            max-width: 500px;
-            margin-bottom: 40px;
+            font-size: clamp(1rem, 2.2vw, 1.2rem);
             line-height: 2;
-            font-size: 1.1rem;
+            margin-bottom: 40px;
             white-space: pre-wrap;
         }
-
-        .ganar .card-description, .goalink .card-description { color: var(--white); }
-        .travid .card-description { color: var(--black); }
 
         .view-more-btn {
             padding: 12px 40px;
             border: 1px solid currentColor;
-            background: transparent;
-            color: inherit;
             text-decoration: none;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             letter-spacing: 0.2em;
+            color: inherit;
             transition: 0.3s;
         }
 
-        .view-more-btn:hover {
-            background: rgba(197, 160, 89, 0.2);
-            border-color: var(--gold);
-            color: var(--gold);
-        }
+        .view-more-btn:hover { background: rgba(197, 160, 89, 0.2); border-color: var(--gold); color: var(--gold); }
 
+        /* 縦書きテキスト：指定配置 */
         .card-vertical-text {
             position: relative;
             z-index: 2;
-            width: 100px;
+            width: 120px;
             display: flex;
-            align-items: center;
-            justify-content: center;
+            flex-direction: column;
+            justify-content: flex-start; /* 上寄せ基準 */
+            padding: 60px 0;
             writing-mode: vertical-rl;
             font-size: 1.3rem;
-            letter-spacing: 0.6em;
+            letter-spacing: 0.5em;
             border-left: 1px solid rgba(128, 128, 128, 0.3);
             font-weight: bold;
         }
-        .ganar .card-vertical-text, .goalink .card-vertical-text { color: var(--white); }
-        .travid .card-vertical-text { color: var(--black); }
+
+        /* 2行目がある場合の配置：半分より下へ */
+        .card-vertical-text span:nth-child(2) {
+            margin-top: 40px; /* 1行目との間隔 */
+        }
+
+        .travid { color: var(--black); }
+        .ganar, .goalink { color: var(--white); }
 
         /* NEWS */
-        .news-section {
-            margin: 100px 0;
-            padding: 80px 0;
-            border-top: 1px solid rgba(197, 160, 89, 0.3);
-        }
-
+        .news-section { margin: 100px 0; padding: 80px 0; border-top: 1px solid rgba(197, 160, 89, 0.2); }
         .news-list { list-style: none; }
-        .news-item {
-            padding: 25px 0;
-            border-bottom: 1px solid rgba(197, 160, 89, 0.15);
-            display: flex;
-            gap: 30px;
-        }
-        .news-date { color: var(--gold); font-weight: bold; width: 150px; }
+        .news-item { padding: 25px 0; border-bottom: 1px solid rgba(197, 160, 89, 0.1); display: flex; gap: 30px; }
+        .news-date { color: var(--gold); font-weight: bold; width: 140px; }
 
-        /* Links */
-        .project-links {
-            padding: 80px 0;
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            flex-wrap: wrap;
-        }
-
-        .link-button {
-            padding: 18px 50px;
-            background: transparent;
-            border: 1px solid var(--gold);
-            color: var(--gold);
-            text-decoration: none;
-            letter-spacing: 0.1em;
-            transition: 0.4s;
-        }
-
-        .link-button:hover {
-            background: var(--gold);
-            color: var(--bg-navy);
-        }
-
-        /* Footer */
-        footer {
-            background: #050911;
-            text-align: center;
-            padding: 60px 0;
-            font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.4);
-            letter-spacing: 0.1em;
-        }
-
-        /* Page Top */
-        .pagetop {
-            position: fixed;
-            right: 30px;
-            bottom: 30px;
-            width: 60px;
-            height: 60px;
-            background: var(--gold);
-            color: var(--bg-navy);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-decoration: none;
-            border-radius: 50%;
-            z-index: 999;
-        }
+        /* Links & Footer */
+        .project-links { padding: 80px 0; display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; }
+        .link-button { padding: 18px 45px; border: 1px solid var(--gold); color: var(--gold); text-decoration: none; transition: 0.4s; }
+        .link-button:hover { background: var(--gold); color: var(--bg-navy); }
+        
+        footer { background: #050911; text-align: center; padding: 60px; color: rgba(255,255,255,0.4); font-size: 0.85rem; letter-spacing: 0.1em; }
+        
+        .pagetop { position: fixed; right: 30px; bottom: 30px; width: 60px; height: 60px; background: var(--gold); color: var(--bg-navy); border-radius: 50%; display: flex; justify-content: center; align-items: center; text-decoration: none; z-index: 1000; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
 
         @media (max-width: 768px) {
-            header { padding: 0 20px; }
-            .card-main { padding: 30px; }
-            .card-description { font-size: 0.9rem; }
-            .card-vertical-text { font-size: 1.1rem; width: 60px; }
+            header { padding: 0 20px; height: 80px; }
+            .header-logo img { height: 40px; }
+            .card-vertical-text { font-size: 1.1rem; width: 80px; padding: 40px 0; }
+            .card-main { padding: 8% 6%; }
+            .side-menu { width: 85%; }
             .news-item { flex-direction: column; gap: 5px; }
-            .project-card { aspect-ratio: 16 / 9; }
         }
     </style>
 </head>
@@ -316,14 +293,30 @@
     <div class="gold-line"></div>
 
     <header>
-        <div class="header-logo">
-            <img src="gold_hekionlogo.png" alt="HEKION">
-        </div>
-        <button class="menu-btn"><i class="fas fa-bars"></i></button>
+        <div class="header-logo"><img src="gold_hekionlogo.png" alt="HEKION"></div>
+        <button class="menu-btn" id="menuBtn">
+            <span></span><span></span><span></span>
+        </button>
     </header>
 
+    <nav class="side-menu" id="sideMenu">
+        <ul>
+            <li><a href="#">◯ TOP トップ</a></li>
+            <li><a href="#">◯ ABOUT HEKIONについて</a></li>
+            <li>
+                <a href="#" id="projectToggle">◯ PROJECTS プロジェクト <i class="fas fa-plus"></i></a>
+                <ul class="submenu" id="submenu">
+                    <li><a href="#">- GANAR</a></li>
+                    <li><a href="#">- Goalink</a></li>
+                    <li><a href="#">- TRAVID</a></li>
+                </ul>
+            </li>
+            <li><a href="#">◯ NEWS ニュース</a></li>
+        </ul>
+    </nav>
+
     <div class="mv">
-        <img src="gold_hekionlogo.png" alt="HEKION" style="height: 80px;">
+        <img src="gold_hekionlogo.png" alt="HEKION" style="height: 100px;">
         <h2 class="mv-copy">発見、楽しさ、繋がり。</h2>
     </div>
 
@@ -331,8 +324,7 @@
         
         <section class="concept-section">
             <h2 class="section-title">CONCEPT</h2>
-            <p class="concept-text">日常のなかの発見を楽しさに変え、
-そこから繋がりを生み出していく。</p>
+            <p class="concept-text">日常のなかの発見を楽しさに変え、<br>そこから繋がりを生み出していく。</p>
         </section>
 
         <section class="project-section">
@@ -341,31 +333,34 @@
             <div class="project-card ganar">
                 <div class="card-main">
                     <img src="ganarlogo.png" alt="GANAR" class="card-logo">
-                    <p class="card-description">勝ちにこだわる。
-でも、楽しむことを忘れない。</p>
+                    <p class="card-description">勝ちにこだわる。<br>でも、楽しむことを忘れない。</p>
                     <a href="#" class="view-more-btn">VIEW MORE</a>
                 </div>
-                <div class="card-vertical-text">楽しんだもん勝ち</div>
+                <div class="card-vertical-text">
+                    <span>楽しんだもん勝ち</span>
+                </div>
             </div>
 
             <div class="project-card goalink">
                 <div class="card-main">
                     <img src="goalinklogo.png" alt="Goalink" class="card-logo">
-                    <p class="card-description">サッカーを、もっと近くに。
-知る事で、好きになる。</p>
+                    <p class="card-description">サッカーを、もっと近くに。<br>知る事で、好きになる。</p>
                     <a href="#" class="view-more-btn">VIEW MORE</a>
                 </div>
-                <div class="card-vertical-text">サッカーと人をつなぐ</div>
+                <div class="card-vertical-text">
+                    <span>サッカーと人をつなぐ</span>
+                </div>
             </div>
 
             <div class="project-card travid">
                 <div class="card-main">
                     <img src="travidlogo.png" alt="TRAVID" class="card-logo">
-                    <p class="card-description">旅の前も、旅のあとも。
-楽しさは続いていく。</p>
+                    <p class="card-description">旅の前も、旅のあとも。<br>楽しさは続いていく。</p>
                     <a href="#" class="view-more-btn">VIEW MORE</a>
                 </div>
-                <div class="card-vertical-text">旅の楽しさを、カタチに。</div>
+                <div class="card-vertical-text">
+                    <span>旅の楽しさを、カタチに。</span>
+                </div>
             </div>
 
         </section>
@@ -394,5 +389,37 @@
 
     <a href="#" class="pagetop"><i class="fas fa-chevron-up"></i></a>
 
+    <script>
+        const menuBtn = document.getElementById('menuBtn');
+        const sideMenu = document.getElementById('sideMenu');
+        const projectToggle = document.getElementById('projectToggle');
+        const submenu = document.getElementById('submenu');
+
+        // メニュー開閉
+        menuBtn.addEventListener('click', () => {
+            menuBtn.classList.toggle('open');
+            sideMenu.classList.toggle('open');
+        });
+
+        // アコーディオン：プラスマイナスの切り替えと開閉
+        projectToggle.addEventListener('click', (e) => {
+            e.preventDefault();
+            const icon = projectToggle.querySelector('i');
+            submenu.classList.toggle('show');
+            
+            if (submenu.classList.contains('show')) {
+                icon.classList.replace('fa-plus', 'fa-minus');
+            } else {
+                icon.classList.replace('fa-plus', 'fa-minus'); // アイコン固定ならここも調整
+                icon.classList.replace('fa-minus', 'fa-plus');
+            }
+        });
+
+        // ページトップへ戻る
+        document.querySelector('.pagetop').addEventListener('click', (e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    </script>
 </body>
 </html>

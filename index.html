@@ -113,18 +113,29 @@
         .btn-viewmore { width: 220px; height: 56px; display: flex; justify-content: center; align-items: center; border: 1px solid currentColor; text-decoration: none; font-size: 1rem; letter-spacing: 0.25em; color: inherit; transition: 0.3s; }
         .btn-viewmore:hover { background: rgba(255, 255, 255, 0.1); }
 
-        /* PC版 縦書き：1列・改行なし */
         .card-side { position: relative; z-index: 10; width: 120px; display: flex; flex-direction: column; padding: 60px 0; writing-mode: vertical-rl; font-size: 1.6rem; letter-spacing: 0.4em; border-left: 1px solid rgba(128, 128, 128, 0.2); font-weight: bold; }
         .card-side span { white-space: nowrap; display: block; }
         
         .card-ganar, .card-goalink { color: var(--white); } .card-travid { color: var(--black); }
 
-        /* News */
+        /* News Section */
         .news-section { margin-top: 80px; }
-        .news-item { padding: 20px 0; border-bottom: 1px solid rgba(197, 160, 89, 0.1); display: flex; gap: 20px; }
-        .news-date { color: var(--gold); font-weight: bold; font-size: 0.95rem; }
+        .news-item { 
+            padding: 25px 0; border-bottom: 1px solid rgba(197, 160, 89, 0.1); 
+            display: flex; align-items: center; gap: 30px; cursor: pointer; transition: 0.3s;
+        }
+        .news-item:hover { background: rgba(197, 160, 89, 0.05); }
+        .news-date { color: var(--gold); font-weight: bold; font-size: 0.95rem; min-width: 100px; }
+        .news-tag { 
+            background: var(--gold); color: var(--bg-navy); font-size: 0.7rem; 
+            padding: 2px 10px; font-weight: bold; border-radius: 2px; text-transform: uppercase;
+        }
+        .news-text { flex: 1; font-size: 1rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .news-btn-area { margin-top: 30px; }
-        .btn-news-more { width: 160px; height: 40px; display: flex; justify-content: center; align-items: center; border: 1px solid var(--gold); color: var(--gold); text-decoration: none; font-size: 0.8rem; }
+        .btn-news-more { 
+            width: 160px; height: 40px; display: flex; justify-content: center; align-items: center; 
+            border: 1px solid var(--gold); color: var(--gold); text-decoration: none; font-size: 0.8rem; 
+        }
 
         /* Footer */
         footer { background: #050911; padding: 80px 20px 60px; text-align: center; margin-top: 100px; border-top: 1px solid rgba(197, 160, 89, 0.1); }
@@ -135,7 +146,6 @@
         .footer-logo { height: 45px; opacity: 0.5; margin-bottom: 25px; }
         .copyright { font-size: 0.8rem; opacity: 0.3; letter-spacing: 0.1em; }
 
-        /* Page Top Button */
         .pagetop {
             position: fixed; right: 30px; bottom: 30px; width: 60px; height: 60px;
             background: transparent; border: 2px solid var(--gold); border-radius: 50%;
@@ -156,6 +166,9 @@
             .card-desc { font-size: 0.8rem; margin-bottom: 20px; }
             .btn-viewmore { width: 140px; height: 40px; font-size: 0.75rem; }
             .card-side { width: 50px; font-size: 0.85rem; padding: 20px 0; }
+            .news-item { gap: 15px; padding: 15px 0; flex-wrap: wrap; }
+            .news-date { font-size: 0.8rem; min-width: 80px; }
+            .news-text { font-size: 0.85rem; width: 100%; flex: none; }
             .footer-site-links { flex-direction: column; align-items: center; }
             .footer-link-box { width: 100%; max-width: 320px; height: 85px; }
             .pagetop { right: 20px; bottom: 20px; width: 50px; height: 50px; }
@@ -173,7 +186,7 @@
     <nav class="side-nav" id="sideNav">
         <button class="menu-close-btn" id="closeBtn"><i class="fas fa-times"></i></button>
         <ul>
-            <li><a href="#">TOP<small>トップ</small></a></li>
+            <li><a href="index.html">TOP<small>トップ</small></a></li>
             <li><a href="#">ABOUT<small>HEKIONについて</small></a></li>
             <li>
                 <a href="#" id="toggleProjects">PROJECTS<small>事業紹介</small> <i class="fas fa-chevron-down"></i></a>
@@ -183,7 +196,7 @@
                     <li><a href="#">- TRAVID</a></li>
                 </ul>
             </li>
-            <li><a href="#">NEWS<small>ニュース</small></a></li>
+            <li><a href="news.html">NEWS<small>ニュース</small></a></li>
         </ul>
     </nav>
 
@@ -235,11 +248,10 @@
 
         <section class="news-section">
             <h2 class="section-title">NEWS</h2>
-            <div class="news-item">
-                <span class="news-date">2026.01.14</span>
-                <span class="news-text">WEBサイトをリニューアルしました。</span>
+            <div id="news-container">
+                <p>Loading news...</p>
             </div>
-            <div class="news-btn-area"><a href="#" class="btn-news-more">VIEW MORE</a></div>
+            <div class="news-btn-area"><a href="news.html" class="btn-news-more">VIEW MORE</a></div>
         </section>
     </main>
 
@@ -263,7 +275,45 @@
         const subMenu = document.getElementById('subMenu');
         const pageTop = document.getElementById('pageTop');
 
-        window.onload = () => document.getElementById('mv').classList.add('loaded');
+        window.onload = () => {
+            document.getElementById('mv').classList.add('loaded');
+            fetchNews();
+        };
+
+        // GASからニュースを取得し表示する関数（最新3件）
+        async function fetchNews() {
+            const endpoint = "YOUR_GAS_WEB_APP_URL"; // デプロイしたGASのURLをここに貼り付け
+            const container = document.getElementById('news-container');
+            
+            try {
+                const response = await fetch(endpoint);
+                const data = await response.json();
+                
+                container.innerHTML = '';
+                if (data.length === 0) {
+                    container.innerHTML = '<p>現在ニュースはありません。</p>';
+                    return;
+                }
+                
+                // トップページ用に最新3件を抽出
+                const latestThree = data.slice(0, 3);
+                
+                latestThree.forEach(item => {
+                    const html = `
+                        <div class="news-item" onclick="location.href='newspage.html?id=${item.id}'">
+                            <span class="news-date">${item.date}</span>
+                            <span class="news-tag">${item.tag}</span>
+                            <span class="news-text">${item.title}</span>
+                        </div>
+                    `;
+                    container.insertAdjacentHTML('beforeend', html);
+                });
+            } catch (error) {
+                container.innerHTML = '<p>ニュースの読み込みに失敗しました。</p>';
+                console.error(error);
+            }
+        }
+
         openBtn.onclick = () => sideNav.classList.add('active');
         closeBtn.onclick = () => sideNav.classList.remove('active');
         toggleProjects.onclick = (e) => { e.preventDefault(); subMenu.classList.toggle('open'); };

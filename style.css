@@ -54,26 +54,23 @@ header.scrolled {
 .header-logo img { height: 38px; cursor: pointer; transition: opacity 0.3s; }
 .header-logo img:hover { opacity: 0.8; }
 
-/* Hamburger Menu Button */
+/* Hamburger Menu Button Fix */
 .menu-open-btn {
     background: none; border: none; cursor: pointer;
-    display: flex; align-items: center; gap: 12px; z-index: 10000;
+    display: flex; align-items: center; justify-content: flex-end;
+    position: relative; width: 80px; height: 40px; z-index: 10000;
 }
 .btn-label {
     font-family: var(--font-en); font-size: 0.75rem; color: var(--gold);
-    letter-spacing: 0.2em; transition: opacity 0.3s;
+    letter-spacing: 0.2em; transition: opacity 0.3s; margin-right: 38px;
 }
 .menu-open-btn .btn-line {
-    display: block; width: 28px; height: 1.5px; background: var(--gold);
+    position: absolute; right: 0; width: 28px; height: 2px; background: var(--gold);
     transition: transform 0.4s var(--ease-out-expo), opacity 0.3s;
 }
-.menu-open-btn {
-    position: relative; width: 80px; height: 40px; justify-content: flex-end;
-}
-.menu-open-btn .btn-line { position: absolute; right: 0; }
-.menu-open-btn .top { transform: translateY(-6px); }
+.menu-open-btn .top { transform: translateY(-7px); }
 .menu-open-btn .mid { transform: translateY(0); }
-.menu-open-btn .bot { transform: translateY(6px); }
+.menu-open-btn .bot { transform: translateY(7px); }
 
 /* Hamburger Active Transform to X */
 .menu-open-btn.active .top { transform: translateY(0) rotate(45deg); }
@@ -83,7 +80,7 @@ header.scrolled {
 
 /* Side Menu & Overlay */
 .menu-overlay {
-    position: fixed; inset: 0; background: rgba(0, 0, 0, 0.6);
+    position: fixed; inset: 0; background: rgba(0, 0, 0, 0.65);
     backdrop-filter: blur(5px); z-index: 8900; opacity: 0; visibility: hidden;
     transition: all 0.5s var(--ease-out-expo);
 }
@@ -149,49 +146,52 @@ header.scrolled {
 .concept-body { margin-bottom: 120px; }
 .concept-text { font-size: clamp(1.1rem, 2.5vw, 1.4rem); line-height: 2.2; font-weight: 300; letter-spacing: 0.08em; }
 
-/* Project Section (No Image / High-End Card Design) */
+/* Project Section */
 .project-section { margin-bottom: 120px; }
-.project-grid { display: flex; flex-direction: column; gap: 40px; }
+.project-grid { display: flex; flex-direction: column; gap: 30px; }
 
 .project-card { 
-    position: relative; width: 100%; display: flex; 
-    background: linear-gradient(135deg, rgba(13, 21, 39, 0.8) 0%, rgba(7, 12, 22, 0.95) 100%);
-    border: 1px solid rgba(197, 160, 89, 0.2);
-    border-radius: 4px; overflow: hidden;
+    position: relative; width: 100%;
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(7, 12, 22, 0.95) 100%);
+    border: 1px solid rgba(197, 160, 89, 0.25);
+    border-radius: 6px; overflow: hidden;
     box-shadow: 0 15px 35px rgba(0,0,0,0.4);
     transition: all 0.5s var(--ease-out-expo);
 }
 .project-card:hover {
     border-color: var(--gold);
     transform: translateY(-4px);
-    box-shadow: 0 20px 45px rgba(197, 160, 89, 0.12);
+    box-shadow: 0 20px 45px rgba(197, 160, 89, 0.15);
 }
 
 .card-inner { 
-    flex: 1; padding: 60px 70px; display: flex; align-items: center; 
+    padding: 50px 60px; display: flex; align-items: center; 
     justify-content: space-between; gap: 40px; 
 }
-.card-logo-wrap { width: 220px; display: flex; align-items: center; justify-content: center; }
-.card-logo { max-height: 75px; width: auto; max-width: 100%; object-fit: contain; }
 
-.card-body-text { flex: 1; display: flex; flex-direction: column; align-items: flex-start; }
-.card-desc { font-size: 1.15rem; margin-bottom: 30px; line-height: 1.9; font-weight: 300; letter-spacing: 0.06em; color: rgba(255, 255, 255, 0.9); }
+/* Light Background Holder for Logos */
+.card-logo-wrap { 
+    width: 240px; height: 110px; display: flex; align-items: center; justify-content: center;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px; padding: 15px;
+    backdrop-filter: blur(8px);
+}
+.card-logo { max-height: 100%; max-width: 100%; object-fit: contain; }
+
+.card-body-text { flex: 1; display: flex; align-items: center; justify-content: space-between; gap: 30px; }
+.card-desc { font-size: clamp(1.1rem, 2vw, 1.4rem); font-weight: 400; letter-spacing: 0.1em; color: #ffffff; }
 
 .btn-viewmore { 
     display: inline-flex; align-items: center; gap: 12px;
-    padding: 10px 24px; border: 1px solid var(--gold); text-decoration: none; 
+    padding: 12px 28px; border: 1px solid var(--gold); text-decoration: none; 
     font-family: var(--font-en); font-size: 0.85rem; letter-spacing: 0.2em; color: var(--gold-light); 
-    transition: all 0.4s var(--ease-out-expo); background: rgba(197, 160, 89, 0.03);
+    transition: all 0.4s var(--ease-out-expo); background: rgba(197, 160, 89, 0.04);
+    white-space: nowrap;
 }
 .btn-viewmore i { font-size: 0.75rem; transition: transform 0.3s; }
 .btn-viewmore:hover { background: var(--gold); color: var(--bg-navy); }
 .btn-viewmore:hover i { transform: translateX(5px); }
-
-.card-side { 
-    width: 90px; display: flex; justify-content: center; align-items: center; 
-    padding: 40px 0; writing-mode: vertical-rl; font-size: 1.1rem; letter-spacing: 0.35em; 
-    border-left: 1px solid rgba(197, 160, 89, 0.15); color: var(--gold); font-weight: 400; opacity: 0.8;
-}
 
 /* News */
 .news-section { margin-top: 100px; }
@@ -218,7 +218,7 @@ header.scrolled {
 .btn-news-more i { font-size: 0.75rem; transition: transform 0.3s; }
 .btn-news-more:hover i { transform: translateX(4px); }
 
-/* Footer (Preserve Original Brand Logo Colors with Capsule Cards) */
+/* Footer */
 footer {
     background: #04070d;
     padding: 80px 20px 50px;
@@ -248,17 +248,17 @@ footer {
     justify-content: center;
     align-items: center;
     width: 220px;
-    height: 75px;
+    height: 80px;
     padding: 12px 20px;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
     border-radius: 6px;
     text-decoration: none;
     transition: all 0.4s var(--ease-out-expo);
 }
 
 .footer-project-card:hover {
-    background: rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.12);
     border-color: rgba(197, 160, 89, 0.5);
     transform: translateY(-3px);
 }
@@ -267,31 +267,6 @@ footer {
     max-height: 100%;
     max-width: 100%;
     object-fit: contain;
-}
-
-.footer-sub-nav {
-    margin-bottom: 40px;
-}
-
-.footer-sub-nav ul {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 30px;
-    list-style: none;
-    flex-wrap: wrap;
-}
-
-.footer-sub-nav a {
-    color: rgba(255, 255, 255, 0.6);
-    text-decoration: none;
-    font-size: 0.85rem;
-    letter-spacing: 0.08em;
-    transition: color 0.3s ease;
-}
-
-.footer-sub-nav a:hover {
-    color: var(--white);
 }
 
 .footer-brand {
@@ -340,15 +315,12 @@ footer {
     .project-section { margin-bottom: 80px; }
     
     .card-inner { flex-direction: column; align-items: flex-start; padding: 35px 25px; gap: 20px; }
-    .card-logo-wrap { width: 100%; justify-content: flex-start; }
-    .card-logo { max-height: 50px; }
-    .card-desc { font-size: 0.95rem; margin-bottom: 20px; }
-    .card-side { width: 45px; font-size: 0.85rem; padding: 20px 0; }
+    .card-logo-wrap { width: 100%; height: 80px; }
+    .card-body-text { flex-direction: column; align-items: flex-start; gap: 20px; width: 100%; }
+    .card-desc { font-size: 1.1rem; }
     
     footer { padding: 60px 20px 40px; margin-top: 80px; }
     .footer-projects { gap: 15px; margin-bottom: 40px; }
-    .footer-project-card { width: 100%; max-width: 280px; height: 65px; }
-    .footer-sub-nav ul { gap: 15px 20px; }
-    .footer-sub-nav a { font-size: 0.8rem; }
+    .footer-project-card { width: 100%; max-width: 280px; height: 70px; }
     .pagetop { right: 20px; bottom: 20px; width: 44px; height: 44px; }
 }

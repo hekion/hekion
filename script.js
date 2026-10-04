@@ -1,6 +1,6 @@
 const openBtn = document.getElementById('openBtn');
-const closeBtn = document.getElementById('closeBtn');
 const sideNav = document.getElementById('sideNav');
+const menuOverlay = document.getElementById('menuOverlay');
 const toggleProjects = document.getElementById('toggleProjects');
 const subMenu = document.getElementById('subMenu');
 const pageTop = document.getElementById('pageTop');
@@ -59,10 +59,20 @@ async function fetchNews() {
     }
 }
 
-// Navigation Events
-openBtn.onclick = () => sideNav.classList.add('active');
-closeBtn.onclick = () => sideNav.classList.remove('active');
-toggleProjects.onclick = (e) => { e.preventDefault(); subMenu.classList.toggle('open'); };
+// Hamburger Toggle Function (Smooth Open & Close)
+function toggleMenu() {
+    openBtn.classList.toggle('active');
+    sideNav.classList.toggle('active');
+    menuOverlay.classList.toggle('active');
+}
+
+openBtn.addEventListener('click', toggleMenu);
+menuOverlay.addEventListener('click', toggleMenu);
+
+toggleProjects.onclick = (e) => { 
+    e.preventDefault(); 
+    subMenu.classList.toggle('open'); 
+};
 
 // Header & Scroll Events
 window.onscroll = () => {

@@ -8,8 +8,24 @@ const pageTop = document.getElementById('pageTop');
 window.onload = () => {
     document.getElementById('mv').classList.add('loaded');
     fetchNews();
+    initScrollReveal();
 };
 
+// Scroll Reveal Animation
+function initScrollReveal() {
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+            }
+        });
+    }, { threshold: 0.15 });
+
+    reveals.forEach(el => observer.observe(el));
+}
+
+// Fetch News Data
 async function fetchNews() {
     const endpoint = "https://script.google.com/macros/s/AKfycbxsimQpAMn1nBVO2Kp5tqby_KeX-8Tk3Me8WVokGIVbaUmF2EdtmXCXdtXSskSYsAf1/exec";
     const container = document.getElementById('news-container');
@@ -20,7 +36,7 @@ async function fetchNews() {
         
         container.innerHTML = '';
         if (!data || data.length === 0) {
-            container.innerHTML = '<p>現在ニュースはありません。</p>';
+            container.innerHTML = '<p class="news-loading">現在ニュースはありません。</p>';
             return;
         }
         
@@ -39,14 +55,16 @@ async function fetchNews() {
             container.insertAdjacentHTML('beforeend', html);
         });
     } catch (error) {
-        container.innerHTML = '<p>ニュースの読み込みに失敗しました。</p>';
+        container.innerHTML = '<p class="news-loading">ニュースの読み込みに失敗しました。</p>';
     }
 }
 
+// Navigation Events
 openBtn.onclick = () => sideNav.classList.add('active');
 closeBtn.onclick = () => sideNav.classList.remove('active');
 toggleProjects.onclick = (e) => { e.preventDefault(); subMenu.classList.toggle('open'); };
 
+// Header & Scroll Events
 window.onscroll = () => {
     const header = document.getElementById('header');
     if (window.pageYOffset > 50) header.classList.add('scrolled');

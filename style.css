@@ -54,7 +54,7 @@ header.scrolled {
 .header-logo img { height: 38px; cursor: pointer; transition: opacity 0.3s; }
 .header-logo img:hover { opacity: 0.8; }
 
-/* Hamburger Menu Button Fix */
+/* Hamburger Menu Button */
 .menu-open-btn {
     background: none; border: none; cursor: pointer;
     display: flex; align-items: center; justify-content: flex-end;
@@ -110,15 +110,35 @@ header.scrolled {
 }
 .side-nav a:hover { color: var(--gold-light); }
 .side-nav small { color: var(--gold); opacity: 0.7; margin-left: 15px; font-size: 0.75rem; font-family: var(--font-ja); }
-.side-submenu { padding: 15px 0 0 20px; display: none; }
-.side-submenu.open { display: block; }
-.side-nav a i { margin-left: 10px; font-size: 0.8rem; }
+
+.side-submenu { 
+    padding: 15px 0 0 20px; 
+    display: none; 
+}
+.side-submenu.open { 
+    display: block; 
+}
+.side-submenu li {
+    margin-bottom: 12px;
+}
+.side-submenu a {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+.side-nav a i { 
+    margin-left: 10px; 
+    font-size: 0.8rem; 
+    transition: transform 0.3s ease;
+}
+.side-nav a i.rotate {
+    transform: rotate(180deg);
+}
 
 /* Main Visual */
 .mv { width: 100%; height: 100vh; position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 20px; }
 .mv-bg { position: absolute; inset: 0; background-size: cover; background-position: center; z-index: -1; filter: brightness(0.85); }
-@media (min-width: 769px) { .mv-bg { background-image: url('mv_pc_bg.png'); } }
-@media (max-width: 768px) { .mv-bg { background-image: url('mv_sp_bg.png'); } }
+@media (min-width: 769px) { .mv-bg { background-image: url('images/mainvisual/mv_pc_bg.png'); } }
+@media (max-width: 768px) { .mv-bg { background-image: url('images/mainvisual/mv_sp_bg.png'); } }
 .mv-logo { width: 280px; max-width: 70%; margin-bottom: 25px; opacity: 0; transform: translateY(20px); transition: 1.2s 0.3s var(--ease-out-expo); }
 .mv-copy {
     font-family: 'Sawarabi Mincho', serif;
@@ -169,7 +189,6 @@ header.scrolled {
     justify-content: space-between; gap: 40px; 
 }
 
-/* Light Background Holder for Logos */
 .card-logo-wrap { 
     width: 240px; height: 110px; display: flex; align-items: center; justify-content: center;
     background: rgba(255, 255, 255, 0.06);
@@ -239,7 +258,7 @@ footer {
     justify-content: center;
     align-items: center;
     gap: 25px;
-    margin-bottom: 50px;
+    margin-bottom: 40px;
     flex-wrap: wrap;
 }
 
@@ -267,16 +286,6 @@ footer {
     max-height: 100%;
     max-width: 100%;
     object-fit: contain;
-}
-
-.footer-brand {
-    margin-bottom: 20px;
-}
-
-.footer-logo {
-    height: 32px;
-    width: auto;
-    opacity: 0.7;
 }
 
 .copyright {
@@ -320,7 +329,7 @@ footer {
     .card-desc { font-size: 1.1rem; }
     
     footer { padding: 60px 20px 40px; margin-top: 80px; }
-    .footer-projects { gap: 15px; margin-bottom: 40px; }
+    .footer-projects { gap: 15px; margin-bottom: 30px; }
     .footer-project-card { width: 100%; max-width: 280px; height: 70px; }
     .pagetop { right: 20px; bottom: 20px; width: 44px; height: 44px; }
 }

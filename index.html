@@ -5,11 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>HEKION公式サイト</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Sawarabi+Mincho&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Noto+Serif+JP:wght@300;400;600&family=Sawarabi+Mincho&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="bg-layer"><div class="bg-pattern"></div></div>
+    <div class="bg-layer">
+        <div class="bg-pattern"></div>
+        <div class="bg-lines">
+            <span></span><span></span><span></span><span></span>
+        </div>
+    </div>
 
     <header id="header">
         <div class="header-logo" onclick="location.href='index.html'"><img src="gold_hekionlogo.png" alt="HEKION"></div>
@@ -36,82 +43,121 @@
 
     <section class="mv" id="mv">
         <div class="mv-bg"></div>
-        <img src="gold_hekionlogo.png" class="mv-logo">
+        <img src="gold_hekionlogo.png" class="mv-logo" alt="HEKION">
         <h1 class="mv-copy">発見、楽しさ、繋がり。</h1>
     </section>
 
     <main class="main-content">
-        <section class="concept-body">
-            <h2 class="section-title">CONCEPT</h2>
+        <section class="concept-body reveal">
+            <div class="section-title-wrap">
+                <span class="section-num">01</span>
+                <h2 class="section-title">CONCEPT</h2>
+            </div>
             <p class="concept-text">日常のなかの発見を楽しさに変え、<br>そこから繋がりを生み出していく。</p>
         </section>
 
-        <section class="project-grid">
-            <div><h2 class="section-title">PROJECT</h2></div>
+        <section class="project-section">
+            <div class="section-title-wrap reveal">
+                <span class="section-num">02</span>
+                <h2 class="section-title">PROJECT</h2>
+            </div>
             
-            <div class="project-card card-ganar">
-                <div class="card-bg"></div>
-                <div class="card-inner">
-                    <img src="ganarlogo.png" class="card-logo">
-                    <p class="card-desc">勝ちにこだわる。<br>でも, 楽しむことを忘れない。</p>
-                    <a href="ganar.html" class="btn-viewmore">VIEW MORE</a>
+            <div class="project-grid">
+                <div class="project-card card-ganar reveal">
+                    <div class="card-bg"></div>
+                    <div class="card-inner">
+                        <img src="ganarlogo.png" class="card-logo" alt="GANAR">
+                        <p class="card-desc">勝ちにこだわる。<br>でも, 楽しむことを忘れない。</p>
+                        <a href="ganar.html" class="btn-viewmore"><span>VIEW MORE</span><i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    <div class="card-side"><span>楽しんだもん勝ち</span></div>
                 </div>
-                <div class="card-side"><span>楽しんだもん勝ち</span></div>
-            </div>
 
-            <!--
-            <div class="project-card card-goalink">
-                <div class="card-bg"></div>
-                <div class="card-inner">
-                    <img src="goalinklogo.png" class="card-logo">
-                    <p class="card-desc">サッカーを、もっと近くに。<br>知る事で、好きになる。</p>
-                    <a href="goalink.html" class="btn-viewmore">VIEW MORE</a>
+                <!--
+                <div class="project-card card-goalink reveal">
+                    <div class="card-bg"></div>
+                    <div class="card-inner">
+                        <img src="goalinklogo.png" class="card-logo" alt="Goalink">
+                        <p class="card-desc">サッカーを、もっと近くに。<br>知る事で、好きになる。</p>
+                        <a href="goalink.html" class="btn-viewmore"><span>VIEW MORE</span><i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    <div class="card-side"><span>サッカーと人を<br>つなぐ</span></div>
                 </div>
-                <div class="card-side"><span>サッカーと人を<br>つなぐ</span></div>
-            </div>
-            -->
+                -->
 
-            <div class="project-card card-travid">
-                <div class="card-bg"></div>
-                <div class="card-inner">
-                    <img src="travidlogo.png" class="card-logo">
-                    <p class="card-desc">旅の前も、旅のあとも。<br>楽しさは続いていく。</p>
-                    <a href="travid.html" class="btn-viewmore">VIEW MORE</a>
+                <div class="project-card card-travid reveal">
+                    <div class="card-bg"></div>
+                    <div class="card-inner">
+                        <img src="travidlogo.png" class="card-logo" alt="TRAVID">
+                        <p class="card-desc">旅の前も、旅のあとも。<br>楽しさは続いていく。</p>
+                        <a href="travid.html" class="btn-viewmore"><span>VIEW MORE</span><i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    <div class="card-side"><span>旅の楽しさを、<br>カタチに</span></div>
                 </div>
-                <div class="card-side"><span>旅の楽しさを、<br>カタチに</span></div>
-            </div>
 
-            <!--
-            <div class="project-card card-veresis">
-                <div class="card-bg"></div>
-                <div class="card-inner">
-                    <img src="veresislogo.png" class="card-logo">
-                    <p class="card-desc">「当たり前」を塗り替える。<br>技術と感性で、新しい世界を創り出す。</p>
-                    <a href="veresis.html" class="btn-viewmore">VIEW MORE</a>
+                <!--
+                <div class="project-card card-veresis reveal">
+                    <div class="card-bg"></div>
+                    <div class="card-inner">
+                        <img src="veresislogo.png" class="card-logo" alt="VERESIS">
+                        <p class="card-desc">「当たり前」を塗り替える。<br>技術と感性で、新しい世界を創り出す。</p>
+                        <a href="veresis.html" class="btn-viewmore"><span>VIEW MORE</span><i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    <div class="card-side"><span>世界は、<br>変えられる</span></div>
                 </div>
-                <div class="card-side"><span>世界は、<br>変えられる</span></div>
+                -->
             </div>
-            -->
         </section>
 
-        <section class="news-section">
-            <h2 class="section-title">NEWS</h2>
-            <div id="news-container">
-                <p>Loading news...</p>
+        <section class="news-section reveal">
+            <div class="section-title-wrap">
+                <span class="section-num">03</span>
+                <h2 class="section-title">NEWS</h2>
             </div>
-            <div class="news-btn-area"><a href="news.html" class="btn-news-more">VIEW MORE</a></div>
+            <div id="news-container">
+                <p class="news-loading">Loading news...</p>
+            </div>
+            <div class="news-btn-area">
+                <a href="news.html" class="btn-news-more"><span>VIEW MORE</span><i class="fas fa-arrow-right"></i></a>
+            </div>
         </section>
     </main>
 
     <footer>
-        <div class="footer-site-links">
-            <a href="https://hekion.github.io/ganar/index.html" class="footer-link-box" target="_blank" rel="noopener noreferrer"><img src="gold_ganarlogo.png" alt="GANAR"></a>
-            <!-- <a href="https://hekion.github.io/goalinkjp/index.html" class="footer-link-box" target="_blank" rel="noopener noreferrer"><img src="gold_goalinklogo.png" alt="Goalink"></a> -->
-            <a href="https://note.com/travid" class="footer-link-box" target="_blank" rel="noopener noreferrer"><img src="gold_travidlogo.png" alt="TRAVID"></a>
-            <!-- <a href="https://hekion.github.io/veresis/" class="footer-link-box" target="_blank" rel="noopener noreferrer"><img src="gold_veresislogo.png" alt="VERESIS"></a> -->
+        <div class="footer-inner">
+            <div class="footer-projects">
+                <a href="https://hekion.github.io/ganar/index.html" class="footer-project-link" target="_blank" rel="noopener noreferrer">
+                    <img src="ganarlogo.png" alt="GANAR">
+                </a>
+                <!--
+                <a href="https://hekion.github.io/goalinkjp/index.html" class="footer-project-link" target="_blank" rel="noopener noreferrer">
+                    <img src="goalinklogo.png" alt="Goalink">
+                </a>
+                -->
+                <a href="https://note.com/travid" class="footer-project-link" target="_blank" rel="noopener noreferrer">
+                    <img src="travidlogo.png" alt="TRAVID">
+                </a>
+                <!--
+                <a href="https://hekion.github.io/veresis/" class="footer-project-link" target="_blank" rel="noopener noreferrer">
+                    <img src="veresislogo.png" alt="VERESIS">
+                </a>
+                -->
+            </div>
+
+            <div class="footer-sub-nav">
+                <ul>
+                    <li><a href="#">利用規約</a></li>
+                    <li><a href="#">プライバシーポリシー</a></li>
+                    <li><a href="#">お問い合わせ</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-brand">
+                <img src="hekionlogo.png" class="footer-logo" alt="HEKION">
+            </div>
+
+            <p class="copyright">&copy; 2026 HEKION. All Rights Reserved.</p>
         </div>
-        <img src="gold_hekionlogo.png" class="footer-logo">
-        <p class="copyright">&copy; 2026 HEKION. All Rights Reserved.</p>
     </footer>
 
     <a href="#" class="pagetop" id="pageTop"></a>

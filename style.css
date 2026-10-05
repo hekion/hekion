@@ -385,6 +385,13 @@ footer {
 /* ==========================================
    NEWS PAGE DETAIL STYLES
    ========================================== */
+.main-content-news {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 160px 25px 100px; /* ヘッダーとの被りを防ぐ十分な上部余白 */
+    min-height: 80vh;
+}
+
 .news-detail-meta {
     display: flex;
     align-items: center;
@@ -408,12 +415,13 @@ footer {
 }
 
 .news-detail-title {
-    font-size: 2rem;
+    font-size: 1.8rem;
     line-height: 1.4;
     margin-bottom: 40px;
     font-weight: bold;
     border-bottom: 1px solid rgba(197, 160, 89, 0.2);
     padding-bottom: 30px;
+    word-break: break-word; /* 長い単語の溢れ防止 */
 }
 
 .news-detail-body {
@@ -421,6 +429,7 @@ footer {
     line-height: 2;
     white-space: pre-wrap;
     font-weight: 300;
+    word-break: break-word;
 }
 
 .back-btn-area {
@@ -445,11 +454,21 @@ footer {
     color: var(--bg-navy);
 }
 
+/* スマホ表示向けの調整 */
 @media (max-width: 768px) {
-    .news-detail-title {
-        font-size: 1.5rem;
+    .main-content-news {
+        padding-top: 130px; /* スマホ時のヘッダー直下余白確保 */
     }
+
+    .news-detail-title {
+        /* 画面幅に合わせて自動縮小（最小1.1rem〜最大1.4rem） */
+        font-size: clamp(1.1rem, 4.5vw, 1.4rem);
+        line-height: 1.5;
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+    }
+
     .news-detail-body {
-        font-size: 1rem;
+        font-size: 0.95rem;
     }
 }

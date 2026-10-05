@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.classList.add('loaded');
 
     fetchNews();
+    fetchNewsDetail();
     initScrollReveal();
 
     // Hamburger Menu Toggle
@@ -50,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
         reveals.forEach(el => observer.observe(el));
     }
 
-    // Fetch News Data
+    // Fetch News List Data (for TOP / NEWS LIST)
     async function fetchNews() {
         const endpoint = "https://script.google.com/macros/s/AKfycbxsimQpAMn1nBVO2Kp5tqby_KeX-8Tk3Me8WVokGIVbaUmF2EdtmXCXdtXSskSYsAf1/exec";
         const container = document.getElementById('news-container');
@@ -82,6 +83,46 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         } catch (error) {
             container.innerHTML = '<p class="news-loading">ニュースの読み込みに失敗しました。</p>';
+        }
+    }
+
+    // Fetch News Detail Data (for newspage.html)
+    async function fetchNewsDetail() {
+        const endpoint = "https://script.google.com/macros/s/AKfycbxsimQpAMn1nBVO2Kp5tqby_KeX-8Tk3Me8WVokGIVbaUmF2EdtmXCXdtXSskSYsAf1/exec";
+        const container = document.getElementById('news-content');
+        if (!container) return;
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id');
+
+        if (!id) {
+            container.innerHTML = '<p style="text-align:center;">記事が見つかりませんでした。</p>';
+            return;
+        }
+
+        try {
+            const response = await fetch(endpoint);
+            const data = await response.json();
+            
+            const item = data.find(news => String(news.id) === String(id));
+
+            if (item) {
+                container.innerHTML = `
+                    <div class="news-detail-meta">
+                        <span class="news-detail-date">${item.date}</span>
+                        <span class="news-detail-tag">${item.tag}</span>
+                    </div>
+                    <h1 class="news-detail-title">${item.title}</h1>
+                    <div class="news-detail-body">${item.content || '本文はありません'}</div>
+                    <div class="back-btn-area">
+                        <a href="news.html" class="btn-back"><i class="fas fa-arrow-left"></i> BACK TO LIST</a>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = '<p style="text-align:center;">指定された記事は見つかりませんでした。</p>';
+            }
+        } catch (error) {
+            container.innerHTML = '<p style="text-align:center;">読み込みに失敗しました。</p>';
         }
     }
 

@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>GANAR | HEKION公式サイト</title>
-    <link rel="stylesheet" href="[https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css](https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css)">
-    <link rel="preconnect" href="[https://fonts.googleapis.com](https://fonts.googleapis.com)">
-    <link rel="preconnect" href="[https://fonts.gstatic.com](https://fonts.gstatic.com)" crossorigin>
-    <link href="[https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Noto+Serif+JP:wght@300;400;600&family=Sawarabi+Mincho&display=swap](https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Noto+Serif+JP:wght@300;400;600&family=Sawarabi+Mincho&display=swap)" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Noto+Serif+JP:wght@300;400;600&family=Sawarabi+Mincho&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../style.css">
     <style>
         /* GANAR固有の個別スタイル定義 */
@@ -15,24 +15,72 @@
             --ganar-blue: #87ceeb;
         }
 
-        .hero-bg {
-            position: absolute;
-            inset: 0;
-            background-image: url('bg_ganar.png');
-            background-size: cover;
-            background-position: center;
-            z-index: 1;
+        /* ヒーローエリアデザイン */
+        .project-hero {
+            width: 100%;
+            height: 50vh;
+            min-height: 360px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            border-bottom: 1px solid rgba(195, 160, 89, 0.2);
+            background: radial-gradient(circle at center, rgba(135, 206, 235, 0.12) 0%, rgba(10, 17, 31, 0.95) 75%);
         }
 
-        .hero-overlay {
-            position: absolute;
-            inset: 0;
-            background: rgba(135, 206, 235, 0.4);
-            z-index: 2;
+        .hero-logo {
+            position: relative;
+            z-index: 10;
+            width: 320px;
+            max-width: 75%;
+            object-fit: contain;
+            filter: drop-shadow(0 0 25px rgba(135, 206, 235, 0.35));
+            opacity: 0;
+            transform: scale(0.92) translateY(10px);
+            transition: opacity 1.2s cubic-bezier(0.19, 1, 0.22, 1), transform 1.2s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .loaded .hero-logo {
+            opacity: 1;
+            transform: scale(1) translateY(0);
         }
 
         .project-theme {
+            font-family: 'Sawarabi Mincho', 'Noto Serif JP', serif;
+            font-size: 2.2rem;
             color: var(--ganar-blue);
+            text-align: center;
+            letter-spacing: 0.3em;
+            margin-bottom: 60px;
+            text-shadow: 0 0 20px rgba(135, 206, 235, 0.2);
+        }
+
+        .project-description {
+            font-size: 1.15rem;
+            line-height: 2.4;
+            text-align: center;
+            font-weight: 300;
+        }
+
+        .link-section {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 80px;
+        }
+
+        .btn-project {
+            width: 220px;
+            height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            font-size: 1rem;
+            letter-spacing: 0.2em;
+            border-radius: 4px;
+            transition: 0.3s;
         }
 
         .btn-site {
@@ -43,49 +91,70 @@
 
         .btn-site:hover {
             background: #ffffff;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+        }
+
+        .btn-x {
+            border: 1px solid #ffffff;
+            color: #ffffff;
+        }
+
+        .btn-x:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-project i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        @media (max-width: 768px) {
+            .project-hero {
+                height: 40vh;
+                min-height: 280px;
+            }
+
+            .hero-logo {
+                width: 240px;
+            }
+
+            .project-theme {
+                font-size: 1.6rem;
+                letter-spacing: 0.2em;
+            }
+
+            .project-description {
+                font-size: 1rem;
+                text-align: left;
+            }
+
+            .link-section {
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+            }
+
+            .btn-project {
+                width: 100%;
+                max-width: 300px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="bg-layer"><div class="bg-pattern"></div></div>
+    <div class="bg-layer">
+        <div class="bg-pattern"></div>
+        <div class="bg-lines">
+            <span></span><span></span><span></span><span></span>
+        </div>
+    </div>
 
-    <!-- メニューオープン時の背景オーバーレイ -->
-    <div class="menu-overlay" id="menuOverlay"></div>
-
-    <!-- ヘッダー（projects階層用パス調整済み） -->
-    <header id="header">
-        <div class="header-logo" onclick="location.href='../index.html'"><img src="../images/logo/gold_hekionlogo.png" alt="HEKION"></div>
-        <button class="menu-open-btn" id="openBtn" aria-label="Menu">
-            <span class="btn-line top"></span>
-            <span class="btn-line mid"></span>
-            <span class="btn-line bot"></span>
-            <span class="btn-label">MENU</span>
-        </button>
-    </header>
-
-    <!-- サイドナビ（projects階層用パス調整済み） -->
-    <nav class="side-nav" id="sideNav">
-        <ul>
-            <li class="nav-item"><a href="../index.html">TOP<small>トップ</small></a></li>
-            <li class="nav-item"><a href="../about.html">ABOUT<small>HEKIONについて</small></a></li>
-            <li class="nav-item">
-                <a href="#" id="toggleProjects">PROJECTS<small>事業紹介</small> <i class="fas fa-chevron-down"></i></a>
-                <ul class="side-submenu" id="subMenu">
-                    <li><a href="ganar.html">- GANAR</a></li>
-                    <!-- <li><a href="goalink.html">- Goalink</a></li> -->
-                    <li><a href="travid.html">- TRAVID</a></li>
-                    <!-- <li><a href="veresis.html">- VERESIS</a></li> -->
-                </ul>
-            </li>
-            <li class="nav-item"><a href="../news.html">NEWS<small>ニュース</small></a></li>
-        </ul>
-    </nav>
+    <!-- ヘッダー共通挿入エリア -->
+    <div id="header-container"></div>
 
     <div id="page-container">
         <section class="project-hero">
-            <div class="hero-bg"></div>
-            <div class="hero-overlay"></div>
-            <img src="ganarlogo.png" alt="GANAR" class="hero-logo">
+            <img src="../images/logo/ganarlogo.png" alt="GANAR" class="hero-logo">
         </section>
 
         <main class="main-content">
@@ -102,36 +171,14 @@
             </div>
 
             <div class="link-section">
-                <a href="[https://hekion.github.io/ganar/index.html](https://hekion.github.io/ganar/index.html)" class="btn-project btn-site" target="_blank" rel="noopener noreferrer">OFFICIAL SITE</a>
-                <a href="[https://x.com/GANAR_games](https://x.com/GANAR_games)" class="btn-project btn-x" target="_blank" rel="noopener noreferrer"><i class="fab fa-x-twitter"></i> X (Twitter)</a>
+                <a href="https://hekion.github.io/ganar/index.html" class="btn-project btn-site" target="_blank" rel="noopener noreferrer">OFFICIAL SITE</a>
+                <a href="https://x.com/GANAR_games" class="btn-project btn-x" target="_blank" rel="noopener noreferrer"><i class="fab fa-x-twitter"></i> X (Twitter)</a>
             </div>
         </main>
     </div>
 
-    <!-- フッター（projects階層用パス調整済み） -->
-    <footer>
-        <div class="footer-inner">
-            <div class="footer-projects">
-                <a href="[https://hekion.github.io/ganar/index.html](https://hekion.github.io/ganar/index.html)" class="footer-project-card card-ganar" target="_blank" rel="noopener noreferrer">
-                    <img src="../images/logo/ganarlogo.png" alt="GANAR">
-                </a>
-                <!--
-                <a href="[https://hekion.github.io/goalinkjp/index.html](https://hekion.github.io/goalinkjp/index.html)" class="footer-project-card" target="_blank" rel="noopener noreferrer">
-                    <img src="../images/logo/goalinklogo.png" alt="Goalink">
-                </a>
-                -->
-                <a href="[https://go-travid.com](https://go-travid.com)" class="footer-project-card card-travid" target="_blank" rel="noopener noreferrer">
-                    <img src="../images/logo/travidlogo.png" alt="TRAVID">
-                </a>
-                <!--
-                <a href="[https://hekion.github.io/veresis/](https://hekion.github.io/veresis/)" class="footer-project-card" target="_blank" rel="noopener noreferrer">
-                    <img src="../images/logo/veresislogo.png" alt="VERESIS">
-                </a>
-                -->
-            </div>
-            <p class="copyright">&copy; 2026 HEKION. All Rights Reserved.</p>
-        </div>
-    </footer>
+    <!-- フッター共通挿入エリア -->
+    <div id="footer-container"></div>
 
     <a href="#" class="pagetop" id="pageTop"></a>
 

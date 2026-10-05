@@ -1,4 +1,68 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // 1. Header Component Injection
+    const headerContainer = document.getElementById('header-container');
+    if (headerContainer) {
+        headerContainer.innerHTML = `
+            <div class="menu-overlay" id="menuOverlay"></div>
+            <header id="header">
+                <div class="header-logo" onclick="location.href='index.html'"><img src="images/logo/gold_hekionlogo.png" alt="HEKION"></div>
+                <button class="menu-open-btn" id="openBtn" aria-label="Menu">
+                    <span class="btn-line top"></span>
+                    <span class="btn-line mid"></span>
+                    <span class="btn-line bot"></span>
+                    <span class="btn-label">MENU</span>
+                </button>
+            </header>
+            <nav class="side-nav" id="sideNav">
+                <ul>
+                    <li class="nav-item"><a href="index.html">TOP<small>トップ</small></a></li>
+                    <li class="nav-item"><a href="about.html">ABOUT<small>HEKIONについて</small></a></li>
+                    <li class="nav-item">
+                        <a href="#" id="toggleProjects">PROJECTS<small>事業紹介</small> <i class="fas fa-chevron-down"></i></a>
+                        <ul class="side-submenu" id="subMenu">
+                            <li><a href="projects/ganar.html">- GANAR</a></li>
+                            <!-- <li><a href="projects/goalink.html">- Goalink</a></li> -->
+                            <li><a href="projects/travid.html">- TRAVID</a></li>
+                            <!-- <li><a href="projects/veresis.html">- VERESIS</a></li> -->
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a href="news.html">NEWS<small>ニュース</small></a></li>
+                </ul>
+            </nav>
+        `;
+    }
+
+    // 2. Footer Component Injection
+    const footerContainer = document.getElementById('footer-container');
+    if (footerContainer) {
+        footerContainer.innerHTML = `
+            <footer>
+                <div class="footer-inner">
+                    <div class="footer-projects">
+                        <a href="https://hekion.github.io/ganar/index.html" class="footer-project-card card-ganar" target="_blank" rel="noopener noreferrer">
+                            <img src="images/logo/ganarlogo.png" alt="GANAR">
+                        </a>
+                        <!--
+                        <a href="https://hekion.github.io/goalinkjp/index.html" class="footer-project-card" target="_blank" rel="noopener noreferrer">
+                            <img src="images/logo/goalinklogo.png" alt="Goalink">
+                        </a>
+                        -->
+                        <a href="https://note.com/travid" class="footer-project-card card-travid" target="_blank" rel="noopener noreferrer">
+                            <img src="images/logo/travidlogo.png" alt="TRAVID">
+                        </a>
+                        <!--
+                        <a href="https://hekion.github.io/veresis/" class="footer-project-card" target="_blank" rel="noopener noreferrer">
+                            <img src="images/logo/veresislogo.png" alt="VERESIS">
+                        </a>
+                        -->
+                    </div>
+                    <p class="copyright">&copy; 2026 HEKION. All Rights Reserved.</p>
+                </div>
+            </footer>
+        `;
+    }
+
+    // DOM Elements Init
     const openBtn = document.getElementById('openBtn');
     const sideNav = document.getElementById('sideNav');
     const menuOverlay = document.getElementById('menuOverlay');

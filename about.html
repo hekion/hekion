@@ -18,6 +18,7 @@
         </div>
     </div>
 
+    <!-- メニューオープン時の背景オーバーレイ -->
     <div class="menu-overlay" id="menuOverlay"></div>
 
     <header id="header">
@@ -38,7 +39,9 @@
                 <a href="#" id="toggleProjects">PROJECTS<small>事業紹介</small> <i class="fas fa-chevron-down"></i></a>
                 <ul class="side-submenu" id="subMenu">
                     <li><a href="projects/ganar.html">- GANAR</a></li>
+                    <!-- <li><a href="projects/goalink.html">- Goalink</a></li> -->
                     <li><a href="projects/travid.html">- TRAVID</a></li>
+                    <!-- <li><a href="projects/veresis.html">- VERESIS</a></li> -->
                 </ul>
             </li>
             <li class="nav-item"><a href="news.html">NEWS<small>ニュース</small></a></li>
@@ -46,34 +49,63 @@
     </nav>
 
     <div id="page-container">
-        <div class="page-head">
+        <section class="page-head">
             <h1>ABOUT</h1>
             <p>HEKIONについて</p>
-        </div>
+        </section>
 
         <main class="main-content">
-            <section class="about-section reveal">
+            <section class="about-section reveal" id="vision">
                 <div class="section-title-wrap">
                     <span class="section-num">01</span>
                     <h2 class="section-title">VISION</h2>
                 </div>
-                <p class="vision-text">
-                    HEKIONは、スポーツ・カルチャー・旅行コンテンツを通じて地域の魅力を再発見し、新しい循環と繋がりを生み出すクリエイティブ組織です。
-                </p>
+                <div class="vision-text">
+                    <p>HEKIONは、人々の日常に隠れた「発見」を価値ある体験に変え、楽しさと学びを届けることを目指します。<br>
+                    その過程で生まれる繋がりを大切にし、個人とコンテンツ、そして人と人との距離を少しずつ近づけていきます。<br>
+                    多様なプロジェクトを通じて、知る喜び、楽しむ喜び、共有する喜びを循環させること。それがHEKIONの描く未来です。</p>
+                </div>
             </section>
 
-            <section class="about-section reveal">
+            <section class="about-section reveal" id="about">
                 <div class="section-title-wrap">
                     <span class="section-num">02</span>
+                    <h2 class="section-title">ABOUT</h2>
+                </div>
+                <div class="about-text">
+                    <p>HEKIONは、<br>
+                    日常のなかにある発見を、楽しさに変え、<br>
+                    そこから生まれる繋がりを大切にします。</p>
+                    <p style="margin-top: 20px;">特別な才能や、大きなきっかけがなくてもいい。<br>
+                    身近な体験や興味の中には、まだ気づかれていない面白さがある。<br>
+                    HEKIONは、それを見つけ、形にし、共有していきます。</p>
+                    
+                    <ul class="about-points">
+                        <li>知ることで、好きになる</li>
+                        <li>楽しむことで、続いていく</li>
+                        <li>残すことで、誰かとつながる</li>
+                    </ul>
+                    
+                    <p>HEKIONは、発見・楽しさ・繋がりを循環させることで、人とコンテンツの距離を少し近づけていきます。</p>
+                </div>
+            </section>
+
+            <section class="about-section reveal" id="origin">
+                <div class="section-title-wrap">
+                    <span class="section-num">03</span>
                     <h2 class="section-title">ORIGIN</h2>
                 </div>
                 <div class="origin-card">
                     <div class="origin-item">
-                        <span class="origin-label">碧音（HEKION）</span>
-                        <p class="origin-text">
-                            「碧」は澄み渡る海や深い青を表し、「音」は地域から響き渡る文化や賑わいを意味します。<br>
-                            地域に根ざした静かな熱量を、新しいカタチで全国へ届けていきます。
-                        </p>
+                        <span class="origin-label">「碧」</span>
+                        <p>空や海の青さ、澄んだ色を表します。</p>
+                    </div>
+                    <div class="origin-item">
+                        <span class="origin-label">「音」</span>
+                        <p>体験や思いを伝える響きです。</p>
+                    </div>
+                    <div class="origin-text">
+                        <p>HEKIONは、青い景色のように、日常の小さな発見や楽しさ、転換点、転換点、そして人とのつながりを大切にした名前です。</p>
                     </div>
                 </div>
             </section>
@@ -86,10 +118,21 @@
                 <a href="https://hekion.github.io/ganar/index.html" class="footer-project-card card-ganar" target="_blank" rel="noopener noreferrer">
                     <img src="images/logo/ganarlogo.png" alt="GANAR">
                 </a>
+                <!--
+                <a href="https://hekion.github.io/goalinkjp/index.html" class="footer-project-card" target="_blank" rel="noopener noreferrer">
+                    <img src="images/logo/goalinklogo.png" alt="Goalink">
+                </a>
+                -->
                 <a href="https://note.com/travid" class="footer-project-card card-travid" target="_blank" rel="noopener noreferrer">
                     <img src="images/logo/travidlogo.png" alt="TRAVID">
                 </a>
+                <!--
+                <a href="https://hekion.github.io/veresis/" class="footer-project-card" target="_blank" rel="noopener noreferrer">
+                    <img src="images/logo/veresislogo.png" alt="VERESIS">
+                </a>
+                -->
             </div>
+
             <p class="copyright">&copy; 2026 HEKION. All Rights Reserved.</p>
         </div>
     </footer>

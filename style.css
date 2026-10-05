@@ -719,3 +719,44 @@ footer {
     }
 }
 
+/* ==========================================
+   Goalink Specific Styles
+   ========================================== */
+
+/* Goalink Hero Area */
+.hero-goalink {
+    background: radial-gradient(circle at center, rgba(255, 255, 255, 0.08) 0%, rgba(10, 17, 31, 0.95) 75%);
+}
+
+.hero-goalink .hero-logo {
+    filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.25));
+}
+
+/* Goalink Theme Typography */
+.theme-goalink {
+    color: var(--white, #ffffff);
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.15);
+}
+
+/* Goalink Buttons */
+.btn-goalink-site {
+    background: var(--white, #ffffff);
+    color: #1a1a1a;
+    font-weight: bold;
+}
+
+.btn-goalink-site:hover {
+    background: var(--gold, #c5a059);
+    color: var(--white, #ffffff);
+    box-shadow: 0 0 20px rgba(197, 160, 89, 0.4);
+}
+
+.btn-goalink-sns {
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    color: var(--white, #ffffff);
+}
+
+.btn-goalink-sns:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--white, #ffffff);
+}

@@ -1,11 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Current Path Depth Check (projects/ フォルダ等の階層判定)
+    const isSubDir = window.location.pathname.includes('/projects/');
+    const pathPrefix = isSubDir ? '../' : '';
+
     // 1. Header Component Injection
     const headerContainer = document.getElementById('header-container');
     if (headerContainer) {
         headerContainer.innerHTML = `
             <div class="menu-overlay" id="menuOverlay"></div>
             <header id="header">
-                <div class="header-logo" onclick="location.href='index.html'"><img src="images/logo/gold_hekionlogo.png" alt="HEKION"></div>
+                <div class="header-logo" onclick="location.href='${pathPrefix}index.html'"><img src="${pathPrefix}images/logo/gold_hekionlogo.png" alt="HEKION"></div>
                 <button class="menu-open-btn" id="openBtn" aria-label="Menu">
                     <span class="btn-line top"></span>
                     <span class="btn-line mid"></span>
@@ -15,18 +19,18 @@ document.addEventListener('DOMContentLoaded', () => {
             </header>
             <nav class="side-nav" id="sideNav">
                 <ul>
-                    <li class="nav-item"><a href="index.html">TOP<small>トップ</small></a></li>
-                    <li class="nav-item"><a href="about.html">ABOUT<small>HEKIONについて</small></a></li>
+                    <li class="nav-item"><a href="${pathPrefix}index.html">TOP<small>トップ</small></a></li>
+                    <li class="nav-item"><a href="${pathPrefix}about.html">ABOUT<small>HEKIONについて</small></a></li>
                     <li class="nav-item">
                         <a href="#" id="toggleProjects">PROJECTS<small>事業紹介</small> <i class="fas fa-chevron-down"></i></a>
                         <ul class="side-submenu" id="subMenu">
-                            <li><a href="projects/ganar.html">- GANAR</a></li>
-                            <!-- <li><a href="projects/goalink.html">- Goalink</a></li> -->
-                            <li><a href="projects/travid.html">- TRAVID</a></li>
-                            <!-- <li><a href="projects/veresis.html">- VERESIS</a></li> -->
+                            <li><a href="${pathPrefix}projects/ganar.html">- GANAR</a></li>
+                            <!-- <li><a href="${pathPrefix}projects/goalink.html">- Goalink</a></li> -->
+                            <li><a href="${pathPrefix}projects/travid.html">- TRAVID</a></li>
+                            <!-- <li><a href="${pathPrefix}projects/veresis.html">- VERESIS</a></li> -->
                         </ul>
                     </li>
-                    <li class="nav-item"><a href="news.html">NEWS<small>ニュース</small></a></li>
+                    <li class="nav-item"><a href="${pathPrefix}news.html">NEWS<small>ニュース</small></a></li>
                 </ul>
             </nav>
         `;
@@ -40,19 +44,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="footer-inner">
                     <div class="footer-projects">
                         <a href="https://hekion.github.io/ganar/index.html" class="footer-project-card card-ganar" target="_blank" rel="noopener noreferrer">
-                            <img src="images/logo/ganarlogo.png" alt="GANAR">
+                            <img src="${pathPrefix}images/logo/ganarlogo.png" alt="GANAR">
                         </a>
                         <!--
                         <a href="https://hekion.github.io/goalinkjp/index.html" class="footer-project-card" target="_blank" rel="noopener noreferrer">
-                            <img src="images/logo/goalinklogo.png" alt="Goalink">
+                            <img src="${pathPrefix}images/logo/goalinklogo.png" alt="Goalink">
                         </a>
                         -->
-                        <a href="https://note.com/travid" class="footer-project-card card-travid" target="_blank" rel="noopener noreferrer">
-                            <img src="images/logo/travidlogo.png" alt="TRAVID">
+                        <a href="https://go-travid.com" class="footer-project-card card-travid" target="_blank" rel="noopener noreferrer">
+                            <img src="${pathPrefix}images/logo/travidlogo.png" alt="TRAVID">
                         </a>
                         <!--
                         <a href="https://hekion.github.io/veresis/" class="footer-project-card" target="_blank" rel="noopener noreferrer">
-                            <img src="images/logo/veresislogo.png" alt="VERESIS">
+                            <img src="${pathPrefix}images/logo/veresislogo.png" alt="VERESIS">
                         </a>
                         -->
                     </div>
@@ -135,7 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             latestThree.forEach(item => {
                 const html = `
-                    <div class="news-item" onclick="location.href='newspage.html?id=${item.id}'">
+                    <div class="news-item" onclick="location.href='${pathPrefix}newspage.html?id=${item.id}'">
                         <div class="news-meta">
                             <span class="news-date">${item.date}</span>
                             <span class="news-tag">${item.tag}</span>
@@ -179,7 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <h1 class="news-detail-title">${item.title}</h1>
                     <div class="news-detail-body">${item.content || '本文はありません'}</div>
                     <div class="back-btn-area">
-                        <a href="news.html" class="btn-back"><i class="fas fa-arrow-left"></i> BACK TO LIST</a>
+                        <a href="${pathPrefix}news.html" class="btn-back"><i class="fas fa-arrow-left"></i> BACK TO LIST</a>
                     </div>
                 `;
             } else {

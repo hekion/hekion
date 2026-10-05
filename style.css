@@ -578,3 +578,142 @@ footer {
         max-width: 300px;
     }
 }
+
+/* ==========================================
+   Project Pages Common & TRAVID Styles
+   ========================================== */
+
+/* TRAVID Theme Variables */
+:root {
+    --travid-orange: #d4a373;
+}
+
+/* Hero Section Base */
+.project-hero {
+    width: 100%;
+    height: 50vh;
+    min-height: 360px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    border-bottom: 1px solid rgba(195, 160, 89, 0.2);
+}
+
+.hero-logo {
+    position: relative;
+    z-index: 10;
+    width: 320px;
+    max-width: 75%;
+    object-fit: contain;
+    opacity: 0;
+    transform: scale(0.92) translateY(10px);
+    transition: opacity 1.2s cubic-bezier(0.19, 1, 0.22, 1), transform 1.2s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.loaded .hero-logo {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+}
+
+/* TRAVID Specific Hero Styles */
+.hero-travid {
+    background: radial-gradient(circle at center, rgba(212, 163, 115, 0.12) 0%, rgba(10, 17, 31, 0.95) 75%);
+}
+
+.hero-travid .hero-logo {
+    filter: drop-shadow(0 0 25px rgba(212, 163, 115, 0.35));
+}
+
+/* Typography & Content Area */
+.project-theme {
+    font-family: 'Sawarabi Mincho', 'Noto Serif JP', serif;
+    font-size: 2.2rem;
+    text-align: center;
+    letter-spacing: 0.3em;
+    margin-bottom: 60px;
+}
+
+.theme-travid {
+    color: var(--travid-orange);
+    text-shadow: 0 0 20px rgba(212, 163, 115, 0.2);
+}
+
+.project-description {
+    font-size: 1.15rem;
+    line-height: 2.4;
+    text-align: center;
+    font-weight: 300;
+}
+
+/* Action Link Buttons */
+.link-section {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 80px;
+}
+
+.btn-project {
+    width: 220px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    font-size: 1rem;
+    letter-spacing: 0.2em;
+    border-radius: 4px;
+    transition: 0.3s;
+}
+
+.btn-project i {
+    margin-right: 10px;
+    font-size: 1.2rem;
+}
+
+.btn-travid {
+    background: var(--travid-orange);
+    color: var(--bg-navy, #0a111f);
+    font-weight: bold;
+}
+
+.btn-travid:hover {
+    background: #ffffff;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+}
+
+/* Responsive Rules */
+@media (max-width: 768px) {
+    .project-hero {
+        height: 40vh;
+        min-height: 280px;
+    }
+
+    .hero-logo {
+        width: 240px;
+    }
+
+    .project-theme {
+        font-size: 1.6rem;
+        letter-spacing: 0.2em;
+    }
+
+    .project-description {
+        font-size: 1rem;
+        text-align: left;
+    }
+
+    .link-section {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .btn-project {
+        width: 100%;
+        max-width: 300px;
+    }
+}
+

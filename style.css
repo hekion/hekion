@@ -619,11 +619,13 @@ footer {
 
 /* TRAVID Specific Hero Styles */
 .hero-travid {
-    background: radial-gradient(circle at center, rgba(212, 163, 115, 0.12) 0%, rgba(10, 17, 31, 0.95) 75%);
+    /* ロゴが引き立つ明るいグラデーション背景 */
+    background: radial-gradient(circle at center, #ffffff 0%, #f0f4f8 60%, rgba(212, 163, 115, 0.15) 100%);
 }
 
 .hero-travid .hero-logo {
-    filter: drop-shadow(0 0 25px rgba(212, 163, 115, 0.35));
+    /* 暗い背景用の光彩ドロップシャドウから、明るい背景用のソフトな影に変更 */
+    filter: drop-shadow(0 4px 15px rgba(0, 0, 0, 0.15));
 }
 
 /* Typography & Content Area */

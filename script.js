@@ -6,16 +6,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const subMenu = document.getElementById('subMenu');
     const pageTop = document.getElementById('pageTop');
 
-    // MV & News Initializer
-    document.getElementById('mv').classList.add('loaded');
+    // MV & Body loaded Class Add (Null Safety Check)
+    const mv = document.getElementById('mv');
+    if (mv) {
+        mv.classList.add('loaded');
+    }
+    document.body.classList.add('loaded');
+
     fetchNews();
     initScrollReveal();
 
     // Hamburger Menu Toggle
     function toggleMenu() {
-        openBtn.classList.toggle('active');
-        sideNav.classList.toggle('active');
-        menuOverlay.classList.toggle('active');
+        if (openBtn) openBtn.classList.toggle('active');
+        if (sideNav) sideNav.classList.toggle('active');
+        if (menuOverlay) menuOverlay.classList.toggle('active');
     }
 
     if (openBtn) openBtn.addEventListener('click', toggleMenu);

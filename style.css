@@ -381,3 +381,75 @@ footer {
     .footer-project-card { width: 100%; max-width: 280px; height: 70px; }
     .pagetop { right: 20px; bottom: 20px; width: 44px; height: 44px; }
 }
+
+/* ==========================================
+   NEWS PAGE DETAIL STYLES
+   ========================================== */
+.news-detail-meta {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.news-detail-date {
+    color: var(--gold);
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.news-detail-tag {
+    background: var(--gold);
+    color: var(--bg-navy);
+    font-size: 0.75rem;
+    padding: 2px 12px;
+    font-weight: bold;
+    border-radius: 2px;
+}
+
+.news-detail-title {
+    font-size: 2rem;
+    line-height: 1.4;
+    margin-bottom: 40px;
+    font-weight: bold;
+    border-bottom: 1px solid rgba(197, 160, 89, 0.2);
+    padding-bottom: 30px;
+}
+
+.news-detail-body {
+    font-size: 1.1rem;
+    line-height: 2;
+    white-space: pre-wrap;
+    font-weight: 300;
+}
+
+.back-btn-area {
+    margin-top: 80px;
+    text-align: center;
+}
+
+.btn-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--gold);
+    text-decoration: none;
+    font-size: 0.9rem;
+    border: 1px solid var(--gold);
+    padding: 12px 40px;
+    transition: 0.3s;
+}
+
+.btn-back:hover {
+    background: var(--gold);
+    color: var(--bg-navy);
+}
+
+@media (max-width: 768px) {
+    .news-detail-title {
+        font-size: 1.5rem;
+    }
+    .news-detail-body {
+        font-size: 1rem;
+    }
+}
